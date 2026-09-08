@@ -1,0 +1,45 @@
+@import "tailwindcss";
+
+@font-face {
+  font-family: "PP Lettra Mono Ultralight Italic";
+  src: url("/PPLettraMono-UltralightItalic.otf") format("opentype");
+  font-weight: 200;
+  font-style: italic;
+}
+
+* { box-sizing: border-box; }
+
+:root {
+  --duration: 300ms;
+}
+
+@keyframes fade-out {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+::view-transition-old(.fade-out) {
+  animation: var(--duration) cubic-bezier(0.44, 0, 0.56, 1) both fade-out;
+}
+::view-transition-new(.fade-in) {
+  animation: var(--duration) cubic-bezier(0.44, 0, 0.56, 1) both fade-in;
+}
+
+::view-transition-image-pair(.fade-in),
+::view-transition-image-pair(.fade-out) {
+  isolation: auto;
+  mix-blend-mode: normal;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(*),
+  ::view-transition-new(*),
+  ::view-transition-group(*) {
+    animation-duration: 0s !important;
+    animation-delay: 0s !important;
+  }
+}
