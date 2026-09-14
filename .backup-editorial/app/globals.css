@@ -6,38 +6,29 @@
   /* Ink */
   --ink: oklch(0.19 0.012 70);
   --ink-soft: oklch(0.33 0.014 70);
-  --ink-mid: oklch(0.42 0.014 70);
-  --ink-faint: oklch(0.58 0.012 70);
+  --ink-mid: oklch(0.47 0.014 70);
+  --ink-faint: oklch(0.62 0.012 70);
 
-  /* Surface — editorial light base */
+  /* Surface */
   --paper: #fcfcfa;
   --paper-warm: oklch(0.945 0.008 84);
-
-  /* Zuji dark, imported as accents */
-  --w: #f2f2f0;
-  --w-soft: #b6b6b2;
-  --w-mute: #6f6f6c;
-  --ink-dark: #111114;
-  --ink-soft-dark: #3c3c42;
-  --panel-dark: #161616;
-  --panel-lav: #dcdce8;
 
   /* Accents */
   --red: oklch(0.58 0.21 29.5);
   --red-bright: oklch(0.66 0.21 29.5);
+  --red-deep: oklch(0.44 0.17 29);
+  --red-soft: oklch(0.9 0.05 29.5);
   --blue: oklch(0.44 0.19 264);
   --blue-soft: oklch(0.9 0.05 264);
   --ochre: oklch(0.66 0.15 75);
+  --ochre-deep: oklch(0.5 0.11 75);
+  --ochre-soft: oklch(0.91 0.06 80);
   --green: oklch(0.5 0.12 155);
   --green-soft: oklch(0.91 0.05 155);
 
-  /* Lines */
+  /* Structure */
   --line: oklch(0.9 0.006 84);
   --line-strong: oklch(0.32 0.012 70);
-  --line-dark: #262626;
-
-  /* Mono — zuji voice */
-  --mono: var(--font-mono, ui-monospace), "SF Mono", "Cascadia Mono", Menlo, monospace;
 
   /* Layout */
   --gutter: clamp(20px, 4.5vw, 72px);
@@ -54,28 +45,6 @@
   --z-nav: 50;
 
   color-scheme: light;
-}
-
-/* ---------- Dark theme — same token names, dark values ---------- */
-
-[data-theme="dark"] {
-  color-scheme: dark;
-
-  --ink: oklch(0.93 0.006 84);
-  --ink-soft: oklch(0.8 0.008 84);
-  --ink-mid: oklch(0.66 0.01 84);
-  --ink-faint: oklch(0.5 0.01 84);
-
-  --paper: #101012;
-  --paper-warm: #1a1a1d;
-
-  --line: #26262a;
-  --line-strong: #55555a;
-
-  --red: oklch(0.66 0.21 29.5);
-
-  /* Dark panels need an edge to separate from the dark page */
-  --panel-edge: #2c2c30;
 }
 
 html { scroll-behavior: smooth; }
@@ -106,9 +75,10 @@ span[role="button"]:focus-visible {
   border: 0;
 }
 
-/* ---------- Page transitions ---------- */
+/* ---------- Page transitions (View Transitions API) ---------- */
 
 @keyframes vt-fade-out { to { opacity: 0; } }
+@keyframes vt-fade-in { from { opacity: 0; } }
 @keyframes vt-slide-in {
   from { opacity: 0; transform: translateY(14px); }
   to { opacity: 1; transform: translateY(0); }

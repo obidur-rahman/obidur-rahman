@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion } from "motion/react";
-import { ThemeToggle } from "@/components/ThemeToggle";
 
 const links = [
   { href: "/", label: "Work" },
@@ -38,7 +37,6 @@ export function Navbar() {
               </Link>
             );
           })}
-          <ThemeToggle />
         </div>
       </div>
     </motion.nav>

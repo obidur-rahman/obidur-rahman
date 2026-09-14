@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { CpuClient } from "@/components/CpuClient";
 
 export const metadata: Metadata = {
-  title: "CPU-Constrained Deep Learning for Tomato Disease Detection — Obidur Rahman",
+  title: "CPU-Constrained Deep Learning for Tomato Disease Detection · Obidur Rahman",
   description:
     "Benchmarking traditional, modern, and hybrid deep learning models for tomato disease classification on consumer CPU hardware.",
   openGraph: {

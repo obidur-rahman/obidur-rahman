@@ -3,7 +3,6 @@ import { Spectral, Inter, Noto_Serif_Bengali } from "next/font/google";
 import "./globals.css";
 import "./responsive.css";
 import { Navbar } from "@/components/Navbar";
-import { Intro } from "@/components/Intro";
 
 const spectral = Spectral({
   subsets: ["latin"],
@@ -56,17 +55,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${spectral.variable} ${inter.variable} ${notoBengali.variable}`} suppressHydrationWarning>
-      <head>
-        {/* Apply stored theme before paint to avoid a flash. */}
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `(function(){try{var t=localStorage.getItem('theme');if(t==='dark'||(!t&&window.matchMedia('(prefers-color-scheme: dark)').matches)){document.documentElement.setAttribute('data-theme','dark');}}catch(e){}})();`,
-          }}
-        />
-      </head>
+    <html lang="en" className={`${spectral.variable} ${inter.variable} ${notoBengali.variable}`}>
       <body>
-        <Intro />
         <Navbar />
         {children}
       </body>

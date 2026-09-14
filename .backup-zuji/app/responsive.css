@@ -1,0 +1,715 @@
+/* ============================================================
+   ZUJI EXPERIMENT — near-black canvas, lavender panels, glyph
+   shapes, corner brackets, mono micro-labels, heavy motion.
+   ============================================================ */
+
+body {
+  background: var(--bg);
+  margin: 0;
+  color: var(--w);
+  font-family: var(--font-body), "Inter", "Helvetica Neue", sans-serif;
+  font-size: 15px;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: clip;
+}
+
+[lang="bn"],
+.bn {
+  font-family: var(--font-bengali), "Noto Serif Bengali", serif;
+  line-height: 1.95;
+}
+
+h1, h2, h3 { text-wrap: balance; }
+p { text-wrap: pretty; }
+
+/* Corner brackets (rendered by the Corner component) */
+
+.z-corner {
+  display: inline-block;
+  border-style: solid;
+  border-color: var(--w);
+}
+
+/* ---------- Navbar — dark, mono labels ---------- */
+
+.ob-nav {
+  position: sticky;
+  top: 0;
+  z-index: var(--z-nav);
+  background: color-mix(in srgb, var(--bg) 88%, transparent);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.ob-nav-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px var(--gutter);
+}
+
+.ob-nav-name {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--w);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.ob-nav-name:hover { color: var(--red); }
+
+.ob-nav-links { display: flex; gap: 22px; }
+
+.ob-nav-link {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--w-mute);
+  transition: color 0.2s;
+}
+
+.ob-nav-link:hover { color: var(--w); }
+
+.ob-nav-link[data-active="true"] {
+  color: var(--w);
+}
+
+.ob-nav-link[data-active="true"]::before {
+  content: "[ ";
+  color: var(--red);
+}
+
+.ob-nav-link[data-active="true"]::after {
+  content: " ]";
+  color: var(--red);
+}
+
+/* ---------- Shared section shell ---------- */
+
+.z-section {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: var(--space-xl) var(--gutter) 0;
+}
+
+.z-sec-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: var(--space-md);
+  border-bottom: 1px solid var(--line-dark);
+  padding-bottom: 14px;
+}
+
+.z-sec-title {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--w);
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.z-sec-title .bn {
+  color: var(--w-mute);
+  font-size: 13px;
+  font-weight: 400;
+}
+
+.z-sec-no {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--w-mute);
+}
+
+/* ---------- Hero panel — dark with glyphs ---------- */
+
+.z-hero {
+  position: relative;
+  max-width: 1440px;
+  margin: 0 auto;
+  min-height: calc(100svh - 53px);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  align-items: stretch;
+  overflow: clip;
+}
+
+.z-hero-left {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 26px;
+  padding: 90px var(--gutter);
+  min-height: 560px;
+}
+
+.z-hero-name {
+  font-size: clamp(54px, 9vw, 116px);
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  line-height: 0.92;
+  color: var(--w);
+  margin: 0;
+}
+
+.z-hero-name .char {
+  display: inline-block;
+  will-change: transform;
+}
+
+.z-hero-accent {
+  color: var(--red);
+  display: inline-block;
+  animation: blink 1.4s steps(2, start) infinite;
+}
+
+@keyframes blink {
+  50% { opacity: 0; }
+}
+
+.z-hero-role {
+  font-size: clamp(19px, 2.2vw, 26px);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 1.35;
+  color: var(--w);
+  max-width: 26ch;
+  margin: 0;
+}
+
+.z-hero-role em { font-style: normal; color: var(--red); }
+
+.z-hero-bn {
+  font-family: var(--font-bengali), "Noto Serif Bengali", serif;
+  font-size: 15px;
+  color: var(--w-soft);
+  max-width: 40ch;
+  margin: 0;
+}
+
+.z-hero-facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 28px;
+  padding-top: 20px;
+  border-top: 1px solid var(--line-dark);
+  font-family: var(--mono);
+  font-size: 11.5px;
+  letter-spacing: 0.06em;
+  color: var(--w-mute);
+}
+
+.z-hero-facts b { color: var(--w); font-weight: 600; }
+
+/* Glyph field filling the hero */
+
+.z-hero-glyphs {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.z-hero-right {
+  position: relative;
+  border-left: 1px solid var(--line-dark);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 90px var(--gutter) 48px;
+  overflow: hidden;
+}
+
+.z-hero-right-mid {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  align-items: flex-start;
+}
+
+.z-hero-desc {
+  font-size: 14.5px;
+  line-height: 1.75;
+  color: var(--w-soft);
+  max-width: 38ch;
+  margin: 0;
+}
+
+.z-hero-links {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 0.1em;
+}
+
+.z-hero-links a {
+  color: var(--w-mute);
+  text-decoration: none;
+  transition: color 0.2s, transform 0.3s var(--ease-out);
+  width: fit-content;
+}
+
+.z-hero-links a:hover {
+  color: var(--w);
+  transform: translateX(6px);
+}
+
+.z-hero-links a::before {
+  content: "→ ";
+  color: var(--red);
+}
+
+/* Tracing diagonal line like :R1 poster */
+
+.z-trace {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 1px;
+  height: 140%;
+  background: linear-gradient(to bottom, transparent, var(--w-soft) 20%, var(--w-soft) 80%, transparent);
+  transform-origin: top;
+  opacity: 0.35;
+}
+
+/* ---------- Cursor-tracked crosshair ---------- */
+
+.z-cursor-cross {
+  position: fixed;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: var(--z-progress);
+  mix-blend-mode: difference;
+}
+
+.z-cursor-cross svg { display: block; }
+
+/* ---------- Lavender statement panel ---------- */
+
+.z-statement {
+  background: var(--panel-lav);
+  color: var(--ink-dark);
+  max-width: 1440px;
+  margin: var(--space-lg) auto 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.z-statement-inner {
+  padding: var(--space-xl) var(--gutter);
+  display: grid;
+  grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+  gap: var(--gutter);
+  align-items: end;
+  position: relative;
+}
+
+.z-statement-text {
+  font-size: clamp(26px, 3.4vw, 44px);
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  line-height: 1.18;
+  color: var(--ink-dark);
+  max-width: 24ch;
+  margin: 0;
+}
+
+.z-statement-text em { font-style: normal; color: var(--red); }
+
+.z-statement-bn {
+  font-family: var(--font-bengali), "Noto Serif Bengali", serif;
+  font-size: 15px;
+  line-height: 2;
+  color: var(--ink-soft-dark);
+  max-width: 38ch;
+  margin: 0;
+  justify-self: end;
+}
+
+/* ---------- Work cards — alternating dark / lavender ---------- */
+
+.z-work-list {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-sm);
+}
+
+.z-work-card {
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.4s var(--ease-out);
+}
+
+.z-work-card:hover { transform: translateY(-6px); }
+
+.z-work-card.c-dark { background: var(--panel-dark); }
+.z-work-card.c-lav { background: var(--panel-lav); color: var(--ink-dark); }
+
+.z-work-media {
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  position: relative;
+}
+
+.z-work-media img,
+.z-work-media video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  filter: grayscale(1) contrast(1.06);
+  transition: filter 0.5s var(--ease-out), transform 0.8s var(--ease-out);
+}
+
+.z-work-card:hover .z-work-media img,
+.z-work-card:hover .z-work-media video {
+  filter: grayscale(0);
+  transform: scale(1.03);
+}
+
+.z-work-body {
+  padding: 22px 24px 26px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
+}
+
+.z-work-tags {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--red);
+  margin: 0;
+}
+
+.z-work-card.c-lav .z-work-tags { color: #b3300f; }
+
+.z-work-title {
+  font-size: 21px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+  color: inherit;
+  margin: 0;
+}
+
+.z-work-desc {
+  font-size: 13.5px;
+  line-height: 1.65;
+  color: var(--w-mute);
+  margin: 0;
+  max-width: 52ch;
+}
+
+.z-work-card.c-lav .z-work-desc { color: var(--ink-soft-dark); }
+
+/* ---------- Research rows ---------- */
+
+.z-research-list {
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid var(--line-dark);
+}
+
+.z-research-item {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 20px;
+  align-items: baseline;
+  padding: 20px 8px;
+  border-bottom: 1px solid var(--line-dark);
+  text-decoration: none;
+  color: inherit;
+  transition: background 0.2s, padding-left 0.35s var(--ease-out);
+}
+
+.z-research-item:hover {
+  background: var(--panel-dark);
+  padding-left: 20px;
+}
+
+.z-research-idx {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--red);
+}
+
+.z-research-title {
+  font-size: 15.5px;
+  font-weight: 600;
+  letter-spacing: -0.005em;
+  line-height: 1.5;
+  color: var(--w);
+  margin: 0;
+  transition: color 0.2s;
+}
+
+.z-research-desc {
+  font-size: 13px;
+  line-height: 1.65;
+  color: var(--w-mute);
+  margin: 6px 0 0;
+  max-width: 62ch;
+  font-weight: 400;
+}
+
+.z-research-meta {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--w-mute);
+  white-space: nowrap;
+}
+
+.z-research-item:hover .z-research-meta { color: var(--w); }
+
+/* ---------- Footer — numbered lavender strip like the reference bottom ---------- */
+
+.z-footer {
+  margin-top: var(--space-xl);
+  background: var(--panel-lav);
+  color: var(--ink-dark);
+  position: relative;
+}
+
+.z-footer-inner {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: var(--space-md) var(--gutter);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.z-footer-name {
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.z-footer-bangla {
+  font-family: var(--font-bengali), "Noto Serif Bengali", serif;
+  font-size: 12.5px;
+  color: var(--ink-soft-dark);
+}
+
+.z-footer-copy {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  color: var(--ink-soft-dark);
+}
+
+.z-footer-links {
+  display: flex;
+  gap: 22px;
+  flex-wrap: wrap;
+}
+
+.z-footer-links a {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--ink-soft-dark);
+  transition: color 0.2s;
+}
+
+.z-footer-links a:hover { color: var(--red); }
+
+.z-footer-no {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  color: var(--ink-soft-dark);
+}
+
+.z-footer-no b { color: var(--ink-dark); }
+
+/* ---------- About page ---------- */
+
+.z-about-hero {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: clamp(48px, 8vh, 100px) var(--gutter) 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: var(--gutter);
+  align-items: end;
+  position: relative;
+}
+
+.z-about-title {
+  font-size: clamp(32px, 4.5vw, 58px);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.08;
+  max-width: 18ch;
+  margin: 0 0 22px;
+}
+
+.z-about-title em { font-style: normal; color: var(--red); }
+
+.z-about-bn {
+  font-family: var(--font-bengali), "Noto Serif Bengali", serif;
+  font-size: 15px;
+  color: var(--w-soft);
+  max-width: 40ch;
+  margin: 0;
+}
+
+.z-about-body {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-width: 66ch;
+}
+
+.z-about-body p {
+  font-size: 15px;
+  line-height: 1.8;
+  color: var(--w-soft);
+  margin: 0;
+}
+
+.z-about-body .bn { font-size: 14px; color: var(--w-mute); }
+
+.z-about-body a {
+  color: var(--w);
+  font-weight: 500;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-color: var(--red);
+  text-decoration-thickness: 1.5px;
+  transition: color 0.2s;
+}
+
+.z-about-body a:hover { color: var(--red); }
+
+.z-direction {
+  padding: var(--space-md);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.z-direction + .z-direction { margin-top: var(--space-sm); }
+
+.z-direction h3 {
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  margin: 0;
+}
+
+.z-direction p {
+  font-size: 14px;
+  line-height: 1.7;
+  margin: 0;
+}
+
+.z-direction.b {
+  background: var(--panel-dark);
+}
+.z-direction.b h3 { color: var(--w); }
+
+.z-direction.g {
+  background: var(--panel-lav);
+  color: var(--ink-dark);
+}
+.z-direction.g h3 { color: var(--ink-dark); }
+.z-direction.g p { color: var(--ink-soft-dark); }
+
+/* ---------- Scroll progress — red hairline kept ---------- */
+
+.ob-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 2px;
+  background: var(--red);
+  z-index: var(--z-progress);
+  transform-origin: left;
+}
+
+/* ---------- Email / copied ---------- */
+
+.ob-email { cursor: pointer; }
+.ob-email:hover { color: var(--w); }
+
+.ob-copied {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--red);
+}
+
+/* ---------- Reduced motion ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .z-hero-accent {
+    animation: none !important;
+  }
+  .z-work-card,
+  .z-work-media img,
+  .z-work-media video,
+  .z-research-item,
+  .z-hero-links a,
+  .ob-nav-link,
+  .z-barcode-scan {
+    transition: none !important;
+    animation: none !important;
+  }
+}
+
+/* ---------- Tablet ---------- */
+
+@media (max-width: 1024px) {
+  .z-hero { grid-template-columns: 1fr; min-height: 0; }
+  .z-hero-right {
+    border-left: none;
+    border-top: 1px solid var(--line-dark);
+    padding-top: 48px;
+  }
+  .z-statement-inner { grid-template-columns: 1fr; gap: 24px; }
+  .z-statement-bn { justify-self: start; }
+  .z-work-list { grid-template-columns: 1fr; }
+  .z-section { padding-top: var(--space-lg); }
+}
+
+/* ---------- Mobile ---------- */
+
+@media (max-width: 640px) {
+  body { font-size: 14px; }
+  .ob-nav-links { gap: 14px; }
+  .z-hero-left { padding: 56px var(--gutter) 40px; min-height: 0; }
+  .z-hero-name { font-size: clamp(42px, 12.5vw, 58px); }
+  .z-hero-role { font-size: 19px; }
+  .z-hero-facts { flex-direction: column; gap: 4px; }
+  .z-hero-right { padding: 40px var(--gutter) 40px; }
+  .z-research-item { grid-template-columns: auto 1fr; }
+  .z-research-meta { grid-column: 2; }
+  .z-statement-text { font-size: 25px; }
+  .z-footer-inner { flex-direction: column; align-items: flex-start; gap: 18px; }
+}

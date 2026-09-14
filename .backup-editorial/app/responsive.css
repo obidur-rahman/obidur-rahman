@@ -1,11 +1,11 @@
 /* ============================================================
-   EDITORIAL × ZUJI — Japanese-magazine lightness on a Swiss
-   grid, with zuji's dark poster panel, mono micro-labels,
-   glyphs and barcode as accents.
+   EDITORIAL SWISS — Japanese-magazine lightness on a Swiss grid:
+   vertical display type, tiny rotated lists, B&W photography,
+   thin rules with ↓ arrows, flat red as the only color.
    ============================================================ */
 
 body {
-  background: var(--paper);
+  background: #fcfcfa;
   margin: 0;
   color: var(--ink);
   font-family: var(--font-body), "Inter", "Helvetica Neue", sans-serif;
@@ -25,21 +25,13 @@ body {
 h1, h2, h3 { text-wrap: balance; }
 p { text-wrap: pretty; }
 
-/* ---------- Corner brackets (Glyphs component) ---------- */
-
-.z-corner {
-  display: inline-block;
-  border-style: solid;
-  border-color: currentColor;
-}
-
-/* ---------- Navbar — light editorial, mono links ---------- */
+/* ---------- Navbar — thin, quiet ---------- */
 
 .ob-nav {
   position: sticky;
   top: 0;
   z-index: var(--z-nav);
-  background: color-mix(in srgb, var(--paper) 90%, transparent);
+  background: color-mix(in srgb, #fcfcfa 90%, transparent);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
 }
@@ -62,11 +54,14 @@ p { text-wrap: pretty; }
 
 .ob-nav-name:hover { color: var(--red); }
 
-.ob-nav-links { display: flex; gap: 24px; }
+.ob-nav-links {
+  display: flex;
+  gap: 24px;
+}
 
 .ob-nav-link {
-  font-family: var(--mono);
   font-size: 11px;
+  font-weight: 500;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   text-decoration: none;
@@ -79,19 +74,13 @@ p { text-wrap: pretty; }
 .ob-nav-link[data-active="true"] {
   color: var(--ink);
   font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  text-decoration-color: var(--red);
+  text-decoration-thickness: 2px;
 }
 
-.ob-nav-link[data-active="true"]::before {
-  content: "[ ";
-  color: var(--red);
-}
-
-.ob-nav-link[data-active="true"]::after {
-  content: " ]";
-  color: var(--red);
-}
-
-/* ---------- Vertical link list (hero) — kept from editorial ---------- */
+/* ---------- Vertical link list (hero) ---------- */
 
 .ed-links {
   display: flex;
@@ -99,7 +88,6 @@ p { text-wrap: pretty; }
   gap: 6px;
   writing-mode: vertical-rl;
   text-orientation: mixed;
-  font-family: var(--mono);
   font-size: 11px;
   letter-spacing: 0.16em;
   line-height: 1.4;
@@ -150,8 +138,8 @@ p { text-wrap: pretty; }
 }
 
 .ed-rail-en {
-  font-family: var(--mono);
   font-size: 10px;
+  font-weight: 600;
   letter-spacing: 0.24em;
   text-transform: uppercase;
   color: var(--ink-mid);
@@ -182,50 +170,31 @@ p { text-wrap: pretty; }
   padding-bottom: var(--space-lg);
 }
 
-/* ---------- Hero — one full-bleed dark poster, integrated ---------- */
+/* ---------- Hero ---------- */
 
 .ed-hero {
-  position: relative;
-  background: var(--panel-dark);
-  color: var(--w);
-  outline: 1px solid var(--panel-edge, transparent);
-  min-height: calc(100svh - 53px);
-  display: flex;
-  flex-direction: column;
-  overflow: clip;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: clamp(48px, 8vh, 110px) var(--gutter) 0;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: var(--gutter);
 }
 
-.ed-hero-inner {
-  position: relative;
-  z-index: 1;
-  max-width: 1440px;
-  width: 100%;
-  margin: 0 auto;
-  padding: clamp(40px, 7vh, 90px) var(--gutter) 24px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  flex: 1;
-}
+.ed-hero-main { max-width: 760px; }
 
 .ed-hero-name {
-  font-size: clamp(46px, 7.5vw, 96px);
+  font-size: clamp(48px, 8.5vw, 104px);
   font-weight: 700;
   letter-spacing: -0.04em;
   line-height: 0.95;
-  color: var(--w);
-  margin: 0 0 18px;
+  color: var(--ink);
+  margin: 0 0 20px;
 }
 
 .ed-hero-name .char {
   display: inline-block;
   will-change: transform;
-}
-
-/* Stacked name lines: Obidur / Rahman, no squish */
-
-.ed-hero-line {
-  display: inline-block;
 }
 
 .ed-hero-accent {
@@ -243,10 +212,9 @@ p { text-wrap: pretty; }
   font-weight: 600;
   letter-spacing: -0.01em;
   line-height: 1.35;
-  color: var(--w);
-  max-width: none;
+  color: var(--ink);
+  max-width: 26ch;
   margin: 0 0 18px;
-  white-space: nowrap;
 }
 
 .ed-hero-role em { font-style: normal; color: var(--red); }
@@ -254,198 +222,42 @@ p { text-wrap: pretty; }
 .ed-hero-bn {
   font-family: var(--font-bengali), "Noto Serif Bengali", serif;
   font-size: 15px;
-  color: var(--w-soft);
-  max-width: none;
-  margin: 0 0 40px;
-  white-space: nowrap;
-}
-
-/* Role ledger pinned to the hero floor, three columns on desktop */
-
-.ed-hero-grid {
-  display: grid;
-  grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
-  gap: clamp(28px, 4vw, 64px);
-  align-items: end;
+  color: var(--ink-soft);
+  max-width: 40ch;
+  margin: 0 0 28px;
 }
 
 .ed-hero-facts {
-  position: relative;
   display: flex;
-  flex-direction: column;
-  gap: 0;
-}
-
-.ed-hero-fact {
-  padding: 13px 0;
-  border-bottom: 1px solid var(--line-dark);
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  gap: 16px;
-}
-
-.ed-hero-fact:first-child { border-top: 1px solid var(--line-dark); }
-
-.ed-hero-fact b {
-  font-size: 13.5px;
-  font-weight: 600;
-  color: var(--w);
-}
-
-.ed-hero-fact b {
-  font-size: 13.5px;
-  font-weight: 600;
-  color: var(--w);
-  flex: 0 0 auto;
-}
-
-.ed-hero-fact span,
-.ed-hero-fact a {
-  font-family: var(--mono);
-  font-size: 10.5px;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--w-soft);
-  text-decoration: none;
-}
-
-.ed-hero-fact a:hover { color: var(--w); }
-
-/* Hero floor: links row + barcode */
-
-.ed-hero-foot {
-  position: relative;
-  z-index: 1;
-  max-width: 1440px;
-  width: 100%;
-  margin: 0 auto;
-  padding: 0 var(--gutter) 26px;
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-  gap: 24px;
-}
-
-.ed-hero-links {
-  display: flex;
-  gap: 22px;
   flex-wrap: wrap;
-  font-family: var(--mono);
-  font-size: 11.5px;
-  letter-spacing: 0.1em;
+  gap: 6px 32px;
+  padding-top: 20px;
+  border-top: 1px solid var(--line-strong);
+  font-size: 12.5px;
+  color: var(--ink-mid);
 }
 
-.ed-hero-links a {
-  color: var(--w-mute);
-  text-decoration: none;
-  transition: color 0.2s, transform 0.3s var(--ease-out);
-}
-
-.ed-hero-links a:hover {
-  color: var(--w);
-  transform: translateX(4px);
-}
-
-.ed-hero-links a::before {
-  content: "→ ";
-  color: var(--red);
-}
-
-/* Glyph field across the whole hero, behind the type */
-
-.ed-hero-glyphs {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  z-index: 0;
-}
-
-.z-poster .z-trace {
-  position: absolute;
-  top: 0;
-  right: 18%;
-  width: 1px;
-  height: 130%;
-  background: linear-gradient(to bottom, transparent, var(--w-soft) 25%, var(--w-soft) 75%, transparent);
-  transform-origin: top;
-  opacity: 0.4;
-}
-
-
-/* Barcode (Glyphs component) */
-
-.z-barcode {
-  position: relative;
-  display: inline-flex;
-  flex-direction: column;
-  gap: 3px;
-  overflow: hidden;
-}
-
-.z-barcode-bars {
-  display: inline-flex;
-  align-items: stretch;
-  overflow: hidden;
-}
-
-.z-barcode-scan {
-  position: absolute;
-  top: 0;
-  bottom: 14px;
-  width: 2px;
-  opacity: 0.8;
-}
-
-.z-barcode-label {
-  font-family: var(--mono);
-  font-size: 9px;
-  letter-spacing: 0.3em;
-}
-
-/* Mono micro-label */
-
-.z-micro {
-  font-family: var(--mono);
-  font-size: 10px;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-}
-
-/* Cursor-tracked crosshair */
-
-.z-cursor-cross {
-  position: fixed;
-  top: 0;
-  left: 0;
-  pointer-events: none;
-  z-index: var(--z-progress);
-  mix-blend-mode: difference;
-}
-
-.z-cursor-cross svg { display: block; }
-
-/* ---------- Hero side (vertical links + arrow) ---------- */
+.ed-hero-facts b { color: var(--ink); font-weight: 600; }
 
 .ed-hero-side {
-  position: relative;
   display: flex;
   align-items: flex-start;
-  justify-content: flex-end;
   gap: 22px;
   padding-top: 10px;
 }
 
-/* ---------- Photo strip — B&W, parallax ---------- */
+/* Vertical photo strip — B&W, color on hover */
 
 .ed-photo-strip {
   display: grid;
   grid-auto-flow: column;
   grid-auto-columns: clamp(150px, 20vw, 230px);
   gap: 14px;
-  margin: clamp(36px, 6vh, 72px) auto 0;
+  margin-top: clamp(36px, 6vh, 72px);
   padding: 0 var(--gutter);
   max-width: 1440px;
+  margin-left: auto;
+  margin-right: auto;
   overflow-x: auto;
   scrollbar-width: none;
 }
@@ -456,7 +268,6 @@ p { text-wrap: pretty; }
   aspect-ratio: 4 / 3;
   overflow: hidden;
   background: var(--paper-warm);
-  position: relative;
 }
 
 .ed-photo img {
@@ -473,66 +284,41 @@ p { text-wrap: pretty; }
   transform: scale(1.03);
 }
 
-.ed-photo-label {
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  padding: 5px 8px;
-  background: var(--paper);
-  opacity: 0;
-  transform: translateY(4px);
-  transition: opacity 0.3s var(--ease-out), transform 0.3s var(--ease-out);
-}
-
-.ed-photo:hover .ed-photo-label {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-/* ---------- Statement — dark band with glyph corners ---------- */
+/* ---------- Statement — quiet, no black band ---------- */
 
 .ed-statement {
-  background: var(--panel-dark);
-  color: var(--w);
   max-width: 1440px;
-  margin: var(--space-xl) auto 0;
-  position: relative;
-  outline: 1px solid var(--panel-edge, transparent);
-}
-
-.ed-statement-inner {
-  padding: var(--space-xl) var(--gutter);
+  margin: 0 auto;
+  padding: var(--space-xl) var(--gutter) var(--space-md);
   display: grid;
-  grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
-  gap: clamp(32px, 5vw, 80px);
-  align-items: stretch;
+  grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
+  gap: var(--gutter);
+  align-items: end;
 }
 
 .ed-statement-text {
   font-size: clamp(24px, 3vw, 38px);
   font-weight: 700;
   letter-spacing: -0.02em;
-  line-height: 1.32;
-  color: var(--w);
-  max-width: 24ch;
+  line-height: 1.3;
+  color: var(--ink);
+  max-width: 26ch;
   margin: 0;
 }
 
-.ed-statement-text em { font-style: normal; color: var(--red-bright); }
+.ed-statement-text em { font-style: normal; color: var(--red); }
 
 .ed-statement-bn {
   font-family: var(--font-bengali), "Noto Serif Bengali", serif;
   font-size: 14.5px;
-  line-height: 2.1;
-  color: var(--w-soft);
-  max-width: 44ch;
+  color: var(--ink-mid);
+  max-width: 36ch;
   margin: 0;
-  padding-left: clamp(20px, 3vw, 40px);
-  border-left: 1px solid var(--line-dark);
-  align-self: center;
+  justify-self: end;
+  text-align: left;
 }
 
-/* ---------- Work — editorial alternating rows ---------- */
+/* ---------- Work — image-led editorial cards ---------- */
 
 .ed-work-list {
   display: flex;
@@ -578,8 +364,8 @@ p { text-wrap: pretty; }
 .ed-work-body { display: flex; flex-direction: column; gap: 12px; }
 
 .ed-work-tags {
-  font-family: var(--mono);
   font-size: 10px;
+  font-weight: 600;
   letter-spacing: 0.22em;
   text-transform: uppercase;
   color: var(--red);
@@ -637,12 +423,6 @@ p { text-wrap: pretty; }
   gap: 18px;
 }
 
-.ed-research-idx {
-  font-family: var(--mono);
-  font-size: 10.5px;
-  color: var(--red);
-}
-
 .ed-research-title {
   font-size: 16px;
   font-weight: 600;
@@ -663,8 +443,8 @@ p { text-wrap: pretty; }
 }
 
 .ed-research-meta {
-  font-family: var(--mono);
   font-size: 10.5px;
+  font-weight: 600;
   letter-spacing: 0.16em;
   text-transform: uppercase;
   color: var(--ink-mid);
@@ -679,7 +459,7 @@ p { text-wrap: pretty; }
   max-width: 64ch;
 }
 
-/* ---------- Footer — light editorial with mono labels ---------- */
+/* ---------- Footer — light editorial colophon ---------- */
 
 .ed-footer {
   margin-top: var(--space-xl);
@@ -714,11 +494,10 @@ p { text-wrap: pretty; }
 }
 
 .ed-footer-copy {
-  font-family: var(--mono);
   font-size: 10px;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: var(--ink-mid);
+  color: var(--ink-faint);
   margin-top: 8px;
 }
 
@@ -729,8 +508,8 @@ p { text-wrap: pretty; }
 }
 
 .ed-footer-links a {
-  font-family: var(--mono);
   font-size: 11px;
+  font-weight: 500;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   text-decoration: none;
@@ -750,7 +529,6 @@ p { text-wrap: pretty; }
   grid-template-columns: minmax(0, 1fr) auto;
   gap: var(--gutter);
   align-items: end;
-  position: relative;
 }
 
 .ed-about-title {
@@ -803,165 +581,7 @@ p { text-wrap: pretty; }
 
 .ed-about-body a:hover { color: var(--red); }
 
-/* Role highlights: red-cased words (Student Researcher, R&D Engineer)
-   stay distinct from the org links beside them */
-
-.ed-about-body b {
-  font-weight: 600;
-  color: var(--red);
-}
-
-/* ---------- Experience roles ---------- */
-
-.ed-roles {
-  display: flex;
-  flex-direction: column;
-  max-width: 72ch;
-}
-
-.ed-role {
-  padding: 20px 0;
-  border-bottom: 1px solid var(--line);
-}
-
-.ed-role:first-child { border-top: 1px solid var(--line-strong); }
-
-.ed-role-title {
-  font-size: 17px;
-  font-weight: 700;
-  letter-spacing: -0.01em;
-  margin: 0 0 2px;
-}
-
-.ed-role-org {
-  font-family: var(--mono);
-  font-size: 11px;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--ink-mid);
-  margin: 0 0 4px;
-}
-
-.ed-role-when {
-  font-family: var(--mono);
-  font-size: 10.5px;
-  letter-spacing: 0.12em;
-  color: var(--red);
-  margin: 0 0 10px;
-}
-
-.ed-role-desc {
-  font-size: 14px;
-  line-height: 1.7;
-  color: var(--ink-soft);
-  margin: 0;
-}
-
-/* Award strip */
-
-.ed-award {
-  margin-top: var(--space-md);
-  padding: 16px 20px;
-  border: 1px solid var(--line);
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  max-width: 72ch;
-}
-
-.ed-award p {
-  font-size: 14px;
-  line-height: 1.65;
-  color: var(--ink-soft);
-  margin: 0;
-}
-
-.ed-award b { color: var(--ink); }
-
-/* ---------- Skills ---------- */
-
-.ed-skills {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-md);
-  max-width: 72ch;
-}
-
-.ed-skill-row {
-  display: grid;
-  grid-template-columns: 180px 1fr;
-  gap: 20px;
-  align-items: start;
-}
-
-.ed-skill-label {
-  font-family: var(--mono);
-  font-size: 10.5px;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--ink-mid);
-  padding-top: 6px;
-}
-
-.ed-chips {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-}
-
-.ed-chip {
-  font-family: var(--mono);
-  font-size: 11.5px;
-  letter-spacing: 0.04em;
-  padding: 6px 12px;
-  border: 1px solid var(--line-strong);
-  color: var(--ink);
-  background: var(--paper-warm);
-  transition: border-color 0.2s, color 0.2s;
-}
-
-.ed-chip:hover { border-color: var(--red); color: var(--red); }
-
-/* ---------- Mini ledger rows (certs, languages) ---------- */
-
-.ed-mini-rows {
-  display: flex;
-  flex-direction: column;
-  max-width: 72ch;
-  margin-top: var(--space-md);
-}
-
-.ed-mini-row {
-  display: grid;
-  grid-template-columns: 130px 1fr;
-  gap: 20px;
-  align-items: baseline;
-  padding: 12px 0;
-  border-bottom: 1px solid var(--line);
-}
-
-.ed-mini-row:first-child { border-top: 1px solid var(--line-strong); }
-
-.ed-mini-when {
-  font-family: var(--mono);
-  font-size: 10.5px;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--red);
-}
-
-.ed-mini-row p {
-  font-size: 14px;
-  color: var(--ink-soft);
-  margin: 0;
-}
-
-@media (max-width: 640px) {
-  .ed-skill-row { grid-template-columns: 1fr; gap: 8px; }
-  .ed-mini-row { grid-template-columns: 90px 1fr; gap: 12px; }
-}
-
-/* Research direction blocks — one dark, one light, zuji pairing */
+/* Research direction blocks — quiet tinted fields */
 
 .ed-direction {
   padding: var(--space-md);
@@ -970,7 +590,7 @@ p { text-wrap: pretty; }
   gap: 10px;
 }
 
-.ed-direction-stack .ed-direction + .ed-direction { margin-top: var(--space-sm); }
+.ed-direction + .ed-direction { margin-top: var(--space-sm); }
 
 .ed-direction h3 {
   font-size: 17px;
@@ -986,102 +606,13 @@ p { text-wrap: pretty; }
   margin: 0;
 }
 
-.ed-direction.b {
-  background: var(--panel-dark);
-  color: var(--w);
-  outline: 1px solid var(--panel-edge, transparent);
-}
-.ed-direction.b h3 { color: var(--w); }
-.ed-direction.b p { color: var(--w-soft); }
+.ed-direction.b { background: var(--blue-soft); }
+.ed-direction.b h3 { color: var(--blue); }
 
-.ed-direction.g {
-  background: var(--panel-lav);
-  color: var(--ink-dark);
-}
-.ed-direction.g h3 { color: var(--ink-dark); }
-.ed-direction.g p { color: var(--ink-soft-dark); }
+.ed-direction.g { background: var(--green-soft); }
+.ed-direction.g h3 { color: var(--green); }
 
-/* ---------- Intro loader ---------- */
-
-.intro {
-  position: fixed;
-  inset: 0;
-  z-index: 200;
-  background: var(--panel-dark);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.intro-glyphs {
-  position: absolute;
-  inset: 24px;
-  pointer-events: none;
-}
-
-.intro-glyphs .z-corner {
-  position: absolute;
-}
-
-.intro-glyphs .z-corner:first-child { top: 0; left: 0; }
-.intro-glyphs .z-corner:nth-child(2) { bottom: 0; right: 0; }
-
-.intro-center {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 14px;
-}
-
-.intro-bar {
-  width: 180px;
-  height: 2px;
-  background: var(--line-dark);
-  overflow: hidden;
-}
-
-.intro-bar-fill {
-  width: 100%;
-  height: 100%;
-  background: var(--red);
-  transform-origin: left;
-}
-
-/* ---------- Theme toggle ---------- */
-
-.theme-toggle {
-  position: relative;
-  width: 40px;
-  height: 22px;
-  background: transparent;
-  border: none;
-  padding: 0;
-  margin-left: 6px;
-  display: inline-flex;
-  align-items: center;
-}
-
-.theme-toggle-track {
-  position: absolute;
-  inset: 0;
-  border: 1px solid var(--line-strong);
-  background: var(--paper-warm);
-}
-
-.theme-toggle-knob {
-  position: relative;
-  z-index: 1;
-  width: 18px;
-  height: 18px;
-  margin: 1px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  background: var(--ink);
-  color: var(--paper);
-}
-
-/* ---------- Scroll progress — red hairline ---------- */
+/* ---------- Scroll progress — thin red, kept ---------- */
 
 .ob-progress {
   position: fixed;
@@ -1104,24 +635,22 @@ p { text-wrap: pretty; }
 .ob-email:hover { color: var(--red); }
 
 .ob-copied {
-  font-family: var(--mono);
-  font-size: 10px;
-  color: var(--red);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--green);
 }
 
 /* ---------- Reduced motion ---------- */
 
 @media (prefers-reduced-motion: reduce) {
   .ed-rail-arrow,
-  .ed-hero-accent,
-  .z-barcode-scan {
+  .ed-hero-accent {
     animation: none !important;
   }
   .ed-photo img,
   .ed-work-media img,
   .ed-work-media video,
   .ed-research-item,
-  .z-poster-links a,
   .ob-nav-link,
   .ed-links a {
     transition: none !important;
@@ -1140,10 +669,10 @@ span[role="button"]:focus-visible {
 /* ---------- Tablet ---------- */
 
 @media (max-width: 1024px) {
-  .ed-hero-grid { grid-template-columns: 1fr; align-items: start; }
-  .ed-hero-role, .ed-hero-bn { white-space: normal; }
-  .ed-statement-inner { grid-template-columns: 1fr; gap: 20px; }
-  .ed-statement-bn { padding-left: 0; border-left: none; }
+  .ed-hero { grid-template-columns: 1fr; }
+  .ed-hero-side { flex-direction: row-reverse; justify-content: flex-end; padding-top: 0; }
+  .ed-statement { grid-template-columns: 1fr; gap: 20px; }
+  .ed-statement-bn { justify-self: start; }
   .ed-work-card { grid-template-columns: 1fr; gap: 18px; }
   .ed-section { grid-template-columns: 1fr; gap: 28px; padding-top: var(--space-lg); }
   .ed-rail { flex-direction: row; align-items: center; gap: 14px; }
@@ -1159,11 +688,13 @@ span[role="button"]:focus-visible {
 @media (max-width: 640px) {
   body { font-size: 14px; }
   .ob-nav-links { gap: 16px; }
-  .ed-hero-name { font-size: clamp(40px, 11vw, 56px); }
+  .ed-hero { padding-top: 36px; }
+  .ed-hero-name { font-size: clamp(40px, 12vw, 56px); }
   .ed-hero-role { font-size: 19px; }
-  .ed-hero-foot { flex-direction: column; align-items: flex-start; gap: 18px; }
+  .ed-hero-facts { flex-direction: column; gap: 4px; }
+  .ed-hero-side { display: none; }
   .ed-photo-strip { grid-auto-columns: 62vw; margin-top: 32px; }
-  .ed-statement-inner { padding: var(--space-lg) var(--gutter); }
+  .ed-statement { padding-top: var(--space-lg); }
   .ed-statement-text { font-size: 24px; }
   .ed-section { padding-top: var(--space-lg); }
   .ed-section-body { padding-bottom: var(--space-md); }

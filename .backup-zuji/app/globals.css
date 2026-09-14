@@ -3,40 +3,28 @@
 * { box-sizing: border-box; }
 
 :root {
+  /* Canvas */
+  --bg: #0a0a0a;
+  --bg-raise: #141414;
+  --panel-dark: #161616;
+  --panel-lav: #dcdce8;
+  --panel-lav-deep: #c9c9da;
+
   /* Ink */
-  --ink: oklch(0.19 0.012 70);
-  --ink-soft: oklch(0.33 0.014 70);
-  --ink-mid: oklch(0.42 0.014 70);
-  --ink-faint: oklch(0.58 0.012 70);
-
-  /* Surface — editorial light base */
-  --paper: #fcfcfa;
-  --paper-warm: oklch(0.945 0.008 84);
-
-  /* Zuji dark, imported as accents */
   --w: #f2f2f0;
   --w-soft: #b6b6b2;
   --w-mute: #6f6f6c;
   --ink-dark: #111114;
   --ink-soft-dark: #3c3c42;
-  --panel-dark: #161616;
-  --panel-lav: #dcdce8;
 
-  /* Accents */
-  --red: oklch(0.58 0.21 29.5);
-  --red-bright: oklch(0.66 0.21 29.5);
-  --blue: oklch(0.44 0.19 264);
-  --blue-soft: oklch(0.9 0.05 264);
-  --ochre: oklch(0.66 0.15 75);
-  --green: oklch(0.5 0.12 155);
-  --green-soft: oklch(0.91 0.05 155);
+  /* The one accent */
+  --red: #e23b2e;
 
   /* Lines */
-  --line: oklch(0.9 0.006 84);
-  --line-strong: oklch(0.32 0.012 70);
   --line-dark: #262626;
+  --line-lav: #b9b9c9;
 
-  /* Mono — zuji voice */
+  /* Mono */
   --mono: var(--font-mono, ui-monospace), "SF Mono", "Cascadia Mono", Menlo, monospace;
 
   /* Layout */
@@ -53,29 +41,7 @@
   --z-progress: 100;
   --z-nav: 50;
 
-  color-scheme: light;
-}
-
-/* ---------- Dark theme — same token names, dark values ---------- */
-
-[data-theme="dark"] {
   color-scheme: dark;
-
-  --ink: oklch(0.93 0.006 84);
-  --ink-soft: oklch(0.8 0.008 84);
-  --ink-mid: oklch(0.66 0.01 84);
-  --ink-faint: oklch(0.5 0.01 84);
-
-  --paper: #101012;
-  --paper-warm: #1a1a1d;
-
-  --line: #26262a;
-  --line-strong: #55555a;
-
-  --red: oklch(0.66 0.21 29.5);
-
-  /* Dark panels need an edge to separate from the dark page */
-  --panel-edge: #2c2c30;
 }
 
 html { scroll-behavior: smooth; }
@@ -84,7 +50,7 @@ html { scroll-behavior: smooth; }
   html { scroll-behavior: auto; }
 }
 
-::selection { background: var(--ochre); color: #fff; }
+::selection { background: var(--red); color: #fff; }
 
 a:focus-visible,
 button:focus-visible,
