@@ -34,7 +34,7 @@ export const metadata: Metadata = {
     template: "%s · Obidur Rahman",
   },
   description:
-    "Research engineer in Chattogram. I build AI that runs on ordinary laptops, for people who need it.",
+    "Research engineer in Chittagong. I build AI that runs on ordinary laptops, for people who need it.",
 };
 
 export default function RootLayout({
@@ -89,7 +89,7 @@ export default function RootLayout({
               ],
               homeLocation: {
                 "@type": "Place",
-                name: "Chattogram, Bangladesh",
+                name: "Chittagong, Bangladesh",
               },
             }),
           }}

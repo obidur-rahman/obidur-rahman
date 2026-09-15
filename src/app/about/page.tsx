@@ -4,12 +4,12 @@ import { AboutClient } from "@/components/AboutClient";
 export const metadata: Metadata = {
   title: "About",
   description:
-    "Obidur Rahman's background, experience, research directions, skills, and languages. Mathematics undergrad in Chattogram, research engineer at Northaxis.",
+    "Obidur Rahman's background, experience, research directions, skills, and languages. Mathematics undergrad in Chittagong, research engineer at Northaxis.",
   alternates: { canonical: "/about" },
   openGraph: {
     title: "About · Obidur Rahman",
     description:
-      "Background, experience, research directions, skills, and languages. Mathematics undergrad in Chattogram, research engineer at Northaxis.",
+      "Background, experience, research directions, skills, and languages. Mathematics undergrad in Chittagong, research engineer at Northaxis.",
     type: "profile",
     url: "/about",
     siteName: "Obidur Rahman",
@@ -18,7 +18,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "About · Obidur Rahman",
     description:
-      "Background, experience, research directions, skills, and languages. Mathematics undergrad in Chattogram, research engineer at Northaxis.",
+      "Background, experience, research directions, skills, and languages. Mathematics undergrad in Chittagong, research engineer at Northaxis.",
   },
 };
 

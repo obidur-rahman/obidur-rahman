@@ -317,7 +317,7 @@ export function CpuClient() {
               <motion.p className="ob-section-label" custom={6} variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true }} style={{ margin: 0, border: "none", padding: 0 }}>Dataset</motion.p>
               <div className="ob-section-body">
                 <motion.p custom={7} variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true }}>
-                  PlantVillage subset — 16,012 images across 10 disease classes. Class imbalance
+                  PlantVillage subset, 16,012 images across 10 disease classes. Class imbalance
                   ratio of 8.6:1 (Yellow Leaf Curl: 3,209 vs Mosaic Virus: 373). Standard 70/15/15
                   train/val/test split.
                 </motion.p>

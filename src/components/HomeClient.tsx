@@ -10,21 +10,21 @@ import {
 } from "motion/react";
 import { EASE, SPRING, useReducedMotion } from "@/lib/motion";
 import { SectionRail } from "@/components/SectionRail";
-import { Corner, Cross, Bracket, Plus, Barcode, Micro } from "@/components/Glyphs";
+import { Corner, Cross, Bracket, Plus, Barcode } from "@/components/Glyphs";
 
 const work = [
   {
     title: "Axiom Learning",
     tags: "AI Tutor",
     desc: "A study plan built around what you actually know, not what the syllabus guesses.",
-    descBn: "পরীক্ষার আগে সবাই ভাবে, কী পড়তে হবে। কিন্তু আসল প্রশ্ন অন্য জায়গায়: কোথায় আমি কম জানি। এই শেখার সঙ্গী সেই উত্তরটাই প্রথম দেখায়।",
+    descBn: "পরীক্ষার আগে সবাই ভাবে কী পড়তে হবে। আসল প্রশ্নটা হওয়া উচিত, আমি আসলে কী জানি না।",
     href: "https://axiom-learning-psi.vercel.app/",
     videoSrc: "/axiom-learning.mp4",
   },
   {
-    title: "Seeing SMOTE Clearly",
+    title: "Geometric Dilution of Smote",
     tags: "Data Visualisation",
-    desc: "Oversampling looks like a fix until you see what it does to the data. This is that, drawn out.",
+    desc: "SMOTE looks like it's solving your imbalance problem. Draw it out, and you can watch it quietly inventing a different one.",
     descBn: "ডেটা বাড়ানোর নামে আসলে পুরনো ডেটাই নকল করা হয়। এই ছবিতে সেই নকলের রেশ স্পষ্ট দেখা যায়।",
     href: "https://smote-dashboard.vercel.app/",
     img: "/smote.svg",
@@ -53,15 +53,6 @@ const research = [
     desc: "100 commuter trips modelled: traffic, time of day, and waterlogging drive fares more than distance.",
     href: "https://doi.org/10.13140/RG.2.2.16906.53448",
   },
-];
-
-/* Swap in real photos here. One figure, four windows: each frame
-   shows a different crop of the same image, like a contact sheet. */
-const photos = [
-  { src: "/img1.svg", pos: "20% center", label: "FIG. A · CITY", alt: "Abstract city blocks, flat monochrome composition" },
-  { src: "/img1.svg", pos: "50% center", label: "FIG. B · STREET", alt: "Detail crop of the abstract city composition" },
-  { src: "/img1.svg", pos: "80% center", label: "FIG. C · DETAIL", alt: "Another crop of the abstract city composition" },
-  { src: "/img1.svg", pos: "center 20%", label: "FIG. D · LIGHT", alt: "Light-toned crop of the abstract city composition" },
 ];
 
 function CharReveal({ text, delay = 0.1 }: { text: string; delay?: number }) {
@@ -152,8 +143,6 @@ export function HomeClient() {
 
   const { scrollY } = useScroll();
   const traceScale = useTransform(scrollY, [0, 600], [0.15, 1]);
-  const stripY = useTransform(scrollY, [0, 1200], [0, -50]);
-  const stripRotate = useTransform(scrollY, [0, 1200], [0, -1.5]);
 
   /* Poster panel: subtle 3D tilt that follows the pointer. */
   const px = useMotionValue(0);
@@ -260,7 +249,7 @@ export function HomeClient() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.45, duration: 0.55, ease: EASE }}
               >
-                I build AI that runs <em>anywhere</em>, for people who need it.
+                I build things for people without the newest laptop, fastest internet, or patience for software that ignores them.
               </motion.p>
 
               <motion.p
@@ -270,7 +259,7 @@ export function HomeClient() {
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.6, duration: 0.5 }}
               >
-                প্রশ্ন আসে বাংলায়, উত্তর হয় কোডে; মাঝখানে গণিতের হিসেব।
+                কাজের বেশিরভাগটাই ভুল দিয়ে শুরু হয়, ঠিকটা পরে আসে
               </motion.p>
             </div>
 
@@ -331,34 +320,6 @@ export function HomeClient() {
         </motion.div>
       </section>
 
-      {/* ================= FIGURE STRIP — one image, four windows ================= */}
-      <motion.div
-        className="ed-photo-strip"
-        style={{ y: reduced ? 0 : stripY, rotate: reduced ? 0 : stripRotate }}
-      >
-        {photos.map((p, i) => (
-          <motion.figure
-            className="ed-photo"
-            key={i}
-            initial={reduced ? false : { clipPath: "inset(100% 0 0 0)" }}
-            whileInView={{ clipPath: "inset(0% 0 0 0)" }}
-            viewport={{ once: true, margin: "-30px" }}
-            transition={{ delay: i * 0.09, duration: 0.65, ease: EASE }}
-            style={{ margin: 0 }}
-          >
-            <img
-              src={p.src}
-              alt={p.alt}
-              loading={i === 0 ? "eager" : "lazy"}
-              style={{ objectPosition: p.pos }}
-            />
-            <figcaption className="ed-photo-label">
-              <Micro color="var(--ink-mid)">{p.label}</Micro>
-            </figcaption>
-          </motion.figure>
-        ))}
-      </motion.div>
-
       {/* ================= STATEMENT — dark band, word-stagger ================= */}
       <section className="ed-statement">
         <motion.div
@@ -377,7 +338,7 @@ export function HomeClient() {
           <div>
             <WordReveal
               className="ed-statement-text"
-              text="Good questions make good machines. I ask them, then I build what answers."
+              text="A dataset lies to you before a model ever gets the chance to. I spend my time catching it in the act."
             />
             <motion.p
               className="ed-statement-bn"
@@ -387,7 +348,7 @@ export function HomeClient() {
               viewport={{ once: true }}
               transition={{ delay: 0.5, duration: 0.6 }}
             >
-              বড় শহরের বইয়েও অনেক উত্তর আছে। কিন্তু প্রশ্ন যদি পাশের বাড়ির হয়, উত্তরও তেমন হওয়া চাই। আমার কাজ সেই উত্তর খোঁজে।
+              ডেটাসেট মডেলের আগেই মিথ্যে বলে, আমি সেটাই ধরার চেষ্টা করি।
             </motion.p>
           </div>
         </motion.div>

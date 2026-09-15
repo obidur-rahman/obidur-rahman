@@ -93,12 +93,11 @@ export function AboutClient() {
           </motion.h1>
           <motion.p
             className="ed-about-bn"
-            lang="bn"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.3, duration: 0.5 }}
           >
-            কাজের বিবরণ ইংরেজিতেই আছে। এই পাতায় তার পেছনের গল্পটুকু: কেন এই পথ, কাদের জন্য, আর কীসের ওপর সব দাঁড়িয়ে।
+            A few paragraphs on what I actually do, why I do it, and what I&apos;m still trying to get right.
           </motion.p>
         </div>
         <motion.div
@@ -125,7 +124,7 @@ export function AboutClient() {
             <a href="https://northaxis.xyz" target="_blank" rel="noopener noreferrer">Northaxis</a>,
             where I build AI features and intelligent agent systems for real-world products.
             I&apos;m also completing a <b>BSc in Mathematics</b> at the University of
-            Chittagong, expected 2027. I was born and raised in Chattogram, Bangladesh.
+            Chittagong, expected 2027. I was born and raised in Chittagong, Bangladesh.
           </p>
           <p>
             You can find my work on{" "}
@@ -135,7 +134,7 @@ export function AboutClient() {
             <a href="https://linkedin.com/in/obidur-rahman-shawal" target="_blank" rel="noopener noreferrer">LinkedIn</a>.
           </p>
           <p lang="bn" className="bn">
-            আমার জন্ম ও বেড়ে ওঠা চট্টগ্রামে। বিশ্ববিদ্যালয়ে গণিত পড়ছি, Northaxis-এ কাজ করছি। চিঠি পাঠালে এক-দুই দিনের মধ্যে উত্তর পাবেন।
+            আমার জন্ম ও বেড়ে ওঠা চট্টগ্রামে। বিশ্ববিদ্যালয়ে গণিত এ পড়ছি, Northaxis-এ কাজ করছি, Elite-Lab এ research করছি।
           </p>
         </Reveal>
       </SectionRail>
@@ -154,9 +153,9 @@ export function AboutClient() {
                     </p>
                     <p className="ed-role-when">Sep 2026 · Present</p>
                     <p className="ed-role-desc">
-                      AI and machine learning research for lab projects, with a focus on
-                      large language models. I run investigations and prepare research
-                      deliverables for lab initiatives.
+                      I dig into how language models break, why they get biased,
+                      why they&apos;re confidently wrong, and try to write that up
+                      somewhere useful.
                     </p>
                   </>
                 ) : (
@@ -165,10 +164,8 @@ export function AboutClient() {
                     <p className="ed-role-org">NorthAxis · Full-time · Remote</p>
                     <p className="ed-role-when">Dec 2025 · Present</p>
                     <p className="ed-role-desc">
-                      Lead R&amp;D for product launches and client projects, centered on AI
-                      feature research. I evaluate and integrate AI capabilities, run
-                      technical feasibility studies, plan architecture for new initiatives,
-                      and work across teams to move research into live production.
+                      Half my job is figuring out if an AI idea actually survives
+                      contact with a real product. The other half is making sure it does.
                     </p>
                   </>
                 )}
@@ -201,26 +198,26 @@ export function AboutClient() {
             {
               tone: "b",
               corner: "tr" as const,
-              title: "Imbalanced learning and high-dimensional geometry",
-              body: "When one class has a thousand examples and another has five, most models learn to ignore the five. I study sampling methods and loss design that keep the rare case visible, including the geometry behind interpolation techniques like SMOTE.",
+              title: "Imbalanced learning",
+              body: "Most models learn to ignore whoever's outnumbered. I spend a lot of time arguing with that instinct.",
             },
             {
               tone: "g",
               corner: "bl" as const,
               title: "Low-resource NLP, Banglish and Bengali",
-              body: "Getting useful models out of small data and small hardware, especially for Bengali, Banglish, and the languages benchmarks forget. Compact architectures, transfer where it actually helps, and evaluation that means something on a CPU, not just on a cluster.",
+              body: "Every benchmark forgets a language eventually. Usually mine.",
             },
             {
               tone: "b",
               corner: "tr" as const,
               title: "Survey methodology and data quality",
-              body: "A lot of ML consumes survey data that was never designed to be measured with. I care about asking questions well: sampling, instrument design, and the honesty of self-reported data. Label noise, leakage, and drift are data failures wearing a model's costume, and they should be reported.",
+              body: "A bad question asked to a thousand people is still a bad question. I care more about the asking than the thousand.",
             },
             {
               tone: "g",
               corner: "bl" as const,
-              title: "Vision on constrained hardware, scientific ML, LLM bias",
-              body: "Computer vision that runs where the work happens, on ordinary laptops in the field. Scientific machine learning as a second home for a mathematics student. And the way language models inherit the shape of their data, including which languages and viewpoints are rare in it.",
+              title: "Vision on constrained hardware / scientific ML / LLM bias",
+              body: "If it only works on a GPU cluster, it doesn't work where I'm from. I build for the laptop, not the lab.",
             },
           ].map((d, i) => (
             <Reveal key={d.title} from={i % 2 === 0 ? "left" : "right"} delay={i * 0.08}>
@@ -274,12 +271,14 @@ export function AboutClient() {
           <div className="ed-mini-rows">
             <Row when="Native" i={0}>Bengali · বাংলা</Row>
             <Row when="Native" i={1}>Chittagonian · চাটগাঁইয়া</Row>
-            <Row when="Fluent" i={2}>Urdu · اردو</Row>
-            <Row when="Professional" i={3}>English</Row>
+            <Row when="Fluent" i={2}>English</Row>
+            <Row when="Conversational" i={3}>Urdu · اردو</Row>
             <Row when="Conversational" i={4}>Hindi · हिन्दी</Row>
+            <Row when="Reading" i={5}>Arabic · العربية</Row>
+            <Row when="Learning" i={6}>Japanese · 日本語</Row>
           </div>
           <p lang="bn" className="bn" style={{ marginTop: 16, maxWidth: "66ch" }}>
-            বাংলা মায়ের ভাষা, চাটগাঁইয়া মনের ভাষা। উর্দুতে কথা এমন ভাবে চলে, যেন বাড়িতে বড় হয়েছি; ইংরেজি কাজের ভাষা, আর হিন্দি চলে বন্ধুদের আড্ডায়।
+            বাংলা মায়ের ভাষা, চাটগাঁইয়া মনের ভাষা। ইংরেজিতে কথা এমন ভাবে চলে, যেন বাড়িতে বড় হয়েছি। হিন্দি, আর উর্দু চলে বন্ধুদের আড্ডায়।
           </p>
         </Reveal>
       </SectionRail>

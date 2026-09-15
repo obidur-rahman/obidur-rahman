@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Obidur Rahman",
     description:
-      "Student researcher and R&D engineer in Chattogram. I build AI that runs on ordinary laptops, for people who need it.",
+      "Student researcher and R&D engineer in Chittagong. I build AI that runs on ordinary laptops, for people who need it.",
     type: "website",
     url: "/",
     siteName: "Obidur Rahman",
@@ -15,7 +15,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Obidur Rahman",
     description:
-      "Student researcher and R&D engineer in Chattogram. I build AI that runs on ordinary laptops, for people who need it.",
+      "Student researcher and R&D engineer in Chittagong. I build AI that runs on ordinary laptops, for people who need it.",
   },
 };
 
