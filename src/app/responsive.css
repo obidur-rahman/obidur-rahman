@@ -502,34 +502,31 @@ p { text-wrap: pretty; }
 
 .ed-statement-inner {
   padding: var(--space-xl) var(--gutter);
-  display: grid;
-  grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
-  gap: clamp(32px, 5vw, 80px);
-  align-items: stretch;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(24px, 3vw, 40px);
 }
 
 .ed-statement-text {
-  font-size: clamp(24px, 3vw, 38px);
+  font-size: clamp(28px, 3.6vw, 50px);
   font-weight: 700;
   letter-spacing: -0.02em;
-  line-height: 1.32;
+  line-height: 1.22;
   color: var(--w);
-  max-width: 24ch;
   margin: 0;
+  text-wrap: balance;
 }
 
 .ed-statement-text em { font-style: normal; color: var(--red-bright); }
 
 .ed-statement-bn {
   font-family: var(--font-bengali), "Noto Serif Bengali", serif;
-  font-size: 14.5px;
+  font-size: clamp(15px, 1.3vw, 18px);
   line-height: 2.1;
   color: var(--w-soft);
-  max-width: 44ch;
   margin: 0;
-  padding-left: clamp(20px, 3vw, 40px);
-  border-left: 1px solid var(--line-dark);
-  align-self: center;
+  padding-top: clamp(16px, 2vw, 24px);
+  border-top: 1px solid var(--line-dark);
 }
 
 /* ---------- Work — editorial alternating rows ---------- */
@@ -600,7 +597,6 @@ p { text-wrap: pretty; }
   line-height: 1.7;
   color: var(--ink-soft);
   margin: 0;
-  max-width: 46ch;
 }
 
 .ed-work-desc.bn {
@@ -671,12 +667,41 @@ p { text-wrap: pretty; }
   white-space: nowrap;
 }
 
+.ed-research-authors {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.05em;
+  line-height: 1.7;
+  color: var(--ink-mid);
+  margin: 10px 0 0;
+}
+
+.ed-research-authors::before {
+  content: "WITH · ";
+  color: var(--red);
+  font-size: 9.5px;
+  letter-spacing: 0.14em;
+}
+
+.ed-research-me {
+  color: var(--red);
+  font-weight: 700;
+}
+
+.ed-research-desc::before,
+.ed-work-desc:not(.bn)::before,
+.ed-role-desc::before {
+  content: "+ ";
+  color: var(--red);
+  font-family: var(--mono);
+  font-weight: 700;
+}
+
 .ed-research-desc {
   font-size: 13.5px;
   line-height: 1.65;
   color: var(--ink-mid);
-  margin: 8px 0 0;
-  max-width: 64ch;
+  margin: 5px 0 0;
 }
 
 /* ---------- Footer — light editorial with mono labels ---------- */
@@ -768,7 +793,7 @@ p { text-wrap: pretty; }
   font-family: var(--font-bengali), "Noto Serif Bengali", serif;
   font-size: 15px;
   color: var(--ink-mid);
-  max-width: 40ch;
+  max-width: 54ch;
   margin: 0;
 }
 
@@ -776,7 +801,7 @@ p { text-wrap: pretty; }
   display: flex;
   flex-direction: column;
   gap: 16px;
-  max-width: 66ch;
+  max-width: 76ch;
 }
 
 .ed-about-body p {
@@ -816,7 +841,6 @@ p { text-wrap: pretty; }
 .ed-roles {
   display: flex;
   flex-direction: column;
-  max-width: 72ch;
 }
 
 .ed-role {
@@ -866,7 +890,6 @@ p { text-wrap: pretty; }
   display: flex;
   flex-direction: column;
   gap: 6px;
-  max-width: 72ch;
 }
 
 .ed-award p {
@@ -884,7 +907,6 @@ p { text-wrap: pretty; }
   display: flex;
   flex-direction: column;
   gap: var(--space-md);
-  max-width: 72ch;
 }
 
 .ed-skill-row {
@@ -927,7 +949,6 @@ p { text-wrap: pretty; }
 .ed-mini-rows {
   display: flex;
   flex-direction: column;
-  max-width: 72ch;
   margin-top: var(--space-md);
 }
 
@@ -1142,8 +1163,7 @@ span[role="button"]:focus-visible {
 @media (max-width: 1024px) {
   .ed-hero-grid { grid-template-columns: 1fr; align-items: start; }
   .ed-hero-role, .ed-hero-bn { white-space: normal; }
-  .ed-statement-inner { grid-template-columns: 1fr; gap: 20px; }
-  .ed-statement-bn { padding-left: 0; border-left: none; }
+  .ed-statement-inner { gap: 18px; }
   .ed-work-card { grid-template-columns: 1fr; gap: 18px; }
   .ed-section { grid-template-columns: 1fr; gap: 28px; padding-top: var(--space-lg); }
   .ed-rail { flex-direction: row; align-items: center; gap: 14px; }

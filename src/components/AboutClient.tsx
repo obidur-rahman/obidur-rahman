@@ -98,7 +98,7 @@ export function AboutClient() {
             animate={{ opacity: 1 }}
             transition={{ delay: 0.3, duration: 0.5 }}
           >
-            প্রশ্নটা আগে আসে, গণিত আসে পরে। এই পাতায় আছে আমার পরিচয়, কাজের অভিজ্ঞতা, গবেষণার দিক, আর কাজের বাইরের জীবনের কথা।
+            কাজের বিবরণ ইংরেজিতেই আছে। এই পাতায় তার পেছনের গল্পটুকু: কেন এই পথ, কাদের জন্য, আর কীসের ওপর সব দাঁড়িয়ে।
           </motion.p>
         </div>
         <motion.div
@@ -135,7 +135,7 @@ export function AboutClient() {
             <a href="https://linkedin.com/in/obidur-rahman-shawal" target="_blank" rel="noopener noreferrer">LinkedIn</a>.
           </p>
           <p lang="bn" className="bn">
-            চট্টগ্রামে জন্ম ও বেড়ে ওঠা। চট্টগ্রাম বিশ্ববিদ্যালয়ে গণিত পড়ছি, Northaxis-এ কাজ করছি। চিঠি লিখলে উত্তর পাবেন, এক থেকে দুই দিনের মধ্যে।
+            আমার জন্ম ও বেড়ে ওঠা চট্টগ্রামে। বিশ্ববিদ্যালয়ে গণিত পড়ছি, Northaxis-এ কাজ করছি। চিঠি পাঠালে এক-দুই দিনের মধ্যে উত্তর পাবেন।
           </p>
         </Reveal>
       </SectionRail>
@@ -181,7 +181,7 @@ export function AboutClient() {
             <Micro color="var(--red)">AWARD</Micro>
             <p>
               <b>Best Presenter</b>, 24th International Mathematics Conference, 2025.
-              Awarded for the presentation of the tomato disease detection paper.
+              Awarded for the presentation of <a href="/cpu">the tomato disease detection paper</a>.
             </p>
           </div>
         </Reveal>
@@ -240,12 +240,12 @@ export function AboutClient() {
           ))}
         </div>
           <p lang="bn" className="bn" style={{ marginTop: 16, maxWidth: "66ch" }}>
-            আগ্রহের জায়গাগুলো এক জায়গায় মেলে: যেখানে ডেটা অসমান, সংস্থান কম, বা প্রশ্নটা ঠিকমতো করা হয়নি। সেখানেই মডেল সবচেয়ে বেশি ভুল করে, আর ভালো কাজের সুযোগও সবচেয়ে বেশি থাকে।
+            আমার সব আগ্রহ এক জায়গায় মিলে: যেখানে তথ্য অসম্পূর্ণ, সামগ্রী সীমিত, কিংবা প্রশ্নটা শুরুতেই ভুল হয়েছে। সেখানেই মডেল সবচেয়ে বেশি ভুল করে, আর ভালো কাজের সুযোগও তখনই সবচেয়ে বেশি।
           </p>
       </SectionRail>
 
-      {/* ================= TOOLKIT ================= */}
-      <SectionRail bn="যন্ত্রপাতি" en="Toolkit">
+      {/* ================= SKILLS ================= */}
+      <SectionRail bn="দক্ষতা" en="Skills">
         <Reveal>
           <div className="ed-skills">
             <div className="ed-skill-row">
@@ -265,11 +265,6 @@ export function AboutClient() {
               </div>
             </div>
           </div>
-          <div className="ed-mini-rows">
-            <Row when="2024" i={0}>Introduction to Programming with MATLAB · Vanderbilt University, Coursera</Row>
-            <Row when="2024" i={1}>Developing AI Applications with Python and Flask · IBM, Coursera</Row>
-            <Row when="2023" i={2}>Programming in C++: A Hands-on Introduction · Codio, Coursera</Row>
-          </div>
         </Reveal>
       </SectionRail>
 
@@ -284,7 +279,7 @@ export function AboutClient() {
             <Row when="Conversational" i={4}>Hindi · हिन्दी</Row>
           </div>
           <p lang="bn" className="bn" style={{ marginTop: 16, maxWidth: "66ch" }}>
-            বাংলা মায়ের ভাষা, চাটগাঁইয়া গল্পের ভাষা। উর্দুতে অনর্গল কথা চলে, ইংরেজিতে কাজ চলে, হিন্দি চলে আড্ডায়।
+            বাংলা মায়ের ভাষা, চাটগাঁইয়া মনের ভাষা। উর্দুতে কথা এমন ভাবে চলে, যেন বাড়িতে বড় হয়েছি; ইংরেজি কাজের ভাষা, আর হিন্দি চলে বন্ধুদের আড্ডায়।
           </p>
         </Reveal>
       </SectionRail>
@@ -301,7 +296,7 @@ export function AboutClient() {
             Always happy to talk about AI, games, design, or the occasional internet meme.
           </p>
           <p lang="bn" className="bn">
-            কাজের বাইরে ভিডিও গেম আর লম্বা ভিডিও-এসে। সময় নষ্ট হয় ইনস্টাগ্রামেও, স্বীকার করছি। পরিষ্কার ইন্টারফেস, ভালো টাইপোগ্রাফি আর ভালো ইন্ডি গেম একসাথে দিলে দিন শেষ হয়ে যায়।
+            কাজের ফাঁকে ভিডিও গেম খেলি, আর হাতড়ে হাতড়ে লম্বা ভিডিও প্রতিবেদন দেখি। ইনস্টাগ্রামে অযথা সময় কাটে, এ তো স্বীকারই করছি। চোখে পড়লেই ভালো লাগে: পরিচ্ছন্ন ইন্টারফেস, যত্নে সাজানো অক্ষর, আর মন দিয়ে বানানো ইন্ডি গেম।
           </p>
         </Reveal>
       </SectionRail>

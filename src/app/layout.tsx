@@ -28,26 +28,13 @@ const notoBengali = Noto_Serif_Bengali({
 });
 
 export const metadata: Metadata = {
-  title: "Obidur Rahman",
+  metadataBase: new URL("https://obidur.vercel.app"),
+  title: {
+    default: "Obidur Rahman",
+    template: "%s · Obidur Rahman",
+  },
   description:
     "Research engineer in Chattogram. I build AI that runs on ordinary laptops, for people who need it.",
-  openGraph: {
-    title: "Obidur Rahman",
-    description:
-      "Research engineer in Chattogram. I build AI that runs on ordinary laptops, for people who need it.",
-    images: [{
-      url: "https://framerusercontent.com/images/U2x1VERveHLImjvyW4YEcPI65MI.jpg",
-      width: 2700,
-      height: 2160,
-    }],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Obidur Rahman",
-    description:
-      "Research engineer in Chattogram. I build AI that runs on ordinary laptops, for people who need it.",
-    images: ["https://framerusercontent.com/images/U2x1VERveHLImjvyW4YEcPI65MI.jpg"],
-  },
 };
 
 export default function RootLayout({
@@ -69,6 +56,44 @@ export default function RootLayout({
         <Intro />
         <Navbar />
         {children}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Person",
+              name: "Obidur Rahman",
+              alternateName: "ওবায়দুর রহমান",
+              url: "https://obidur.vercel.app",
+              email: "mailto:obidur.shawal@gmail.com",
+              jobTitle: "Research and Development Engineer",
+              knowsLanguage: ["Bengali", "Chittagonian", "Urdu", "English", "Hindi"],
+              knowsAbout: [
+                "Imbalanced learning",
+                "Low-resource deep learning",
+                "Survey methodology",
+                "Data quality",
+                "LLM biasedness",
+              ],
+              alumniOf: {
+                "@type": "CollegeOrUniversity",
+                name: "University of Chittagong",
+              },
+              worksFor: [
+                { "@type": "Organization", name: "ELITE Research Lab LLC" },
+                { "@type": "Organization", name: "NorthAxis" },
+              ],
+              sameAs: [
+                "https://github.com/obidur-rahman",
+                "https://linkedin.com/in/obidur-rahman-shawal",
+              ],
+              homeLocation: {
+                "@type": "Place",
+                name: "Chattogram, Bangladesh",
+              },
+            }),
+          }}
+        />
       </body>
     </html>
   );

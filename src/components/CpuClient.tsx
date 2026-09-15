@@ -112,7 +112,7 @@ export function CpuClient() {
           border-radius: 0;
           background: var(--paper);
         }
-        .kc-card h4 {
+        .kc-card h3 {
           font-family: var(--font-display), "Spectral", Georgia, serif;
           font-size: 17px;
           font-weight: 700;
@@ -257,9 +257,9 @@ export function CpuClient() {
               looking for models that balance accuracy with real-world deployability.
             </motion.p>
             <motion.div className="kc-hero-links" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.25, duration: 0.4 }}>
-              <a href="#" className="kc-hero-btn">Paper PDF</a>
-              <a href="#" className="kc-hero-btn">GitHub Repo</a>
-              <a href="#" className="kc-hero-btn">Dataset</a>
+              <a href="/obidur_cv.pdf" target="_blank" rel="noopener noreferrer" className="kc-hero-btn">Paper PDF</a>
+              <a href="https://github.com/obidur-rahman" target="_blank" rel="noopener noreferrer" className="kc-hero-btn">GitHub Repo</a>
+              <a href="https://www.kaggle.com/datasets/emmarex/plantdisease" target="_blank" rel="noopener noreferrer" className="kc-hero-btn">Dataset</a>
             </motion.div>
           </div>
         </header>
@@ -287,17 +287,17 @@ export function CpuClient() {
                 </motion.p>
                 <motion.div className="kc-grid-3" custom={4} variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true }}>
                   <div className="kc-card">
-                    <h4>ResNet-50</h4>
+                    <h3>ResNet-50</h3>
                     <div className="kc-card-meta">25.6M params · Baseline</div>
                     <p>Traditional CNN. Stable but computationally heavy for CPU inference.</p>
                   </div>
                   <div className="kc-card">
-                    <h4>ConvNeXt-Tiny</h4>
+                    <h3>ConvNeXt-Tiny</h3>
                     <div className="kc-card-meta">29.0M params · Modern CNN</div>
                     <p>Transformer-inspired architecture with 7×7 kernels. Highest parameter count.</p>
                   </div>
                   <div className="kc-card rec">
-                    <h4>FastViT-T8</h4>
+                    <h3>FastViT-T8</h3>
                     <div className="kc-card-meta">4.03M params · Hybrid</div>
                     <p>CNN-Transformer hybrid. 6× smaller. Optimized for edge inference.</p>
                   </div>

@@ -17,7 +17,7 @@ const work = [
     title: "Axiom Learning",
     tags: "AI Tutor",
     desc: "A study plan built around what you actually know, not what the syllabus guesses.",
-    descBn: "সিলেবাস যা ধরে নেয় তা নয়, আপনি আসলে কী জানেন সেটাই মাপ হয়ে যায়। ওই মাপেই পড়ার পরিকল্পনা সাজায় এই শেখার সঙ্গী।",
+    descBn: "পরীক্ষার আগে সবাই ভাবে, কী পড়তে হবে। কিন্তু আসল প্রশ্ন অন্য জায়গায়: কোথায় আমি কম জানি। এই শেখার সঙ্গী সেই উত্তরটাই প্রথম দেখায়।",
     href: "https://axiom-learning-psi.vercel.app/",
     videoSrc: "/axiom-learning.mp4",
   },
@@ -25,9 +25,9 @@ const work = [
     title: "Seeing SMOTE Clearly",
     tags: "Data Visualisation",
     desc: "Oversampling looks like a fix until you see what it does to the data. This is that, drawn out.",
-    descBn: "ডেটা বাড়ানোর কৌশল দূরের সমস্যা মনে হয়, যতক্ষণ না গঠনটা চোখের সামনে বদলে যেতে দেখি। এখানে সেই বদলটাই আঁকা আছে।",
+    descBn: "ডেটা বাড়ানোর নামে আসলে পুরনো ডেটাই নকল করা হয়। এই ছবিতে সেই নকলের রেশ স্পষ্ট দেখা যায়।",
     href: "https://smote-dashboard.vercel.app/",
-    img: "/smote.png",
+    img: "/smote.svg",
   },
 ];
 
@@ -35,19 +35,22 @@ const research = [
   {
     title: "CPU-Constrained Deep Learning for Tomato Disease Detection: Traditional, Modern, and Hybrid CNN Comparison",
     meta: "Under Review · Springer",
-    desc: "With Lipon Chandra Das, Arnab Aich, Abu Saiman Md Taiham, and Atif Ibna Latif. Three models, one CPU, 16,012 leaf images: the smallest reads a leaf in 0.022 seconds and still gets it right almost every time.",
+    authors: "Obidur Rahman, Lipon Chandra Das, Arnab Aich, Abu Saiman Md Taiham, Atif Ibna Latif",
+    desc: "Three models, one CPU, 16,012 leaf images: the smallest reads a leaf in 0.022 seconds and still gets it right almost every time.",
     href: "/cpu",
   },
   {
     title: "Pathways from digital distractions and study habits to academic performance, exploring self-regulation as a mediator among Bangladeshi university students",
     meta: "SCRIS 2026",
-    desc: "With Md. Ali Arman Rafi. 225 students surveyed: self-regulation predicts grades better than raw study hours.",
+    authors: "Obidur Rahman, Md. Ali Arman Rafi",
+    desc: "225 students surveyed: self-regulation predicts grades better than raw study hours.",
     href: "https://doi.org/10.13140/RG.2.2.24207.24483",
   },
   {
     title: "Quantifying the congestion premium: disentangling the determinants of non-metered fares in a developing port city",
     meta: "SCRIS 2026",
-    desc: "With Sifatul Islam. 100 commuter trips modelled: traffic, time of day, and waterlogging drive fares more than distance.",
+    authors: "Obidur Rahman, Sifatul Islam",
+    desc: "100 commuter trips modelled: traffic, time of day, and waterlogging drive fares more than distance.",
     href: "https://doi.org/10.13140/RG.2.2.16906.53448",
   },
 ];
@@ -55,10 +58,10 @@ const research = [
 /* Swap in real photos here. One figure, four windows: each frame
    shows a different crop of the same image, like a contact sheet. */
 const photos = [
-  { src: "/img1.jpg", pos: "20% center", label: "FIG. A · CITY" },
-  { src: "/img1.jpg", pos: "50% center", label: "FIG. B · STREET" },
-  { src: "/img1.jpg", pos: "80% center", label: "FIG. C · DETAIL" },
-  { src: "/img1.jpg", pos: "center 20%", label: "FIG. D · LIGHT" },
+  { src: "/img1.svg", pos: "20% center", label: "FIG. A · CITY", alt: "Abstract city blocks, flat monochrome composition" },
+  { src: "/img1.svg", pos: "50% center", label: "FIG. B · STREET", alt: "Detail crop of the abstract city composition" },
+  { src: "/img1.svg", pos: "80% center", label: "FIG. C · DETAIL", alt: "Another crop of the abstract city composition" },
+  { src: "/img1.svg", pos: "center 20%", label: "FIG. D · LIGHT", alt: "Light-toned crop of the abstract city composition" },
 ];
 
 function CharReveal({ text, delay = 0.1 }: { text: string; delay?: number }) {
@@ -267,7 +270,7 @@ export function HomeClient() {
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.6, duration: 0.5 }}
               >
-                গণিত শেষ হয় যেখানে, সেখান থেকেই কাজের শুরু। সাধারণ ল্যাপটপ, প্রতিবেশীর সমস্যা। ব্যাস, এইটাই কাজ।
+                প্রশ্ন আসে বাংলায়, উত্তর হয় কোডে; মাঝখানে গণিতের হিসেব।
               </motion.p>
             </div>
 
@@ -345,7 +348,7 @@ export function HomeClient() {
           >
             <img
               src={p.src}
-              alt=""
+              alt={p.alt}
               loading={i === 0 ? "eager" : "lazy"}
               style={{ objectPosition: p.pos }}
             />
@@ -384,7 +387,7 @@ export function HomeClient() {
               viewport={{ once: true }}
               transition={{ delay: 0.5, duration: 0.6 }}
             >
-              ভালো প্রশ্ন থেকেই ভালো যন্ত্র জন্মায়। আমি প্রশ্ন করি, তারপর সেই প্রশ্নের উত্তর হয়ে ওঠা যন্ত্রটা বানাই। শুরুটা হয় পাশের বাড়ির সমস্যা থেকে, বিশ্বজুড়ে প্রতিযোগিতা থেকে নয়।
+              বড় শহরের বইয়েও অনেক উত্তর আছে। কিন্তু প্রশ্ন যদি পাশের বাড়ির হয়, উত্তরও তেমন হওয়া চাই। আমার কাজ সেই উত্তর খোঁজে।
             </motion.p>
           </div>
         </motion.div>
@@ -409,6 +412,15 @@ export function HomeClient() {
                 <span className="ed-research-dots" aria-hidden />
                 <span className="ed-research-meta">{r.meta}</span>
               </div>
+              <p className="ed-research-authors">
+                {r.authors.split(/(Obidur Rahman)/).map((part, j) =>
+                  part === "Obidur Rahman" ? (
+                    <b key={j} className="ed-research-me">Obidur Rahman</b>
+                  ) : (
+                    <span key={j}>{part}</span>
+                  )
+                )}
+              </p>
               <p className="ed-research-desc">{r.desc}</p>
             </motion.a>
           ))}
@@ -440,7 +452,7 @@ export function HomeClient() {
                 {"videoSrc" in p ? (
                   <video src={p.videoSrc} loop muted autoPlay playsInline preload="metadata" />
                 ) : (
-                  <img src={p.img} alt="" loading="lazy" />
+                  <img src={p.img} alt={`${p.title} preview`} loading="lazy" />
                 )}
               </motion.div>
               <div className="ed-work-body">
