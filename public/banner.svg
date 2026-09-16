@@ -120,15 +120,6 @@
     <rect x="670" y="355" width="1.5" height="20"/><rect x="674" y="355" width="2" height="20"/>
   </g>
 
-  <!-- monospace caption -->
-  <text x="60" y="382" font-family="ui-monospace, SF Mono, monospace" font-size="9" fill="#3a3a3a" letter-spacing="0.2em">FIG. 1 — DATASET HAS ALREADY LIED</text>
-
-  <!-- bangla whisper -->
-  <text x="580" y="382" font-family="serif" font-size="10" fill="#2a2a2a" font-style="italic">ডেটাসেট মিথ্যে বলে, আমি ধরি</text>
-
-  <!-- name — top left, quiet -->
-  <text x="60" y="45" font-family="ui-monospace, SF Mono, monospace" font-size="12" fill="#444" letter-spacing="0.25em">OBIDUR RAHMAN</text>
-
   <!-- corner marks — editorial red -->
   <g stroke="#c0392b" stroke-width="1.5">
     <line x1="40" y1="25" x2="40" y2="50"/><line x1="40" y1="25" x2="65" y2="25"/>
