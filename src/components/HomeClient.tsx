@@ -25,7 +25,7 @@ const work = [
     title: "Geometric Dilution of Smote",
     tags: "Data Visualisation",
     desc: "SMOTE looks like it's solving your imbalance problem. Draw it out, and you can watch it quietly inventing a different one.",
-    descBn: "ডেটা বাড়ানোর নামে আসলে পুরনো ডেটাই নকল করা হয়। এই ছবিতে সেই নকলের রেশ স্পষ্ট দেখা যায়।",
+    descBn: "",
     href: "https://smote-dashboard.vercel.app/",
     img: "/smote.svg",
   },
@@ -252,15 +252,6 @@ export function HomeClient() {
                 I build things for people without the newest laptop, fastest internet, or patience for software that ignores them.
               </motion.p>
 
-              <motion.p
-                className="ed-hero-bn"
-                lang="bn"
-                initial={reduced ? false : { opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.6, duration: 0.5 }}
-              >
-                কাজের বেশিরভাগটাই ভুল দিয়ে শুরু হয়, ঠিকটা পরে আসে
-              </motion.p>
             </div>
 
             {/* Role ledger, right column, rows slide in one by one */}
@@ -340,16 +331,6 @@ export function HomeClient() {
               className="ed-statement-text"
               text="A dataset lies to you before a model ever gets the chance to. I spend my time catching it in the act."
             />
-            <motion.p
-              className="ed-statement-bn"
-              lang="bn"
-              initial={reduced ? false : { opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.5, duration: 0.6 }}
-            >
-              ডেটাসেট মডেলের আগেই মিথ্যে বলে, আমি সেটাই ধরার চেষ্টা করি।
-            </motion.p>
           </div>
         </motion.div>
       </section>

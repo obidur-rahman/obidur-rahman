@@ -97,7 +97,7 @@ export function AboutClient() {
             animate={{ opacity: 1 }}
             transition={{ delay: 0.3, duration: 0.5 }}
           >
-            A few paragraphs on what I actually do, why I do it, and what I&apos;m still trying to get right.
+            আমি কী করি, কেন করি, আর কী শেখার চেষ্টা করছি, সেসব নিয়ে কয়েকটা কথা।
           </motion.p>
         </div>
         <motion.div
@@ -132,9 +132,6 @@ export function AboutClient() {
             Say hello at{" "}
             <a href="mailto:obidur.shawal@gmail.com">obidur.shawal@gmail.com</a> or find me on{" "}
             <a href="https://linkedin.com/in/obidur-rahman-shawal" target="_blank" rel="noopener noreferrer">LinkedIn</a>.
-          </p>
-          <p lang="bn" className="bn">
-            আমার জন্ম ও বেড়ে ওঠা চট্টগ্রামে। বিশ্ববিদ্যালয়ে গণিত এ পড়ছি, Northaxis-এ কাজ করছি, Elite-Lab এ research করছি।
           </p>
         </Reveal>
       </SectionRail>
@@ -236,9 +233,9 @@ export function AboutClient() {
             </Reveal>
           ))}
         </div>
-          <p lang="bn" className="bn" style={{ marginTop: 16, maxWidth: "66ch" }}>
-            আমার সব আগ্রহ এক জায়গায় মিলে: যেখানে তথ্য অসম্পূর্ণ, সামগ্রী সীমিত, কিংবা প্রশ্নটা শুরুতেই ভুল হয়েছে। সেখানেই মডেল সবচেয়ে বেশি ভুল করে, আর ভালো কাজের সুযোগও তখনই সবচেয়ে বেশি।
-          </p>
+        <p lang="bn" className="bn" style={{ marginTop: 16, maxWidth: "66ch" }}>
+          আমার গবেষণার আগ্রহ মূলত সেসব জায়গায়, যেখানে ডেটা কম, রিসোর্স সীমিত, বা সমস্যাটাই ঠিকভাবে বোঝা হয়নি। মডেলগুলো সেখানেই বেশি ভুল করে, আর নতুন কিছু করার সুযোগও থাকে।
+        </p>
       </SectionRail>
 
       {/* ================= SKILLS ================= */}
@@ -269,17 +266,12 @@ export function AboutClient() {
       <SectionRail bn="ভাষা" en="Languages">
         <Reveal>
           <div className="ed-mini-rows">
-            <Row when="Native" i={0}>Bengali · বাংলা</Row>
-            <Row when="Native" i={1}>Chittagonian · চাটগাঁইয়া</Row>
+            <Row when="Native" i={0}>Bengali · বাংলা + Chittagonian · চাটগাঁইয়া</Row>
             <Row when="Fluent" i={2}>English</Row>
-            <Row when="Conversational" i={3}>Urdu · اردو</Row>
-            <Row when="Conversational" i={4}>Hindi · हिन्दी</Row>
-            <Row when="Reading" i={5}>Arabic · العربية</Row>
+            <Row when="Conversational" i={3}>Hindi · हिन्दी + Urdu · اردو</Row>
+            <Row when="Can only Read" i={5}>Arabic · العربية</Row>
             <Row when="Learning" i={6}>Japanese · 日本語</Row>
           </div>
-          <p lang="bn" className="bn" style={{ marginTop: 16, maxWidth: "66ch" }}>
-            বাংলা মায়ের ভাষা, চাটগাঁইয়া মনের ভাষা। ইংরেজিতে কথা এমন ভাবে চলে, যেন বাড়িতে বড় হয়েছি। হিন্দি, আর উর্দু চলে বন্ধুদের আড্ডায়।
-          </p>
         </Reveal>
       </SectionRail>
 
@@ -295,7 +287,7 @@ export function AboutClient() {
             Always happy to talk about AI, games, design, or the occasional internet meme.
           </p>
           <p lang="bn" className="bn">
-            কাজের ফাঁকে ভিডিও গেম খেলি, আর হাতড়ে হাতড়ে লম্বা ভিডিও প্রতিবেদন দেখি। ইনস্টাগ্রামে অযথা সময় কাটে, এ তো স্বীকারই করছি। চোখে পড়লেই ভালো লাগে: পরিচ্ছন্ন ইন্টারফেস, যত্নে সাজানো অক্ষর, আর মন দিয়ে বানানো ইন্ডি গেম।
+            AI, গেম, ডিজাইন, কিংবা হুটহাট কোনো ইন্টারনেট মিম নিয়ে গল্প করতে সবসময়ই ভালো লাগে।
           </p>
         </Reveal>
       </SectionRail>
