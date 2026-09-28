@@ -1,5 +1,5 @@
 <div align="center">
 
-![banner](public/banner.svg)
+![banner](public\git_bio.jpg)
 
 </div>
