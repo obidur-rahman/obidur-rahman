@@ -14,7 +14,7 @@ const work = [
     descBn: "পরীক্ষার আগে সবাই ভাবে কী পড়তে হবে। আসল প্রশ্নটা হওয়া উচিত, আমি আসলে কী জানি না।",
     href: "https://axiom-learning-psi.vercel.app/",
     videoSrc: "/axiom-learning.mp4",
-    tip: "live project — go try a study plan",
+    tip: "live project, go try a study plan",
   },
   {
     title: "Geometric Dilution of Smote",
@@ -23,19 +23,19 @@ const work = [
     descBn: "",
     href: "https://smote-dashboard.vercel.app/",
     img: "/smote.svg",
-    tip: "live demo — watch SMOTE invent data",
+    tip: "live demo, watch SMOTE invent data",
   },
   {
     title: "Order Khata",
     tags: "Multilingual AI Message Triage",
-    desc: "A triage inbox for Bangla, Banglish, and English shop messages — sorting Order, Price, Delivery, Complaint, Scam or Other, and routing uncertain cases to human review. FastAPI with a CPU-capable classifier, a TF-IDF fallback, and 107 passing backend tests.",
+    desc: "A triage inbox for Bangla, Banglish, and English shop messages: sorting Order, Price, Delivery, Complaint, Scam or Other, and routing uncertain cases to human review. FastAPI with a CPU-capable classifier, a TF-IDF fallback, and 107 passing backend tests.",
     descBn: "",
     href: "https://order-khata.onrender.com/",
     links: [
       { label: "Demo", href: "https://order-khata.onrender.com/" },
       { label: "Source", href: "https://github.com/obidur-rahman/order-khata" },
     ],
-    tip: "live triage inbox — Bangla, Banglish, English",
+    tip: "live triage inbox: Bangla, Banglish, English",
   },
 ];
 
@@ -46,7 +46,7 @@ const research = [
     authors: "Obidur Rahman, Md. Ali Arman Rafi",
     desc: "225 students surveyed: self-regulation predicts grades better than raw study hours.",
     href: "https://doi.org/10.13140/RG.2.2.24207.24483",
-    tip: "survey study — full text on doi.org",
+    tip: "survey study, full text on doi.org",
   },
   {
     title: "Quantifying the congestion premium: disentangling the determinants of non-metered fares in a developing port city",
@@ -54,7 +54,7 @@ const research = [
     authors: "Obidur Rahman, Sifatul Islam",
     desc: "100 commuter trips modelled: traffic, time of day, and waterlogging drive fares more than distance.",
     href: "https://doi.org/10.13140/RG.2.2.16906.53448",
-    tip: "fare study — full text on doi.org",
+    tip: "fare study, full text on doi.org",
   },
 ];
 

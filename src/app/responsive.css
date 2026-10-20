@@ -101,6 +101,19 @@ html[data-side-open] { overflow: hidden; }
 
 .side-bio + .side-bio { margin-top: 16px; color: var(--ink-mid); }
 
+/* Affiliations are links, but they sit in prose — a hairline underline,
+   not the full-weight treatment the nav rows get. */
+.side-bio a {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-color: var(--blue);
+  text-underline-offset: 2px;
+  text-decoration-thickness: 1px;
+  transition: color 0.2s var(--ease-out);
+}
+
+.side-bio a:hover { color: var(--blue); }
+
 .side-nav {
   display: flex;
   flex-direction: column;

@@ -70,12 +70,22 @@ export function Sidebar() {
             Obidur <span className="side-surname">Rahman</span>
           </Link>
           <p className="side-bio">
-            Research engineer in Chittagong. I build AI that runs on ordinary laptops, for people
-            who need it.
+            AI engineer and researcher working on LLMs and AI-native apps.
           </p>
           <p className="side-bio side-bio--dim">
-            BSc in Mathematics at the University of Chittagong. Student researcher at Elite
-            Research Lab, R&amp;D engineer at NorthAxis.
+            Math undergrad at the{" "}
+            <a href="https://www.cu.ac.bd" target="_blank" rel="noopener noreferrer">
+              University of Chittagong
+            </a>
+            . R&amp;D engineer at{" "}
+            <a href="https://northaxis.xyz" target="_blank" rel="noopener noreferrer">
+              NorthAxis
+            </a>{" "}
+            and student researcher at{" "}
+            <a href="https://elitelab.ai" target="_blank" rel="noopener noreferrer">
+              Elite Research Lab
+            </a>
+            .
           </p>
         </div>
 

@@ -47,8 +47,8 @@ function Row({
       className="ab-row"
       href={href}
       data-tip={tip}
-      target="_blank"
-      rel="noopener noreferrer"
+      target={href.startsWith("http") ? "_blank" : undefined}
+      rel={href.startsWith("http") ? "noopener noreferrer" : undefined}
       {...anim}
     >
       {body}
@@ -85,15 +85,6 @@ function Group({
   );
 }
 
-const contact = [
-  {
-    when: "GitHub",
-    lead: "github.com/obidur-rahman",
-    href: "https://github.com/obidur-rahman",
-    tip: "code, papers, and messy experiments",
-  },
-];
-
 const toolkit = [
   { when: "AI and ML", lead: "PyTorch · Computer vision · Agentic AI · RAG · LangChain" },
   { when: "Programming", lead: "Python · TypeScript · FastAPI · Next.js · React.js · Git" },
@@ -126,6 +117,12 @@ type Tile = {
   tip?: string;
 };
 
+/* Tiles drift up and fade in one after another when the page loads. */
+const tileVariants = {
+  hidden: { opacity: 0, y: 10 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.55, ease: EASE } },
+};
+
 const collage: Tile[] = [
   {
     x: 4,
@@ -153,7 +150,7 @@ const collage: Tile[] = [
     src: "/disco.png",
     alt: "Illustration: a figure with a mirrored disco ball for a head",
     fit: "contain",
-    tip: "that's me — head full of disco",
+    tip: "that's me, head full of disco",
   },
   { x: 62, y: 0, w: 9, a: "1 / 1", n: "01" },
   { x: 84, y: 10, w: 15, a: "3 / 2", n: "02" },
@@ -214,15 +211,22 @@ export function AboutClient() {
         <div className="ab-main">
           <p className="ab-kicker">About</p>
 
-          <div className="ab-collage" aria-hidden>
+          <motion.div
+            className="ab-collage"
+            aria-hidden
+            initial={reduced ? false : "hidden"}
+            animate="show"
+            variants={{ hidden: {}, show: { transition: { staggerChildren: 0.045 } } }}
+          >
             {collage.map((t, i) =>
               t.src ? (
-                <span
+                <motion.span
                   key={i}
                   className="ab-tile ab-tile--img"
                   data-tip={t.tip}
                   data-tip-pos={t.tip ? "over" : undefined}
                   style={{ left: `${t.x}%`, top: `${t.y}%`, width: `${t.w}%`, aspectRatio: t.a }}
+                  variants={tileVariants}
                 >
                   <Image
                     src={t.src}
@@ -232,31 +236,25 @@ export function AboutClient() {
                     sizes="(max-width: 760px) 40vw, 22vw"
                     style={t.fit ? { objectFit: t.fit } : undefined}
                   />
-                </span>
+                </motion.span>
               ) : (
-                <span
+                <motion.span
                   key={i}
                   className="ab-tile ab-tile--ph"
                   style={{ left: `${t.x}%`, top: `${t.y}%`, width: `${t.w}%`, aspectRatio: t.a }}
+                  variants={tileVariants}
                 >
                   {t.n}
-                </span>
+                </motion.span>
               )
             )}
-          </div>
+          </motion.div>
 
           <motion.div className="ab-prose" {...rise(0)}>
             <p>
-              Hi there! I&apos;m Obidur, a research engineer in Chittagong. I started in pure
-              mathematics, wandered into machine learning, and landed on the unglamorous end of it
-              — getting models to behave on the laptops people actually own. That turned out to be
-              the right place to be the mathematician and the engineer at the same time. These days
-              I&apos;m heading toward work that sits between research, product, and whatever the
-              hardware will tolerate.
-            </p>
-            <p>
-              BSc in Mathematics at the University of Chittagong, expected 2027. Student researcher
-              at{" "}
+              Hi there! I&apos;m Shawal, an AI engineer and researcher based in Chittagong. I
+              started in pure mathematics at CU, then shifted my focus to AI systems. I&apos;m
+              currently a student researcher at{" "}
               <a
                 className="ab-inline-link"
                 href="https://elitelab.ai"
@@ -265,7 +263,8 @@ export function AboutClient() {
               >
                 Elite Research Lab
               </a>
-              , R&amp;D engineer at{" "}
+              , doing research on LLM bias, image classification and class imbalance, while
+              working as an R&amp;D engineer at{" "}
               <a
                 className="ab-inline-link"
                 href="https://northaxis.xyz"
@@ -274,60 +273,26 @@ export function AboutClient() {
               >
                 NorthAxis
               </a>
-              . Born and raised right here in Chittagong.
+              .
             </p>
             <p>Some things I&apos;m working on at the moment include:</p>
             <ul className="ab-list">
               <li>
-                CPU-constrained deep learning for tomato leaf disease detection — ResNet-50,
-                ConvNeXt-Tiny and FastViT-T8 on a plain Ryzen with no GPU, because the farmers
-                who need this can&apos;t wait for a data centre. Under review at Springer.
+                A paper under review on the viability of traditional, modern and hybrid
+                architectures for leaf disease detection in a CPU-constrained system.
               </li>
               <li>
-                <a
-                  className="ab-inline-link"
-                  href="https://axiom-learning-psi.vercel.app/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Axiom Learning
-                </a>
-                , an AI tutor that builds a study plan around what you actually know rather than what
-                the syllabus assumes.
+                Analysing and theorising the biases in large language models: how they form, and why
+                they behave the way they do.
               </li>
               <li>
-                A{" "}
-                <a
-                  className="ab-inline-link"
-                  href="https://smote-dashboard.vercel.app/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  visual teardown of SMOTE
-                </a>{" "}
-                — drawing out how an oversampling method that looks like it&apos;s fixing your
-                imbalance problem quietly invents a different one.
+                Surviving and graduating from a pure mathematics bachelor&apos;s at the University
+                of Chittagong.
               </li>
-              <li>
-                A survey of 225 students on digital distraction and self-regulation, and a study on
-                what really drives a rickshaw fare in a port city.
-              </li>
+              <li>Tutoring and teaching mathematics and science to students.</li>
             </ul>
             <p>
-              I&apos;ve also been told my conference talks are more fun than my papers, which I
-              choose to take as a compliment.
-            </p>
-          </motion.div>
-
-          <motion.div className="ab-cta" {...rise(0.06)}>
-            <p className="ab-cta-title">Let&apos;s make something together!</p>
-            <p className="ab-cta-line">
-              Graduating in 2027 and open to research collaborations and full-time roles. You can
-              reach me at{" "}
-              <a className="ab-inline-link" href="mailto:obidur.shawal@gmail.com">
-                obidur.shawal@gmail.com
-              </a>{" "}
-              or via{" "}
+              You can check out more about me on{" "}
               <a
                 className="ab-inline-link"
                 href="https://linkedin.com/in/obidur-rahman-shawal"
@@ -335,24 +300,31 @@ export function AboutClient() {
                 rel="noopener noreferrer"
               >
                 LinkedIn
+              </a>{" "}
+              and my projects on{" "}
+              <a
+                className="ab-inline-link"
+                href="https://github.com/obidur-rahman"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                GitHub
               </a>
               .
             </p>
           </motion.div>
 
-          <Group label="Contact">
-            {contact.map((c, i) => (
-              <Row key={c.when} when={c.when} lead={c.lead} href={c.href} tip={c.tip} i={i} />
-            ))}
-          </Group>
-
-          <Group label="Education">
-            <Row
-              when="Expected 2027"
-              lead="BSc in Mathematics"
-              note="University of Chittagong, Bangladesh"
-            />
-          </Group>
+          <motion.div className="ab-cta" {...rise(0.06)}>
+            <p className="ab-cta-title">Let&apos;s make something together!</p>
+            <p className="ab-cta-line">
+              Graduating in 2027 and open to full-time roles and research collaborations. You can
+              reach me at{" "}
+              <a className="ab-inline-link" href="mailto:obidur.shawal@gmail.com">
+                obidur.shawal@gmail.com
+              </a>
+              .
+            </p>
+          </motion.div>
 
           <Group label="Toolkit">
             {toolkit.map((t, i) => (
@@ -369,13 +341,13 @@ export function AboutClient() {
           <Group label="Languages">
             <Row
               when="Spoken"
-              lead="Bengali · বাংলা · Chittagonian · চাটগাঁইয়া — native"
-              note="English — fluent · Hindi · हिन्दी and Urdu · اردو — conversational"
+              lead="Bengali · বাংলা · Chittagonian · চাটগাঁইয়া (native)"
+              note="English (fluent) · Hindi · हिन्दी and Urdu · اردو (conversational)"
             />
             <Row
               when="Studied"
-              lead="Arabic · العربية — reading"
-              note="Japanese · 日本語 — learning"
+              lead="Arabic · العربية (reading)"
+              note="Japanese · 日本語 (learning)"
             />
           </Group>
 
