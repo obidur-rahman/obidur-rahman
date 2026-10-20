@@ -1,7 +1,7 @@
 "use client";
 
-import { motion } from "motion/react";
-import { EASE, useReducedMotion } from "@/lib/motion";
+import { motion, useReducedMotion } from "motion/react";
+import { EASE } from "@/lib/motion";
 
 /**
  * Section rail in the editorial style: a vertical Bangla display word

@@ -1,8 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { AnimatePresence, motion } from "motion/react";
-import { EASE, useReducedMotion } from "@/lib/motion";
+import { AnimatePresence, motion, useReducedMotion } from "motion/react";
+import { EASE } from "@/lib/motion";
 import { Corner, Cross, Micro } from "@/components/Glyphs";
 
 /**
@@ -22,8 +22,12 @@ export function Intro() {
     } catch { /* storage unavailable */ }
     if (played) return;
 
-    setShow(true);
-    document.documentElement.style.overflow = "hidden";
+    // Defer the first state change by a frame so the effect only kicks off
+    // the sequence; the teardown timer below owns the rest.
+    const raf = requestAnimationFrame(() => {
+      setShow(true);
+      document.documentElement.style.overflow = "hidden";
+    });
     const t = setTimeout(() => {
       setShow(false);
       document.documentElement.style.overflow = "";
@@ -32,6 +36,7 @@ export function Intro() {
       } catch { /* storage unavailable */ }
     }, 1600);
     return () => {
+      cancelAnimationFrame(raf);
       clearTimeout(t);
       document.documentElement.style.overflow = "";
     };
@@ -51,10 +56,10 @@ export function Intro() {
           <div className="intro-glyphs" aria-hidden>
             <Corner pos="tl" size={30} color="var(--w-mute)" />
             <Corner pos="br" size={30} color="var(--w-mute)" />
-            <div style={{ position: "absolute", top: "18%", right: "12%" }}>
+            <div className="absolute right-[12%] top-[18%]">
               <Cross size={72} color="rgba(255,255,255,0.1)" drift />
             </div>
-            <div style={{ position: "absolute", bottom: "20%", left: "10%" }}>
+            <div className="absolute bottom-[20%] left-[10%]">
               <Cross size={48} fill color="rgba(255,255,255,0.05)" drift delay={0.8} />
             </div>
           </div>

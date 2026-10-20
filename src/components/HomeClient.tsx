@@ -1,16 +1,10 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import {
-  motion,
-  useMotionValue,
-  useScroll,
-  useSpring,
-  useTransform,
-} from "motion/react";
-import { EASE, SPRING, useReducedMotion } from "@/lib/motion";
+import { useState } from "react";
+import { motion, useReducedMotion, useScroll, useSpring } from "motion/react";
+import Image from "next/image";
+import { EASE, SPRING } from "@/lib/motion";
 import { SectionRail } from "@/components/SectionRail";
-import { Corner, Cross, Bracket, Plus, Barcode } from "@/components/Glyphs";
 
 const work = [
   {
@@ -20,6 +14,7 @@ const work = [
     descBn: "পরীক্ষার আগে সবাই ভাবে কী পড়তে হবে। আসল প্রশ্নটা হওয়া উচিত, আমি আসলে কী জানি না।",
     href: "https://axiom-learning-psi.vercel.app/",
     videoSrc: "/axiom-learning.mp4",
+    tip: "live project — go try a study plan",
   },
   {
     title: "Geometric Dilution of Smote",
@@ -28,23 +23,30 @@ const work = [
     descBn: "",
     href: "https://smote-dashboard.vercel.app/",
     img: "/smote.svg",
+    tip: "live demo — watch SMOTE invent data",
+  },
+  {
+    title: "Order Khata",
+    tags: "Multilingual AI Message Triage",
+    desc: "A triage inbox for Bangla, Banglish, and English shop messages — sorting Order, Price, Delivery, Complaint, Scam or Other, and routing uncertain cases to human review. FastAPI with a CPU-capable classifier, a TF-IDF fallback, and 107 passing backend tests.",
+    descBn: "",
+    href: "https://order-khata.onrender.com/",
+    links: [
+      { label: "Demo", href: "https://order-khata.onrender.com/" },
+      { label: "Source", href: "https://github.com/obidur-rahman/order-khata" },
+    ],
+    tip: "live triage inbox — Bangla, Banglish, English",
   },
 ];
 
 const research = [
-  {
-    title: "CPU-Constrained Deep Learning for Tomato Disease Detection: Traditional, Modern, and Hybrid CNN Comparison",
-    meta: "Under Review · Springer",
-    authors: "Obidur Rahman, Lipon Chandra Das, Arnab Aich, Abu Saiman Md Taiham, Atif Ibna Latif",
-    desc: "Three models, one CPU, 16,012 leaf images: the smallest reads a leaf in 0.022 seconds and still gets it right almost every time.",
-    href: "/cpu",
-  },
   {
     title: "Pathways from digital distractions and study habits to academic performance, exploring self-regulation as a mediator among Bangladeshi university students",
     meta: "SCRIS 2026",
     authors: "Obidur Rahman, Md. Ali Arman Rafi",
     desc: "225 students surveyed: self-regulation predicts grades better than raw study hours.",
     href: "https://doi.org/10.13140/RG.2.2.24207.24483",
+    tip: "survey study — full text on doi.org",
   },
   {
     title: "Quantifying the congestion premium: disentangling the determinants of non-metered fares in a developing port city",
@@ -52,287 +54,74 @@ const research = [
     authors: "Obidur Rahman, Sifatul Islam",
     desc: "100 commuter trips modelled: traffic, time of day, and waterlogging drive fares more than distance.",
     href: "https://doi.org/10.13140/RG.2.2.16906.53448",
+    tip: "fare study — full text on doi.org",
   },
 ];
 
-function CharReveal({ text, delay = 0.1 }: { text: string; delay?: number }) {
-  const reduced = useReducedMotion();
-  return (
-    <span aria-hidden>
-      {text.split("").map((c, i) => (
-        <motion.span
-          key={i}
-          className="char"
-          initial={reduced ? false : { y: "110%", opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ delay: delay + i * 0.045, duration: 0.7, ease: EASE }}
-        >
-          {c}
-        </motion.span>
-      ))}
-    </span>
-  );
-}
-
-/** Word-by-word reveal for the statement. Real text first, motion on top. */
-function WordReveal({ text, className }: { text: string; className: string }) {
-  const reduced = useReducedMotion();
-  const words = text.split(" ");
-  const last = words.length - 1;
-  return (
-    <motion.p
-      className={className}
-      initial={reduced ? false : { opacity: 0 }}
-      whileInView={{ opacity: 1 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.2 }}
-    >
-      {words.map((w, i) => (
-        <motion.span
-          key={i}
-          style={{ display: "inline-block" }}
-          initial={reduced ? false : { opacity: 0.14, y: 10 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-40px" }}
-          transition={{ delay: i * 0.045, duration: 0.5, ease: EASE }}
-        >
-          {w}
-          {i < last ? " " : ""}
-        </motion.span>
-      ))}
-    </motion.p>
-  );
-}
-
-/** Crosshair that follows the pointer (desktop only, reduced-motion aware). */
-function CursorCross() {
-  const reduced = useReducedMotion();
-  const x = useMotionValue(-100);
-  const y = useMotionValue(-100);
-  const sx = useSpring(x, { stiffness: 500, damping: 40 });
-  const sy = useSpring(y, { stiffness: 500, damping: 40 });
-
-  useEffect(() => {
-    if (reduced) return;
-    const fine = window.matchMedia("(pointer: fine)").matches;
-    if (!fine) return;
-    const move = (e: PointerEvent) => {
-      x.set(e.clientX - 14);
-      y.set(e.clientY - 14);
-    };
-    window.addEventListener("pointermove", move);
-    return () => window.removeEventListener("pointermove", move);
-  }, [x, y, reduced]);
-
-  if (reduced) return null;
-  return (
-    <motion.div className="z-cursor-cross" style={{ x: sx, y: sy }} aria-hidden>
-      <svg width="28" height="28" viewBox="0 0 28 28">
-        <path d="M14 0 V10 M14 18 V28 M0 14 H10 M18 14 H28" stroke="#fff" strokeWidth="1" />
-      </svg>
-    </motion.div>
-  );
-}
-
 export function HomeClient() {
-  const [copied, setCopied] = useState(false);
+  const [bandReady, setBandReady] = useState(false);
   const reduced = useReducedMotion();
 
   const { scrollYProgress } = useScroll();
   const progress = useSpring(scrollYProgress, SPRING);
 
-  const { scrollY } = useScroll();
-  const traceScale = useTransform(scrollY, [0, 600], [0.15, 1]);
-
-  /* Poster panel: subtle 3D tilt that follows the pointer. */
-  const px = useMotionValue(0);
-  const py = useMotionValue(0);
-  const tiltX = useSpring(useTransform(py, [-0.5, 0.5], [4, -4]), {
-    stiffness: 120,
-    damping: 18,
-  });
-  const tiltY = useSpring(useTransform(px, [-0.5, 0.5], [-4, 4]), {
-    stiffness: 120,
-    damping: 18,
-  });
-
-  const onPosterMove = (e: React.PointerEvent) => {
-    if (reduced) return;
-    const rect = e.currentTarget.getBoundingClientRect();
-    px.set((e.clientX - rect.left) / rect.width - 0.5);
-    py.set((e.clientY - rect.top) / rect.height - 0.5);
-  };
-  const onPosterLeave = () => {
-    px.set(0);
-    py.set(0);
-  };
-
-  useEffect(() => {
-    if (copied) {
-      const t = setTimeout(() => setCopied(false), 2000);
-      return () => clearTimeout(t);
-    }
-  }, [copied]);
-
-  const handleCopyEmail = async () => {
-    try {
-      await navigator.clipboard.writeText("obidur.shawal@gmail.com");
-      setCopied(true);
-    } catch { /* clipboard unavailable */ }
-  };
-
   return (
-    <div>
+    <div className="home">
       <motion.div className="ob-progress" style={{ scaleX: progress }} aria-hidden />
-      <CursorCross />
 
-      {/* ================= HERO — one full-bleed dark poster ================= */}
-      <section
-        className="ed-hero"
-        onPointerMove={onPosterMove}
-        onPointerLeave={onPosterLeave}
-      >
-        {/* Glyph field behind everything */}
-        <div className="ed-hero-glyphs" aria-hidden>
-          <div style={{ position: "absolute", top: "8%", right: "6%" }}>
-            <Bracket size={130} flip drift />
-          </div>
-          <div style={{ position: "absolute", top: "52%", right: "18%" }}>
-            <Bracket size={90} drift delay={1.2} />
-          </div>
-          <div style={{ position: "absolute", bottom: "22%", right: "8%" }}>
-            <Cross size={100} color="rgba(255,255,255,0.12)" drift delay={0.6} />
-          </div>
-          <div style={{ position: "absolute", top: "30%", right: "38%" }}>
-            <Cross size={56} fill color="rgba(255,255,255,0.05)" drift delay={2} />
-          </div>
-          <div style={{ position: "absolute", top: "18%", left: "46%" }}>
-            <Plus size={28} spin />
-          </div>
-          <div style={{ position: "absolute", bottom: "30%", right: "42%" }}>
-            <Plus size={20} color="rgba(255,255,255,0.25)" spin delay={6} />
-          </div>
-          <Corner pos="tr" size={28} color="var(--w-mute)" />
-          <Corner pos="bl" size={28} color="var(--w-mute)" />
+      {/* ================= HERO — Japanese-editorial cover, cloud band ================= */}
+      <section className="ed-hero">
+        <span className="ed-hero-glyph" aria-hidden>ও</span>
+
+        <div className="ed-hero-rail" aria-hidden>
+          <span className="ed-hero-rail-line" />
+          <span className="ed-hero-rail-text" lang="bn">ওবায়দুর রহমান</span>
+          <span className="ed-hero-rail-line" />
+        </div>        <div className="ed-hero-top">
+          {/* The name lives in the navbar; the h1 stays for SEO and screen readers. */}
+          <h1 className="sr-only">Obidur Rahman</h1>
+          {/* Hairline closing the cover, anchored just above the cloud band */}
           <motion.div
-            className="z-trace"
-            style={{ scaleY: reduced ? 1 : traceScale }}
+            className="ed-hero-rule"
             aria-hidden
+            initial={reduced ? false : { scaleX: 0 }}
+            animate={{ scaleX: 1 }}
+            transition={{ delay: 0.75, duration: 1.1, ease: EASE }}
           />
         </div>
 
-        <div className="ed-hero-inner">
-          <div className="ed-hero-grid">
-            <div>
-              <h1 className="ed-hero-name">
-                <span className="sr-only">Obidur Rahman</span>
-                <span className="ed-hero-line" aria-hidden>
-                  <CharReveal text="Obidur" />
-                </span>{" "}
-                <span className="ed-hero-line" aria-hidden>
-                  <CharReveal text="Rahman" delay={0.35} />
-                </span>
-                <motion.span
-                  className="ed-hero-accent"
-                  aria-hidden
-                  initial={reduced ? false : { opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ delay: 1.0 }}
-                >
-                  .
-                </motion.span>
-              </h1>
-
-              <motion.p
-                className="ed-hero-role"
-                initial={reduced ? false : { opacity: 0, y: 16 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.45, duration: 0.55, ease: EASE }}
-              >
-                I build things for people without the newest laptop, fastest internet, or patience for software that ignores them.
-              </motion.p>
-
-            </div>
-
-            {/* Role ledger, right column, rows slide in one by one */}
-            <motion.div
-              className="ed-hero-facts"
-              initial={reduced ? false : { opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.6, duration: 0.4 }}
-            >
-              {[
-                { role: "Student Researcher", org: "Elite Research Lab", href: "https://elitelab.ai" },
-                { role: "R&D Engineer", org: "Northaxis", href: "https://northaxis.xyz" },
-                { role: "Mathematics Undergrad", org: "University of Chittagong", href: null },
-              ].map((f, i) => (
-                <motion.div
-                  className="ed-hero-fact"
-                  key={f.role}
-                  initial={reduced ? false : { opacity: 0, x: 28 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.65 + i * 0.12, duration: 0.5, ease: EASE }}
-                >
-                  <b>{f.role}</b>
-                  {f.href ? (
-                    <a href={f.href} target="_blank" rel="noopener noreferrer">{f.org}</a>
-                  ) : (
-                    <span>{f.org}</span>
-                  )}
-                </motion.div>
-              ))}
-            </motion.div>
-          </div>
-        </div>
-
-        {/* Hero floor: links + barcode */}
         <motion.div
-          className="ed-hero-foot"
+          className="ed-hero-band"
+          data-ready={bandReady ? "" : undefined}
           initial={reduced ? false : { opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 0.85, duration: 0.5 }}
+          transition={{ delay: 0.45, duration: 0.8 }}
         >
-          <nav className="ed-hero-links" aria-label="Social links">
-            <a href="https://github.com/obidur-rahman" target="_blank" rel="noopener noreferrer">GitHub</a>
-            <a href="https://linkedin.com/in/obidur-rahman-shawal" target="_blank" rel="noopener noreferrer">LinkedIn</a>
-            <a href="/obidur_cv.pdf" target="_blank" rel="noopener noreferrer">Resume</a>
-            <a href="/about">About</a>
-            <a
-              href="mailto:obidur.shawal@gmail.com"
-              onClick={(e) => {
-                e.preventDefault();
-                handleCopyEmail();
-              }}
-            >
-              {copied ? "Copied!" : "Email"}
-            </a>
-          </nav>
-          <Barcode />
-        </motion.div>
-      </section>
-
-      {/* ================= STATEMENT — dark band, word-stagger ================= */}
-      <section className="ed-statement">
-        <motion.div
-          className="ed-statement-inner"
-          initial={reduced ? false : { opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true, margin: "-80px" }}
-          transition={{ duration: 0.4 }}
-        >
-          <div style={{ position: "absolute", top: 16, left: 16 }} aria-hidden>
-            <Corner pos="tl" size={26} color="var(--w-mute)" />
-          </div>
-          <div style={{ position: "absolute", bottom: 16, right: 16 }} aria-hidden>
-            <Corner pos="br" size={26} color="var(--w-mute)" />
-          </div>
-          <div>
-            <WordReveal
-              className="ed-statement-text"
-              text="A dataset lies to you before a model ever gets the chance to. I spend my time catching it in the act."
+          {/* Optimised still shows instantly and covers reduced motion,
+              autoplay failure, and slow connections. */}
+          <Image
+            src="/cloud.png"
+            alt=""
+            fill
+            priority
+            sizes="(max-width: 1024px) 100vw, 90vw"
+            className="ed-hero-band-img ed-hero-band-poster"
+          />
+          {!reduced && (
+            <video
+              className="ed-hero-band-img ed-hero-band-video"
+              src="/cloud.mp4"
+              autoPlay
+              muted
+              loop
+              playsInline
+              preload="auto"
+              aria-hidden
+              onCanPlay={() => setBandReady(true)}
             />
-          </div>
+          )}
         </motion.div>
+
       </section>
 
       {/* ================= RESEARCH ================= */}
@@ -343,6 +132,7 @@ export function HomeClient() {
               key={i}
               href={r.href}
               className="ed-research-item"
+              data-tip={r.tip}
               initial={reduced ? false : { opacity: 0, y: 14 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -372,57 +162,75 @@ export function HomeClient() {
       {/* ================= WORK ================= */}
       <SectionRail bn="কাজ" en="Work">
         <div className="ed-work-list">
-          {work.map((p, i) => (
-            <motion.a
-              key={i}
-              href={p.href}
-              className="ed-work-card"
-              target="_blank"
-              rel="noopener noreferrer"
-              initial={reduced ? false : { opacity: 0, y: 32 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-60px" }}
-              transition={{ duration: 0.65, ease: EASE }}
-            >
-              <motion.div
-                className="ed-work-media"
-                initial={reduced ? false : { clipPath: "inset(0 0 100% 0)" }}
-                whileInView={{ clipPath: "inset(0 0 0% 0)" }}
-                viewport={{ once: true, margin: "-60px" }}
-                transition={{ duration: 0.8, ease: EASE }}
-              >
-                {"videoSrc" in p ? (
-                  <video src={p.videoSrc} loop muted autoPlay playsInline preload="metadata" />
-                ) : (
-                  <img src={p.img} alt={`${p.title} preview`} loading="lazy" />
-                )}
-              </motion.div>
+          {work.map((p, i) => {
+            const anim = {
+              initial: reduced ? false : { opacity: 0, y: 32 },
+              whileInView: { opacity: 1, y: 0 },
+              viewport: { once: true, margin: "-60px" },
+              transition: { duration: 0.65, ease: EASE },
+            };
+
+            const body = (
               <div className="ed-work-body">
-                <p className="ed-work-tags">{p.tags}</p>
+                <div className="ed-work-meta">
+                  <span className="ed-work-idx" aria-hidden>{String(i + 1).padStart(2, "0")}</span>
+                  <p className="ed-work-tags">{p.tags}</p>
+                </div>
                 <h3 className="ed-work-title">{p.title}</h3>
                 <p className="ed-work-desc">{p.desc}</p>
                 <p className="ed-work-desc bn" lang="bn">{p.descBn}</p>
               </div>
-            </motion.a>
-          ))}
+            );
+
+            /* No screenshot? A dashed plate carrying the demo and source links
+               instead — links can't nest inside the card's own anchor. */
+            if (p.links) {
+              return (
+                <motion.div key={i} className="ed-work-card" data-tip={p.tip} {...anim}>
+                  <div className="ed-work-media">
+                    <div className="ed-work-links">
+                      {p.links.map((l) => (
+                        <a
+                          key={l.label}
+                          className="ed-work-link"
+                          href={l.href}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          {l.label} ↗
+                        </a>
+                      ))}
+                    </div>
+                  </div>
+                  {body}
+                </motion.div>
+              );
+            }
+
+            return (
+              <motion.a
+                key={i}
+                href={p.href}
+                className="ed-work-card"
+                data-tip={p.tip}
+                target="_blank"
+                rel="noopener noreferrer"
+                {...anim}
+              >
+                <div className="ed-work-media">
+                  {"videoSrc" in p ? (
+                    <video src={p.videoSrc} loop muted autoPlay playsInline preload="metadata" />
+                  ) : (
+                    /* eslint-disable-next-line @next/next/no-img-element -- static SVG, nothing to optimize */
+                    <img src={p.img} alt={`${p.title} preview`} loading="lazy" />
+                  )}
+                </div>
+                {body}
+              </motion.a>
+            );
+          })}
         </div>
       </SectionRail>
-
-      {/* ================= FOOTER ================= */}
-      <footer className="ed-footer">
-        <div className="ed-footer-left">
-          <span className="ed-footer-name">Obidur Rahman</span>
-          <span className="ed-footer-bangla" lang="bn">ওবায়দুর রহমান</span>
-          <span className="ed-footer-copy">CHITTOGRAM · ©2026</span>
-        </div>
-        <nav className="ed-footer-links">
-          <a href="https://github.com/obidur-rahman" target="_blank" rel="noopener noreferrer">GitHub</a>
-          <a href="https://linkedin.com/in/obidur-rahman-shawal" target="_blank" rel="noopener noreferrer">LinkedIn</a>
-          <a href="mailto:obidur.shawal@gmail.com">Email</a>
-          <a href="/obidur_cv.pdf" target="_blank" rel="noopener noreferrer">CV</a>
-          <a href="/about">About</a>
-        </nav>
-      </footer>
     </div>
   );
 }

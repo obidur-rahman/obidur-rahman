@@ -1,313 +1,415 @@
 "use client";
 
-import { motion } from "motion/react";
-import { EASE, useReducedMotion } from "@/lib/motion";
-import { SectionRail } from "@/components/SectionRail";
-import { Corner, Cross, Micro } from "@/components/Glyphs";
+import { useEffect, useState } from "react";
+import Image from "next/image";
+import { motion, useReducedMotion } from "motion/react";
+import { EASE } from "@/lib/motion";
 
-function Reveal({
-  children,
-  delay = 0,
-  className = "",
-  from: dir = "up",
-}: {
-  children: React.ReactNode;
-  delay?: number;
-  className?: string;
-  from?: "up" | "left" | "right";
-}) {
-  const reduced = useReducedMotion();
-  const initial =
-    dir === "left"
-      ? { opacity: 0, x: -36 }
-      : dir === "right"
-        ? { opacity: 0, x: 36 }
-        : { opacity: 0, y: 20 };
-  return (
-    <motion.div
-      className={className}
-      initial={reduced ? false : initial}
-      whileInView={{ opacity: 1, x: 0, y: 0 }}
-      viewport={{ once: true, margin: "-40px" }}
-      transition={{ delay, duration: 0.6, ease: EASE }}
-    >
-      {children}
-    </motion.div>
-  );
-}
-
-/** Chip that pops in with a slight scale, staggered by index. */
-function Chip({ label, i }: { label: string; i: number }) {
-  const reduced = useReducedMotion();
-  return (
-    <motion.span
-      className="ed-chip"
-      initial={reduced ? false : { opacity: 0, scale: 0.85, y: 8 }}
-      whileInView={{ opacity: 1, scale: 1, y: 0 }}
-      viewport={{ once: true, margin: "-20px" }}
-      transition={{ delay: i * 0.045, duration: 0.4, ease: EASE }}
-    >
-      {label}
-    </motion.span>
-  );
-}
-
-/** Ledger row that slides in, staggered by index. */
+/** One row of a row-group: mono key, a value or two, and an arrow when it links. */
 function Row({
   when,
-  children,
-  i,
+  lead,
+  note,
+  href,
+  tip,
+  i = 0,
 }: {
   when: string;
-  children: React.ReactNode;
-  i: number;
+  lead: string;
+  note?: string;
+  href?: string;
+  tip?: string;
+  i?: number;
 }) {
   const reduced = useReducedMotion();
-  return (
-    <motion.div
-      className="ed-mini-row"
-      initial={reduced ? false : { opacity: 0, x: -18 }}
-      whileInView={{ opacity: 1, x: 0 }}
-      viewport={{ once: true, margin: "-20px" }}
-      transition={{ delay: i * 0.06, duration: 0.45, ease: EASE }}
+  const body = (
+    <>
+      <span className="ab-row-key">{when}</span>
+      <span className="ab-row-body">
+        <span className="ab-row-lead">{lead}</span>
+        {note ? <span className="ab-row-note">{note}</span> : null}
+      </span>
+      <span className="ab-row-arrow" aria-hidden>
+        {href ? "→" : ""}
+      </span>
+    </>
+  );
+
+  const anim = {
+    initial: reduced ? false : { opacity: 0, y: 12 },
+    whileInView: { opacity: 1, y: 0 },
+    viewport: { once: true, margin: "-30px" },
+    transition: { delay: i * 0.05, duration: 0.45, ease: EASE },
+  };
+
+  return href ? (
+    <motion.a
+      className="ab-row"
+      href={href}
+      data-tip={tip}
+      target="_blank"
+      rel="noopener noreferrer"
+      {...anim}
     >
-      <span className="ed-mini-when">{when}</span>
-      <p>{children}</p>
+      {body}
+    </motion.a>
+  ) : (
+    <motion.div className="ab-row" {...anim}>
+      {body}
     </motion.div>
   );
 }
 
+/** A label in the gutter plus a stack of rows beside it. */
+function Group({
+  label,
+  animate = true,
+  children,
+}: {
+  label: string;
+  animate?: boolean;
+  children: React.ReactNode;
+}) {
+  const reduced = useReducedMotion();
+  return (
+    <motion.section
+      className="ab-block"
+      initial={reduced || !animate ? false : { opacity: 0, y: 14 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-40px" }}
+      transition={{ duration: 0.5, ease: EASE }}
+    >
+      <h2 className="ab-block-label">{label}</h2>
+      <div className="ab-rows">{children}</div>
+    </motion.section>
+  );
+}
+
+const contact = [
+  {
+    when: "GitHub",
+    lead: "github.com/obidur-rahman",
+    href: "https://github.com/obidur-rahman",
+    tip: "code, papers, and messy experiments",
+  },
+];
+
+const toolkit = [
+  { when: "AI and ML", lead: "PyTorch · Computer vision · Agentic AI · RAG · LangChain" },
+  { when: "Programming", lead: "Python · TypeScript · FastAPI · Next.js · React.js · Git" },
+  {
+    when: "Research",
+    lead: "Statistical analysis · Experimental evaluation · LLMOps · MLOps",
+  },
+];
+
+const recognition = [
+  {
+    when: "2025",
+    lead: "Best Presenter, 24th International Mathematics Conference",
+    note: "Recognized for delivering the session's best presentation.",
+  },
+];
+
+/* Objects scattered across the top of the page, after the reference's
+   cut-out collage. x/y/w are percentages of the field, `a` is each tile's
+   own aspect ratio; dashed boxes stand in for the photographs still to come. */
+type Tile = {
+  x: number;
+  y: number;
+  w: number;
+  a: string;
+  n?: string;
+  src?: string;
+  alt?: string;
+  fit?: "cover" | "contain";
+  tip?: string;
+};
+
+const collage: Tile[] = [
+  {
+    x: 4,
+    y: 0,
+    w: 11,
+    a: "1 / 1",
+    src: "/math.png",
+    alt: "Handwritten mathematics",
+    tip: "notes from my first love, pure maths",
+  },
+  {
+    x: 36,
+    y: 6,
+    w: 18,
+    a: "1 / 2",
+    src: "/art.jpg",
+    alt: "Ink-wash landscape drawn in blue-black clouds",
+    tip: "ink clouds I paint when a proof won't close",
+  },
+  {
+    x: 62,
+    y: 14,
+    w: 14,
+    a: "2 / 3",
+    src: "/disco.png",
+    alt: "Illustration: a figure with a mirrored disco ball for a head",
+    fit: "contain",
+    tip: "that's me — head full of disco",
+  },
+  { x: 62, y: 0, w: 9, a: "1 / 1", n: "01" },
+  { x: 84, y: 10, w: 15, a: "3 / 2", n: "02" },
+  { x: 3, y: 16, w: 8, a: "3 / 4", n: "03" },
+  { x: 18, y: 24, w: 12, a: "1 / 1", n: "04" },
+  { x: 78, y: 40, w: 15, a: "4 / 3", n: "05" },
+  { x: 10, y: 46, w: 10, a: "1 / 1", n: "06" },
+  { x: 60, y: 52, w: 13, a: "3 / 4", n: "07" },
+  { x: 88, y: 60, w: 8, a: "2 / 3", n: "08" },
+  { x: 34, y: 64, w: 13, a: "2 / 3", n: "09" },
+  { x: 3, y: 72, w: 18, a: "3 / 2", n: "10" },
+  { x: 74, y: 78, w: 20, a: "8 / 5", n: "11" },
+];
+
+/* The four photographs that close the page. Only the first has a real
+   file; the rest stay dashed boxes. */
+const photos: { src?: string; alt?: string }[] = [
+  { src: "/me.png", alt: "Obidur Rahman by the water in Chittagong" },
+  {},
+  {},
+  {},
+];
+
 export function AboutClient() {
+  const reduced = useReducedMotion();
+  const [now, setNow] = useState<string | null>(null);
+
+  useEffect(() => {
+    const tick = () =>
+      setNow(
+        new Intl.DateTimeFormat("en-US", {
+          timeZone: "Asia/Dhaka",
+          hour: "2-digit",
+          minute: "2-digit",
+          hour12: true,
+        })
+          .format(new Date())
+          .toLowerCase()
+          .replace(" ", "")
+      );
+    const id = window.setInterval(tick, 30000);
+    const first = window.setTimeout(tick, 0);
+    return () => {
+      window.clearInterval(id);
+      window.clearTimeout(first);
+    };
+  }, []);
+
+  const rise = (delay: number) => ({
+    initial: reduced ? false : { opacity: 0, y: 18 },
+    animate: { opacity: 1, y: 0 },
+    transition: { delay, duration: 0.6, ease: EASE },
+  });
+
   return (
     <div>
-      {/* ================= HERO ================= */}
-      <section className="ed-about-hero">
-        <div>
-          <motion.h1
-            className="ed-about-title"
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1, duration: 0.6, ease: EASE }}
-          >
-            The problem comes first. <em>The math follows.</em>
-          </motion.h1>
-          <motion.p
-            className="ed-about-bn"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.3, duration: 0.5 }}
-          >
-            আমি কী করি, কেন করি, আর কী শেখার চেষ্টা করছি, সেসব নিয়ে কয়েকটা কথা।
-          </motion.p>
-        </div>
-        <motion.div
-          aria-hidden
-          initial={{ opacity: 0, rotate: -20 }}
-          animate={{ opacity: 1, rotate: 0 }}
-          transition={{ delay: 0.4, duration: 0.7, ease: EASE }}
-        >
-          <Cross size={80} color="var(--ink-faint)" drift />
-        </motion.div>
-      </section>
+      <div className="ab-page">
+        <div className="ab-main">
+          <p className="ab-kicker">About</p>
 
-      {/* ================= BACKGROUND ================= */}
-      <SectionRail bn="পরিচয়" en="Background">
-        <Reveal className="ed-about-body">
-          <p>
-            Hi, people from the Internet. I&apos;m Obidur Rahman (
-            <span lang="bn" className="bn">ওবায়দুর রহমান</span>).
-          </p>
-          <p>
-            I&apos;m a <b>Student Researcher</b> at{" "}
-            <a href="https://elitelab.ai" target="_blank" rel="noopener noreferrer">Elite Research Lab</a>{" "}
-            and <b>Research and Development Engineer</b> at{" "}
-            <a href="https://northaxis.xyz" target="_blank" rel="noopener noreferrer">Northaxis</a>,
-            where I build AI features and intelligent agent systems for real-world products.
-            I&apos;m also completing a <b>BSc in Mathematics</b> at the University of
-            Chittagong, expected 2027. I was born and raised in Chittagong, Bangladesh.
-          </p>
-          <p>
-            You can find my work on{" "}
-            <a href="https://github.com/obidur-rahman" target="_blank" rel="noopener noreferrer">GitHub</a>.
-            Say hello at{" "}
-            <a href="mailto:obidur.shawal@gmail.com">obidur.shawal@gmail.com</a> or find me on{" "}
-            <a href="https://linkedin.com/in/obidur-rahman-shawal" target="_blank" rel="noopener noreferrer">LinkedIn</a>.
-          </p>
-        </Reveal>
-      </SectionRail>
+          <div className="ab-collage" aria-hidden>
+            {collage.map((t, i) =>
+              t.src ? (
+                <span
+                  key={i}
+                  className="ab-tile ab-tile--img"
+                  data-tip={t.tip}
+                  data-tip-pos={t.tip ? "over" : undefined}
+                  style={{ left: `${t.x}%`, top: `${t.y}%`, width: `${t.w}%`, aspectRatio: t.a }}
+                >
+                  <Image
+                    src={t.src}
+                    alt={t.alt ?? ""}
+                    width={t.fit === "contain" ? 848 : 681}
+                    height={t.fit === "contain" ? 1176 : 1376}
+                    sizes="(max-width: 760px) 40vw, 22vw"
+                    style={t.fit ? { objectFit: t.fit } : undefined}
+                  />
+                </span>
+              ) : (
+                <span
+                  key={i}
+                  className="ab-tile ab-tile--ph"
+                  style={{ left: `${t.x}%`, top: `${t.y}%`, width: `${t.w}%`, aspectRatio: t.a }}
+                >
+                  {t.n}
+                </span>
+              )
+            )}
+          </div>
 
-      {/* ================= ROLES / EXPERIENCE ================= */}
-      <SectionRail bn="এখন" en="What I do">
-        <div className="ed-roles">
-          {[0, 1].map((idx) => (
-            <Reveal key={idx} from={idx === 0 ? "left" : "right"} delay={idx * 0.1}>
-              <div className="ed-role">
-                {idx === 0 ? (
-                  <>
-                    <p className="ed-role-title">Student Researcher</p>
-                    <p className="ed-role-org">
-                      ELITE Research Lab LLC · Contract · Remote (Queens, NY)
-                    </p>
-                    <p className="ed-role-when">Sep 2026 · Present</p>
-                    <p className="ed-role-desc">
-                      I dig into how language models break, why they get biased,
-                      why they&apos;re confidently wrong, and try to write that up
-                      somewhere useful.
-                    </p>
-                  </>
-                ) : (
-                  <>
-                    <p className="ed-role-title">Research and Development Engineer</p>
-                    <p className="ed-role-org">NorthAxis · Full-time · Remote</p>
-                    <p className="ed-role-when">Dec 2025 · Present</p>
-                    <p className="ed-role-desc">
-                      Half my job is figuring out if an AI idea actually survives
-                      contact with a real product. The other half is making sure it does.
-                    </p>
-                  </>
-                )}
-              </div>
-            </Reveal>
-          ))}
-        </div>
-        <Reveal delay={0.15}>
-          <div className="ed-award">
-            <Micro color="var(--red)">AWARD</Micro>
+          <motion.div className="ab-prose" {...rise(0)}>
             <p>
-              <b>Best Presenter</b>, 24th International Mathematics Conference, 2025.
-              Awarded for the presentation of <a href="/cpu">the tomato disease detection paper</a>.
+              Hi there! I&apos;m Obidur, a research engineer in Chittagong. I started in pure
+              mathematics, wandered into machine learning, and landed on the unglamorous end of it
+              — getting models to behave on the laptops people actually own. That turned out to be
+              the right place to be the mathematician and the engineer at the same time. These days
+              I&apos;m heading toward work that sits between research, product, and whatever the
+              hardware will tolerate.
             </p>
-          </div>
-        </Reveal>
-      </SectionRail>
-
-      {/* ================= RESEARCH ================= */}
-      <SectionRail bn="গবেষণা" en="Research">
-        <Reveal className="ed-about-body">
-          <p>
-            I care about the moments where machine learning quietly goes wrong: the rare
-            case nobody sampled, the dataset nobody checked, the benchmark that flatters
-            the model. My interests sit in that gap.
-          </p>
-        </Reveal>
-        <div className="ed-direction-stack">
-          {[
-            {
-              tone: "b",
-              corner: "tr" as const,
-              title: "Imbalanced learning",
-              body: "Most models learn to ignore whoever's outnumbered. I spend a lot of time arguing with that instinct.",
-            },
-            {
-              tone: "g",
-              corner: "bl" as const,
-              title: "Low-resource NLP, Banglish and Bengali",
-              body: "Every benchmark forgets a language eventually. Usually mine.",
-            },
-            {
-              tone: "b",
-              corner: "tr" as const,
-              title: "Survey methodology and data quality",
-              body: "A bad question asked to a thousand people is still a bad question. I care more about the asking than the thousand.",
-            },
-            {
-              tone: "g",
-              corner: "bl" as const,
-              title: "Vision on constrained hardware / scientific ML / LLM bias",
-              body: "If it only works on a GPU cluster, it doesn't work where I'm from. I build for the laptop, not the lab.",
-            },
-          ].map((d, i) => (
-            <Reveal key={d.title} from={i % 2 === 0 ? "left" : "right"} delay={i * 0.08}>
-              <div
-                className={`ed-direction ${d.tone}`}
-                style={{ position: "relative" }}
+            <p>
+              BSc in Mathematics at the University of Chittagong, expected 2027. Student researcher
+              at{" "}
+              <a
+                className="ab-inline-link"
+                href="https://elitelab.ai"
+                target="_blank"
+                rel="noopener noreferrer"
               >
-                <Corner
-                  pos={d.corner}
-                  size={22}
-                  color={d.tone === "b" ? "var(--w-mute)" : "var(--ink-soft-dark)"}
-                />
-                <h3>{d.title}</h3>
-                <p>{d.body}</p>
-              </div>
-            </Reveal>
-          ))}
-        </div>
-        <p lang="bn" className="bn" style={{ marginTop: 16, maxWidth: "66ch" }}>
-          আমার গবেষণার আগ্রহ মূলত সেসব জায়গায়, যেখানে ডেটা কম, রিসোর্স সীমিত, বা সমস্যাটাই ঠিকভাবে বোঝা হয়নি। মডেলগুলো সেখানেই বেশি ভুল করে, আর নতুন কিছু করার সুযোগও থাকে।
-        </p>
-      </SectionRail>
+                Elite Research Lab
+              </a>
+              , R&amp;D engineer at{" "}
+              <a
+                className="ab-inline-link"
+                href="https://northaxis.xyz"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                NorthAxis
+              </a>
+              . Born and raised right here in Chittagong.
+            </p>
+            <p>Some things I&apos;m working on at the moment include:</p>
+            <ul className="ab-list">
+              <li>
+                CPU-constrained deep learning for tomato leaf disease detection — ResNet-50,
+                ConvNeXt-Tiny and FastViT-T8 on a plain Ryzen with no GPU, because the farmers
+                who need this can&apos;t wait for a data centre. Under review at Springer.
+              </li>
+              <li>
+                <a
+                  className="ab-inline-link"
+                  href="https://axiom-learning-psi.vercel.app/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Axiom Learning
+                </a>
+                , an AI tutor that builds a study plan around what you actually know rather than what
+                the syllabus assumes.
+              </li>
+              <li>
+                A{" "}
+                <a
+                  className="ab-inline-link"
+                  href="https://smote-dashboard.vercel.app/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  visual teardown of SMOTE
+                </a>{" "}
+                — drawing out how an oversampling method that looks like it&apos;s fixing your
+                imbalance problem quietly invents a different one.
+              </li>
+              <li>
+                A survey of 225 students on digital distraction and self-regulation, and a study on
+                what really drives a rickshaw fare in a port city.
+              </li>
+            </ul>
+            <p>
+              I&apos;ve also been told my conference talks are more fun than my papers, which I
+              choose to take as a compliment.
+            </p>
+          </motion.div>
 
-      {/* ================= SKILLS ================= */}
-      <SectionRail bn="দক্ষতা" en="Skills">
-        <Reveal>
-          <div className="ed-skills">
-            <div className="ed-skill-row">
-              <span className="ed-skill-label">AI, ML &amp; Deep Learning</span>
-              <div className="ed-chips">
-                {["Agentic AI", "RAG", "LLMOps", "MLOps", "PyTorch", "LangChain", "Computer Vision"].map((s, i) => (
-                  <Chip key={s} label={s} i={i} />
-                ))}
-              </div>
-            </div>
-            <div className="ed-skill-row">
-              <span className="ed-skill-label">Programming</span>
-              <div className="ed-chips">
-                {["Python", "TypeScript", "Next.js", "React", "FastAPI", "Git"].map((s, i) => (
-                  <Chip key={s} label={s} i={i} />
-                ))}
-              </div>
-            </div>
+          <motion.div className="ab-cta" {...rise(0.06)}>
+            <p className="ab-cta-title">Let&apos;s make something together!</p>
+            <p className="ab-cta-line">
+              Graduating in 2027 and open to research collaborations and full-time roles. You can
+              reach me at{" "}
+              <a className="ab-inline-link" href="mailto:obidur.shawal@gmail.com">
+                obidur.shawal@gmail.com
+              </a>{" "}
+              or via{" "}
+              <a
+                className="ab-inline-link"
+                href="https://linkedin.com/in/obidur-rahman-shawal"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                LinkedIn
+              </a>
+              .
+            </p>
+          </motion.div>
+
+          <Group label="Contact">
+            {contact.map((c, i) => (
+              <Row key={c.when} when={c.when} lead={c.lead} href={c.href} tip={c.tip} i={i} />
+            ))}
+          </Group>
+
+          <Group label="Education">
+            <Row
+              when="Expected 2027"
+              lead="BSc in Mathematics"
+              note="University of Chittagong, Bangladesh"
+            />
+          </Group>
+
+          <Group label="Toolkit">
+            {toolkit.map((t, i) => (
+              <Row key={t.when} when={t.when} lead={t.lead} i={i} />
+            ))}
+          </Group>
+
+          <Group label="Recognition">
+            {recognition.map((r, i) => (
+              <Row key={r.lead} when={r.when} lead={r.lead} note={r.note} i={i} />
+            ))}
+          </Group>
+
+          <Group label="Languages">
+            <Row
+              when="Spoken"
+              lead="Bengali · বাংলা · Chittagonian · চাটগাঁইয়া — native"
+              note="English — fluent · Hindi · हिन्दी and Urdu · اردو — conversational"
+            />
+            <Row
+              when="Studied"
+              lead="Arabic · العربية — reading"
+              note="Japanese · 日本語 — learning"
+            />
+          </Group>
+
+          <Group label="Off the clock">
+            <Row
+              when="Hobbies"
+              lead="Video games, long-form video essays, clean interfaces and good typography."
+              note="Always happy to talk about AI, games, design, or the occasional internet meme."
+            />
+          </Group>
+
+          <div className="ab-photos" aria-hidden>
+            {photos.map((p, i) =>
+              p.src ? (
+                <span key={i} className="ab-photo ab-photo--img">
+                  <Image
+                    src={p.src}
+                    alt={p.alt ?? ""}
+                    width={1536}
+                    height={1536}
+                    sizes="(max-width: 760px) 50vw, 25vw"
+                  />
+                </span>
+              ) : (
+                <span key={i} className="ab-photo">
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+              )
+            )}
           </div>
-        </Reveal>
-      </SectionRail>
 
-      {/* ================= LANGUAGES ================= */}
-      <SectionRail bn="ভাষা" en="Languages">
-        <Reveal>
-          <div className="ed-mini-rows">
-            <Row when="Native" i={0}>Bengali · বাংলা + Chittagonian · চাটগাঁইয়া</Row>
-            <Row when="Fluent" i={2}>English</Row>
-            <Row when="Conversational" i={3}>Hindi · हिन्दी + Urdu · اردو</Row>
-            <Row when="Can only Read" i={5}>Arabic · العربية</Row>
-            <Row when="Learning" i={6}>Japanese · 日本語</Row>
-          </div>
-        </Reveal>
-      </SectionRail>
-
-      {/* ================= HOBBIES ================= */}
-      <SectionRail bn="শখ" en="Hobbies">
-        <Reveal className="ed-about-body">
-          <p>
-            Outside of research, I play video games, watch long-form video essays, and lose a
-            fair share of evenings doom-scrolling Instagram. I enjoy clean user interfaces,
-            good typography, and well-made indie games.
-          </p>
-          <p>
-            Always happy to talk about AI, games, design, or the occasional internet meme.
-          </p>
-          <p lang="bn" className="bn">
-            AI, গেম, ডিজাইন, কিংবা হুটহাট কোনো ইন্টারনেট মিম নিয়ে গল্প করতে সবসময়ই ভালো লাগে।
-          </p>
-        </Reveal>
-      </SectionRail>
-
-      {/* ================= FOOTER ================= */}
-      <footer className="ed-footer">
-        <div className="ed-footer-left">
-          <span className="ed-footer-name">Obidur Rahman</span>
-          <span className="ed-footer-bangla" lang="bn">ওবায়দুর রহমান</span>
-          <span className="ed-footer-copy">CHITTOGRAM · ©2026</span>
+          {now ? <p className="ab-clock">{now}, chittagong</p> : null}
         </div>
-        <Micro color="var(--ink-mid)">ABOUT · NO. 02/02</Micro>
-        <nav className="ed-footer-links">
-          <a href="https://github.com/obidur-rahman" target="_blank" rel="noopener noreferrer">GitHub</a>
-          <a href="https://linkedin.com/in/obidur-rahman-shawal" target="_blank" rel="noopener noreferrer">LinkedIn</a>
-          <a href="mailto:obidur.shawal@gmail.com">Email</a>
-          <a href="/obidur_cv.pdf" target="_blank" rel="noopener noreferrer">CV</a>
-          <a href="/">Home</a>
-        </nav>
-      </footer>
+      </div>
     </div>
   );
 }

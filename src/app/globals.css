@@ -3,45 +3,49 @@
 * { box-sizing: border-box; }
 
 :root {
-  /* Ink */
+  /* ---------- Palette · 60 : 30 : 10 ----------
+     60%  paper  a white with a faint cool cast — every surface
+     30%  blue   #0160bc — rules, rails, brackets, borders, marks
+     10%  amber  #bc5d01, the complement of the blue — emphasis only
+
+     Type is never coloured: headings and body sit on near-black ink,
+     so the blue stays a structural voice rather than a text colour. */
+
+  --blue: #0160bc;
+  --amber: #bc5d01;
+  --paper: #f7f9fc;
+  --paper-warm: #eef2f7;
+
+  /* Ink — near-black neutrals */
   --ink: oklch(0.19 0.012 70);
   --ink-soft: oklch(0.33 0.014 70);
   --ink-mid: oklch(0.42 0.014 70);
   --ink-faint: oklch(0.58 0.012 70);
 
-  /* Surface — editorial light base */
-  --paper: #fcfcfa;
-  --paper-warm: oklch(0.945 0.008 84);
-
-  /* Zuji dark, imported as accents */
-  --w: #f2f2f0;
-  --w-soft: #b6b6b2;
-  --w-mute: #6f6f6c;
-  --ink-dark: #111114;
-  --ink-soft-dark: #3c3c42;
-  --panel-dark: #161616;
-  --panel-lav: #dcdce8;
+  /* Poster panels — the blue taken down to its shadow */
+  --w: #eaf1fa;
+  --w-soft: #b7c9e0;
+  --w-mute: #7c96b7;
+  --panel-dark: #04386c;
 
   /* Accents */
-  --red: oklch(0.58 0.21 29.5);
-  --red-bright: oklch(0.66 0.21 29.5);
-  --blue: oklch(0.44 0.19 264);
-  --blue-soft: oklch(0.9 0.05 264);
-  --ochre: oklch(0.66 0.15 75);
-  --green: oklch(0.5 0.12 155);
-  --green-soft: oklch(0.91 0.05 155);
+  --red: var(--amber);
+  --ochre: var(--amber);
+
+  /* Aliases used by the paper page */
+  --accent: var(--red);
+  --accent-soft: color-mix(in srgb, var(--red) 8%, var(--paper));
 
   /* Lines */
-  --line: oklch(0.9 0.006 84);
-  --line-strong: oklch(0.32 0.012 70);
-  --line-dark: #262626;
+  --line: color-mix(in srgb, var(--blue) 13%, var(--paper));
+  --line-strong: color-mix(in srgb, var(--blue) 78%, var(--paper));
+  --line-dark: #0d3c6d;
 
   /* Mono — zuji voice */
-  --mono: var(--font-mono, ui-monospace), "SF Mono", "Cascadia Mono", Menlo, monospace;
+  --mono: ui-monospace, "SF Mono", "Cascadia Mono", Menlo, monospace;
 
   /* Layout */
   --gutter: clamp(20px, 4.5vw, 72px);
-  --space-sm: 16px;
   --space-md: 32px;
   --space-lg: 64px;
   --space-xl: 96px;
@@ -56,28 +60,6 @@
   color-scheme: light;
 }
 
-/* ---------- Dark theme — same token names, dark values ---------- */
-
-[data-theme="dark"] {
-  color-scheme: dark;
-
-  --ink: oklch(0.93 0.006 84);
-  --ink-soft: oklch(0.8 0.008 84);
-  --ink-mid: oklch(0.66 0.01 84);
-  --ink-faint: oklch(0.5 0.01 84);
-
-  --paper: #101012;
-  --paper-warm: #1a1a1d;
-
-  --line: #26262a;
-  --line-strong: #55555a;
-
-  --red: oklch(0.66 0.21 29.5);
-
-  /* Dark panels need an edge to separate from the dark page */
-  --panel-edge: #2c2c30;
-}
-
 html { scroll-behavior: smooth; }
 
 @media (prefers-reduced-motion: reduce) {
@@ -89,7 +71,7 @@ html { scroll-behavior: smooth; }
 a:focus-visible,
 button:focus-visible,
 span[role="button"]:focus-visible {
-  outline: 2px solid var(--red);
+  outline: 2px solid var(--blue);
   outline-offset: 3px;
 }
 
