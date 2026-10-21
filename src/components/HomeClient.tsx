@@ -1,10 +1,8 @@
 "use client";
 
-import { useState } from "react";
 import { motion, useReducedMotion, useScroll, useSpring } from "motion/react";
-import Image from "next/image";
 import { EASE, SPRING } from "@/lib/motion";
-import { SectionRail } from "@/components/SectionRail";
+import { SiteFooter } from "@/components/SiteFooter";
 
 const work = [
   {
@@ -58,179 +56,204 @@ const research = [
   },
 ];
 
+/* Moved over from the About page. */
+const recognition = [
+  {
+    when: "2025",
+    lead: "Best Presenter, 24th International Mathematics Conference",
+    note: "Recognized for delivering the session's best presentation.",
+    tip: "best presenter at the 24th imc",
+  },
+];
+
 export function HomeClient() {
-  const [bandReady, setBandReady] = useState(false);
   const reduced = useReducedMotion();
 
   const { scrollYProgress } = useScroll();
   const progress = useSpring(scrollYProgress, SPRING);
 
+  const anim = (i: number) => ({
+    initial: reduced ? false : { opacity: 0, y: 32 },
+    whileInView: { opacity: 1, y: 0 },
+    viewport: { once: true, margin: "-60px" },
+    transition: { duration: 0.65, ease: EASE, delay: i * 0.05 },
+  });
+
+  /* The reference's stagger: even cards run down the left column, odd
+     cards down the right one, which drops in late. */
+  const grid = (items: React.ReactNode[]) => (
+    <div className="wk-grid">
+      <div className="wk-col">{items.filter((_, i) => i % 2 === 0)}</div>
+      <div className="wk-col wk-col--stagger">{items.filter((_, i) => i % 2 === 1)}</div>
+    </div>
+  );
+
+  const workCard = (p: (typeof work)[number], i: number) => {
+    /* Caption under the media: title, then the small grey note. */
+    const caption = (
+      <div className="wk-caption">
+        <h3 className="wk-title">{p.title}</h3>
+        <p className="wk-desc">{p.desc}</p>
+        {p.descBn ? (
+          <p className="wk-desc wk-desc--bn" lang="bn">{p.descBn}</p>
+        ) : null}
+      </div>
+    );
+
+    /* No screenshot? A dashed plate carrying the demo and source links
+       instead — links can't nest inside the card's own anchor. */
+    if (p.links) {
+      return (
+        <motion.div key={i} className="wk-card" data-tip={p.tip} {...anim(i)}>
+          <div className="wk-media">
+            <div className="wk-links">
+              {p.links.map((l) => (
+                <a
+                  key={l.label}
+                  className="wk-link"
+                  href={l.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {l.label} ↗
+                </a>
+              ))}
+            </div>
+          </div>
+          {caption}
+        </motion.div>
+      );
+    }
+
+    return (
+      <motion.a
+        key={i}
+        href={p.href}
+        className="wk-card"
+        data-tip={p.tip}
+        target="_blank"
+        rel="noopener noreferrer"
+        {...anim(i)}
+      >
+        <div className="wk-media">
+          {"videoSrc" in p ? (
+            <video src={p.videoSrc} loop muted autoPlay playsInline preload="metadata" />
+          ) : (
+            /* eslint-disable-next-line @next/next/no-img-element -- static SVG, nothing to optimize */
+            <img src={p.img} alt={`${p.title} preview`} loading="lazy" />
+          )}
+        </div>
+        {caption}
+      </motion.a>
+    );
+  };
+
+  /* Caption-only card, the same shape without the media: the award. */
+  const noteCard = (
+    i: number,
+    c: { title: string; desc: string; meta?: string; href?: string; tip?: string }
+  ) => {
+    const caption = (
+      <div className="wk-caption">
+        <h3 className="wk-title">{c.title}</h3>
+        <p className="wk-desc">{c.desc}</p>
+        {c.meta ? <p className="wk-meta">{c.meta}</p> : null}
+      </div>
+    );
+
+    if (c.href) {
+      return (
+        <motion.a
+          key={i}
+          href={c.href}
+          className="wk-card wk-card--note"
+          data-tip={c.tip}
+          target="_blank"
+          rel="noopener noreferrer"
+          {...anim(i)}
+        >
+          {caption}
+        </motion.a>
+      );
+    }
+
+    return (
+      <motion.div key={i} className="wk-card wk-card--note" data-tip={c.tip} {...anim(i)}>
+        {caption}
+      </motion.div>
+    );
+  };
+
+  const [first, second, third] = work;
+
   return (
     <div className="home">
       <motion.div className="ob-progress" style={{ scaleX: progress }} aria-hidden />
 
-      {/* ================= HERO — Japanese-editorial cover, cloud band ================= */}
-      <section className="ed-hero">
-        <span className="ed-hero-glyph" aria-hidden>ও</span>
+      {/* The name lives in the navbar; the h1 stays for SEO and screen readers. */}
+      <h1 className="sr-only">Obidur Rahman</h1>
 
-        <div className="ed-hero-rail" aria-hidden>
-          <span className="ed-hero-rail-line" />
-          <span className="ed-hero-rail-text" lang="bn">ওবায়দুর রহমান</span>
-          <span className="ed-hero-rail-line" />
-        </div>        <div className="ed-hero-top">
-          {/* The name lives in the navbar; the h1 stays for SEO and screen readers. */}
-          <h1 className="sr-only">Obidur Rahman</h1>
-          {/* Hairline closing the cover, anchored just above the cloud band */}
-          <motion.div
-            className="ed-hero-rule"
-            aria-hidden
-            initial={reduced ? false : { scaleX: 0 }}
-            animate={{ scaleX: 1 }}
-            transition={{ delay: 0.75, duration: 1.1, ease: EASE }}
-          />
+      {/* ================= WORK — kicker + two staggered columns ================ */}
+      <section className="wk-section">
+        <h2 className="wk-kicker">work</h2>
+
+        <div className="wk-grid">
+          {/* Left column carries two cards; the right one drops in late. */}
+          <div className="wk-col">
+            {workCard(first, 0)}
+            {workCard(third, 2)}
+          </div>
+          <div className="wk-col wk-col--stagger">
+            {workCard(second, 1)}
+          </div>
         </div>
-
-        <motion.div
-          className="ed-hero-band"
-          data-ready={bandReady ? "" : undefined}
-          initial={reduced ? false : { opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.45, duration: 0.8 }}
-        >
-          {/* Optimised still shows instantly and covers reduced motion,
-              autoplay failure, and slow connections. */}
-          <Image
-            src="/cloud.png"
-            alt=""
-            fill
-            priority
-            sizes="(max-width: 1024px) 100vw, 90vw"
-            className="ed-hero-band-img ed-hero-band-poster"
-          />
-          {!reduced && (
-            <video
-              className="ed-hero-band-img ed-hero-band-video"
-              src="/cloud.mp4"
-              autoPlay
-              muted
-              loop
-              playsInline
-              preload="auto"
-              aria-hidden
-              onCanPlay={() => setBandReady(true)}
-            />
-          )}
-        </motion.div>
-
       </section>
 
-      {/* ================= RESEARCH ================= */}
-      <SectionRail bn="গবেষণা" en="Research">
-        <div className="ed-research-list">
-          {research.map((r, i) => (
-            <motion.a
-              key={i}
-              href={r.href}
-              className="ed-research-item"
-              data-tip={r.tip}
-              initial={reduced ? false : { opacity: 0, y: 14 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.07, duration: 0.5, ease: EASE }}
-            >
-              <div className="ed-research-top">
-                <span className="ed-research-idx">{String(i + 1).padStart(2, "0")}</span>
-                <h3 className="ed-research-title">{r.title}</h3>
-                <span className="ed-research-dots" aria-hidden />
-                <span className="ed-research-meta">{r.meta}</span>
-              </div>
-              <p className="ed-research-authors">
-                {r.authors.split(/(Obidur Rahman)/).map((part, j) =>
-                  part === "Obidur Rahman" ? (
-                    <b key={j} className="ed-research-me">Obidur Rahman</b>
-                  ) : (
-                    <span key={j}>{part}</span>
-                  )
-                )}
-              </p>
-              <p className="ed-research-desc">{r.desc}</p>
-            </motion.a>
-          ))}
-        </div>
-      </SectionRail>
+      {/* ============ RESEARCH — the same cards, the plate carrying the link === */}
+      <section className="wk-section" id="research">
+        <h2 className="wk-kicker">research</h2>
 
-      {/* ================= WORK ================= */}
-      <SectionRail bn="কাজ" en="Work">
-        <div className="ed-work-list">
-          {work.map((p, i) => {
-            const anim = {
-              initial: reduced ? false : { opacity: 0, y: 32 },
-              whileInView: { opacity: 1, y: 0 },
-              viewport: { once: true, margin: "-60px" },
-              transition: { duration: 0.65, ease: EASE },
-            };
-
-            const body = (
-              <div className="ed-work-body">
-                <div className="ed-work-meta">
-                  <span className="ed-work-idx" aria-hidden>{String(i + 1).padStart(2, "0")}</span>
-                  <p className="ed-work-tags">{p.tags}</p>
+        {grid(
+          research.map((r, i) => (
+            <motion.div key={i} className="wk-card" data-tip={r.tip} {...anim(i)}>
+              <div className="wk-media">
+                <div className="wk-links">
+                  <a
+                    className="wk-link"
+                    href={r.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    full text ↗
+                  </a>
                 </div>
-                <h3 className="ed-work-title">{p.title}</h3>
-                <p className="ed-work-desc">{p.desc}</p>
-                <p className="ed-work-desc bn" lang="bn">{p.descBn}</p>
               </div>
-            );
+              <div className="wk-caption">
+                <h3 className="wk-title">{r.title}</h3>
+                <p className="wk-desc">{r.desc}</p>
+                <p className="wk-meta">
+                  {r.meta} · with {r.authors.replace("Obidur Rahman, ", "")}
+                </p>
+              </div>
+            </motion.div>
+          ))
+        )}
+      </section>
 
-            /* No screenshot? A dashed plate carrying the demo and source links
-               instead — links can't nest inside the card's own anchor. */
-            if (p.links) {
-              return (
-                <motion.div key={i} className="ed-work-card" data-tip={p.tip} {...anim}>
-                  <div className="ed-work-media">
-                    <div className="ed-work-links">
-                      {p.links.map((l) => (
-                        <a
-                          key={l.label}
-                          className="ed-work-link"
-                          href={l.href}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          {l.label} ↗
-                        </a>
-                      ))}
-                    </div>
-                  </div>
-                  {body}
-                </motion.div>
-              );
-            }
+      {/* ================= RECOGNITION ========================================== */}
+      <section className="wk-section">
+        <h2 className="wk-kicker">recognition</h2>
 
-            return (
-              <motion.a
-                key={i}
-                href={p.href}
-                className="ed-work-card"
-                data-tip={p.tip}
-                target="_blank"
-                rel="noopener noreferrer"
-                {...anim}
-              >
-                <div className="ed-work-media">
-                  {"videoSrc" in p ? (
-                    <video src={p.videoSrc} loop muted autoPlay playsInline preload="metadata" />
-                  ) : (
-                    /* eslint-disable-next-line @next/next/no-img-element -- static SVG, nothing to optimize */
-                    <img src={p.img} alt={`${p.title} preview`} loading="lazy" />
-                  )}
-                </div>
-                {body}
-              </motion.a>
-            );
-          })}
-        </div>
-      </SectionRail>
+        {grid(
+          recognition.map((r, i) =>
+            noteCard(i, { title: r.lead, desc: r.note, meta: r.when, tip: r.tip })
+          )
+        )}
+      </section>
+
+      <div className="site-foot">
+        <SiteFooter />
+      </div>
     </div>
   );
 }

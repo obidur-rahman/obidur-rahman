@@ -1,106 +1,9 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import Image from "next/image";
 import { motion, useReducedMotion } from "motion/react";
 import { EASE } from "@/lib/motion";
-
-/** One row of a row-group: mono key, a value or two, and an arrow when it links. */
-function Row({
-  when,
-  lead,
-  note,
-  href,
-  tip,
-  i = 0,
-}: {
-  when: string;
-  lead: string;
-  note?: string;
-  href?: string;
-  tip?: string;
-  i?: number;
-}) {
-  const reduced = useReducedMotion();
-  const body = (
-    <>
-      <span className="ab-row-key">{when}</span>
-      <span className="ab-row-body">
-        <span className="ab-row-lead">{lead}</span>
-        {note ? <span className="ab-row-note">{note}</span> : null}
-      </span>
-      <span className="ab-row-arrow" aria-hidden>
-        {href ? "→" : ""}
-      </span>
-    </>
-  );
-
-  const anim = {
-    initial: reduced ? false : { opacity: 0, y: 12 },
-    whileInView: { opacity: 1, y: 0 },
-    viewport: { once: true, margin: "-30px" },
-    transition: { delay: i * 0.05, duration: 0.45, ease: EASE },
-  };
-
-  return href ? (
-    <motion.a
-      className="ab-row"
-      href={href}
-      data-tip={tip}
-      target={href.startsWith("http") ? "_blank" : undefined}
-      rel={href.startsWith("http") ? "noopener noreferrer" : undefined}
-      {...anim}
-    >
-      {body}
-    </motion.a>
-  ) : (
-    <motion.div className="ab-row" {...anim}>
-      {body}
-    </motion.div>
-  );
-}
-
-/** A label in the gutter plus a stack of rows beside it. */
-function Group({
-  label,
-  animate = true,
-  children,
-}: {
-  label: string;
-  animate?: boolean;
-  children: React.ReactNode;
-}) {
-  const reduced = useReducedMotion();
-  return (
-    <motion.section
-      className="ab-block"
-      initial={reduced || !animate ? false : { opacity: 0, y: 14 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-40px" }}
-      transition={{ duration: 0.5, ease: EASE }}
-    >
-      <h2 className="ab-block-label">{label}</h2>
-      <div className="ab-rows">{children}</div>
-    </motion.section>
-  );
-}
-
-const toolkit = [
-  { when: "AI and ML", lead: "PyTorch · Computer vision · Agentic AI · RAG · LangChain" },
-  { when: "Programming", lead: "Python · TypeScript · FastAPI · Next.js · React.js · Git" },
-  {
-    when: "Research",
-    lead: "Statistical analysis · Experimental evaluation · LLMOps · MLOps",
-  },
-];
-
-const recognition = [
-  {
-    when: "2025",
-    lead: "Best Presenter, 24th International Mathematics Conference",
-    note: "Recognized for delivering the session's best presentation.",
-  },
-];
+import { SiteFooter } from "@/components/SiteFooter";
 
 /* Objects scattered across the top of the page, after the reference's
    cut-out collage. x/y/w are percentages of the field, `a` is each tile's
@@ -134,15 +37,6 @@ const collage: Tile[] = [
     tip: "notes from my first love, pure maths",
   },
   {
-    x: 36,
-    y: 6,
-    w: 18,
-    a: "1 / 2",
-    src: "/art.jpg",
-    alt: "Ink-wash landscape drawn in blue-black clouds",
-    tip: "ink clouds I paint when a proof won't close",
-  },
-  {
     x: 62,
     y: 14,
     w: 14,
@@ -152,52 +46,54 @@ const collage: Tile[] = [
     fit: "contain",
     tip: "that's me, head full of disco",
   },
-  { x: 62, y: 0, w: 9, a: "1 / 1", n: "01" },
+  /* The hobbies that used to sit in an "Off the clock" ledger, scattered
+     across the tiles instead. */
+  { x: 62, y: 0, w: 9, a: "1 / 1", n: "01", tip: "video games, mostly at unholy hours" },
   { x: 84, y: 10, w: 15, a: "3 / 2", n: "02" },
   { x: 3, y: 16, w: 8, a: "3 / 4", n: "03" },
-  { x: 18, y: 24, w: 12, a: "1 / 1", n: "04" },
-  { x: 78, y: 40, w: 15, a: "4 / 3", n: "05" },
-  { x: 10, y: 46, w: 10, a: "1 / 1", n: "06" },
+  { x: 37, y: 8, w: 12, a: "2 / 3", n: "04" },
+  {
+    x: 78,
+    y: 40,
+    w: 15,
+    a: "4 / 3",
+    n: "05",
+    tip: "long-form video essays: forty minutes, no regrets",
+  },
+  { x: 10, y: 46, w: 10, a: "1 / 1", n: "06", tip: "the occasional internet meme, professionally" },
   { x: 60, y: 52, w: 13, a: "3 / 4", n: "07" },
   { x: 88, y: 60, w: 8, a: "2 / 3", n: "08" },
-  { x: 34, y: 64, w: 13, a: "2 / 3", n: "09" },
-  { x: 3, y: 72, w: 18, a: "3 / 2", n: "10" },
+  { x: 34, y: 64, w: 13, a: "2 / 3", n: "09", tip: "clean interfaces and good typography" },
+  {
+    x: 3,
+    y: 72,
+    w: 18,
+    a: "3 / 2",
+    n: "10",
+    tip: "always happy to talk about ai, games or design",
+  },
   { x: 74, y: 78, w: 20, a: "8 / 5", n: "11" },
 ];
 
 /* The four photographs that close the page. Only the first has a real
    file; the rest stay dashed boxes. */
-const photos: { src?: string; alt?: string }[] = [
-  { src: "/me.png", alt: "Obidur Rahman by the water in Chittagong" },
-  {},
-  {},
-  {},
+const photos: { src?: string; alt?: string; tip: string }[] = [
+  {
+    src: "/me.jpg",
+    alt: "Obidur Rahman",
+    tip: "Hi! It's me",
+  },
+  {
+    src: "/tour.jpg",
+    alt: "A boat gliding through a rain-soaked mangrove forest",
+    tip: "boat ride through the mangroves, monsoon and all",
+  },
+  { tip: "proofs on the desk, cold coffee" },
+  { tip: "still to be photographed" },
 ];
 
 export function AboutClient() {
   const reduced = useReducedMotion();
-  const [now, setNow] = useState<string | null>(null);
-
-  useEffect(() => {
-    const tick = () =>
-      setNow(
-        new Intl.DateTimeFormat("en-US", {
-          timeZone: "Asia/Dhaka",
-          hour: "2-digit",
-          minute: "2-digit",
-          hour12: true,
-        })
-          .format(new Date())
-          .toLowerCase()
-          .replace(" ", "")
-      );
-    const id = window.setInterval(tick, 30000);
-    const first = window.setTimeout(tick, 0);
-    return () => {
-      window.clearInterval(id);
-      window.clearTimeout(first);
-    };
-  }, []);
 
   const rise = (delay: number) => ({
     initial: reduced ? false : { opacity: 0, y: 18 },
@@ -227,6 +123,15 @@ export function AboutClient() {
                   data-tip-pos={t.tip ? "over" : undefined}
                   style={{ left: `${t.x}%`, top: `${t.y}%`, width: `${t.w}%`, aspectRatio: t.a }}
                   variants={tileVariants}
+                  whileHover={
+                    reduced
+                      ? undefined
+                      : {
+                          scale: 1.06,
+                          rotate: i % 2 ? 2 : -2,
+                          transition: { duration: 0.35, ease: EASE },
+                        }
+                  }
                 >
                   <Image
                     src={t.src}
@@ -241,8 +146,19 @@ export function AboutClient() {
                 <motion.span
                   key={i}
                   className="ab-tile ab-tile--ph"
+                  data-tip={t.tip}
+                  data-tip-pos={t.tip ? "over" : undefined}
                   style={{ left: `${t.x}%`, top: `${t.y}%`, width: `${t.w}%`, aspectRatio: t.a }}
                   variants={tileVariants}
+                  whileHover={
+                    reduced
+                      ? undefined
+                      : {
+                          scale: 1.06,
+                          rotate: i % 2 ? 2 : -2,
+                          transition: { duration: 0.35, ease: EASE },
+                        }
+                  }
                 >
                   {t.n}
                 </motion.span>
@@ -326,43 +242,15 @@ export function AboutClient() {
             </p>
           </motion.div>
 
-          <Group label="Toolkit">
-            {toolkit.map((t, i) => (
-              <Row key={t.when} when={t.when} lead={t.lead} i={i} />
-            ))}
-          </Group>
-
-          <Group label="Recognition">
-            {recognition.map((r, i) => (
-              <Row key={r.lead} when={r.when} lead={r.lead} note={r.note} i={i} />
-            ))}
-          </Group>
-
-          <Group label="Languages">
-            <Row
-              when="Spoken"
-              lead="Bengali · বাংলা · Chittagonian · চাটগাঁইয়া (native)"
-              note="English (fluent) · Hindi · हिन्दी and Urdu · اردو (conversational)"
-            />
-            <Row
-              when="Studied"
-              lead="Arabic · العربية (reading)"
-              note="Japanese · 日本語 (learning)"
-            />
-          </Group>
-
-          <Group label="Off the clock">
-            <Row
-              when="Hobbies"
-              lead="Video games, long-form video essays, clean interfaces and good typography."
-              note="Always happy to talk about AI, games, design, or the occasional internet meme."
-            />
-          </Group>
-
           <div className="ab-photos" aria-hidden>
             {photos.map((p, i) =>
               p.src ? (
-                <span key={i} className="ab-photo ab-photo--img">
+                <span
+                  key={i}
+                  className="ab-photo ab-photo--img"
+                  data-tip={p.tip}
+                  data-tip-pos="over"
+                >
                   <Image
                     src={p.src}
                     alt={p.alt ?? ""}
@@ -372,15 +260,14 @@ export function AboutClient() {
                   />
                 </span>
               ) : (
-                <span key={i} className="ab-photo">
+                <span key={i} className="ab-photo" data-tip={p.tip} data-tip-pos="over">
                   {String(i + 1).padStart(2, "0")}
                 </span>
               )
             )}
           </div>
 
-          {now ? <p className="ab-clock">{now}, chittagong</p> : null}
-        </div>
+          <SiteFooter />        </div>
       </div>
     </div>
   );

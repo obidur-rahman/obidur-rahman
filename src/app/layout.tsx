@@ -4,6 +4,8 @@ import "./globals.css";
 import "./responsive.css";
 import { Sidebar } from "@/components/Sidebar";
 import { Intro } from "@/components/Intro";
+import { ScrollTint } from "@/components/ScrollTint";
+import { TipTracker } from "@/components/TipTracker";
 
 const spectral = Spectral({
   subsets: ["latin"],
@@ -52,6 +54,8 @@ export default function RootLayout({
       <body>
         <Intro />
         <Sidebar />
+        <ScrollTint />
+        <TipTracker />
         <main className="site-main">{children}</main>
         <script
           type="application/ld+json"

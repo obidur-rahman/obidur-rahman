@@ -8,6 +8,7 @@ import { CloseIcon, MenuIcon } from "@/components/Icons";
 /** Primary routes, numbered like a magazine table of contents. */
 const primary = [
   { href: "/", label: "work" },
+  { href: "/#research", label: "research" },
   { href: "/about", label: "about" },
 ];
 
@@ -24,6 +25,9 @@ const elsewhere = [
 ];
 
 const num = (i: number) => String(i + 1).padStart(2, "0");
+
+/** Bump by hand whenever the content of the site changes. */
+const LAST_UPDATED = "21-10-2026";
 
 export function Sidebar() {
   const pathname = usePathname();
@@ -43,8 +47,11 @@ export function Sidebar() {
     };
   }, [open]);
 
-  const isActive = (href: string) =>
-    href === "/" ? pathname === "/" : pathname.startsWith(href);
+  /* Hash links jump to a section, so only real routes carry the marker. */
+  const isActive = (href: string) => {
+    if (href.includes("#")) return false;
+    return href === "/" ? pathname === "/" : pathname.startsWith(href);
+  };
 
   return (
     <aside className="side" data-open={open ? "" : undefined}>
@@ -126,6 +133,9 @@ export function Sidebar() {
 
         <div className="side-foot">
           <span className="side-copy">©2026 Obidur Rahman</span>
+          <span className="side-updated">
+            last updated <span className="side-updated-date">{LAST_UPDATED}</span>
+          </span>
         </div>
       </div>
     </aside>

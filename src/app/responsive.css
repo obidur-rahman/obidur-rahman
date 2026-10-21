@@ -33,7 +33,7 @@ p { text-wrap: pretty; }
 
   /* Width of the fixed sidebar; the page column and the progress bar
      both hang off it. */
-  --side-w: clamp(252px, 20vw, 310px);
+  --side-w: clamp(240px, 17.5vw, 285px);
   --side-bar-h: 54px;
 }
 
@@ -65,14 +65,16 @@ html[data-side-open] { overflow: hidden; }
 
   /* Auto margins centre the stack, and collapse to zero on short
      viewports so the panel can still scroll from the top. */
-  padding: clamp(32px, 5vh, 56px) clamp(26px, 2.4vw, 40px) clamp(26px, 4vh, 44px);
+  padding: clamp(52px, 8vh, 88px) clamp(18px, 1.6vw, 28px) clamp(20px, 3vh, 32px);
   overflow-y: auto;
 }
 
 /* The mobile header row is the desktop intro's name, folded into a bar. */
 .side-bar { display: none; }
 
-.side-intro { display: flex; flex-direction: column; margin-top: auto; }
+/* The stack hangs from the top of the panel; the footer is pushed to the
+   bottom by its own auto margin. */
+.side-intro { display: flex; flex-direction: column; }
 
 .side-name,
 .side-bar-name {
@@ -92,14 +94,14 @@ html[data-side-open] { overflow: hidden; }
 .side-surname { color: var(--blue); }
 
 .side-bio {
-  margin: 18px 0 0;
+  margin: 56px 0 0;
   font-size: 11.5px;
-  line-height: 1.72;
+  line-height: 1.6;
   color: var(--ink-soft);
   max-width: 36ch;
 }
 
-.side-bio + .side-bio { margin-top: 16px; color: var(--ink-mid); }
+.side-bio + .side-bio { margin-top: 12px; color: var(--ink-mid); }
 
 /* Affiliations are links, but they sit in prose — a hairline underline,
    not the full-weight treatment the nav rows get. */
@@ -117,16 +119,16 @@ html[data-side-open] { overflow: hidden; }
 .side-nav {
   display: flex;
   flex-direction: column;
-  margin-top: clamp(34px, 5.2vh, 58px);
+  margin-top: clamp(22px, 3.4vh, 36px);
 }
 
 .side-nav--out { margin-top: 0; }
 
 .side-link {
   display: grid;
-  grid-template-columns: 30px minmax(0, 1fr) 14px;
+  grid-template-columns: 26px minmax(0, 1fr) 14px;
   align-items: baseline;
-  padding: 7px 0;
+  padding: 4px 0;
   text-decoration: none;
   color: var(--ink);
 }
@@ -135,7 +137,7 @@ html[data-side-open] { overflow: hidden; }
   font-family: var(--font-display), "Spectral", serif;
   font-size: 12px;
   letter-spacing: 0;
-  color: var(--ink-faint);
+  color: var(--ink-soft);
   transition: color 0.2s var(--ease-out);
 }
 
@@ -144,7 +146,7 @@ html[data-side-open] { overflow: hidden; }
   font-size: 13.5px;
   font-weight: 400;
   letter-spacing: -0.005em;
-  line-height: 1.5;
+  line-height: 1.4;
 }
 
 .side-arrow {
@@ -178,19 +180,29 @@ html[data-side-open] { overflow: hidden; }
   height: 0;
   border: 0;
   border-top: 1px solid var(--line);
-  margin: clamp(26px, 4vh, 42px) 0;
+  margin: clamp(16px, 2.4vh, 26px) 0;
 }
 
 .side-foot {
-  margin-bottom: auto;
-  padding-top: clamp(30px, 4.8vh, 48px);
+  margin-top: auto;
+  padding-top: clamp(18px, 2.8vh, 30px);
   display: flex;
   flex-direction: column;
-  gap: 1px;
+  gap: 3px;
   font-size: 11px;
   line-height: 1.7;
   color: var(--ink-mid);
 }
+
+.side-updated {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+
+.side-updated-date { color: var(--ink-mid); }
 
 .side-burger {
   display: none;
@@ -214,305 +226,131 @@ html[data-side-open] { overflow: hidden; }
   padding-bottom: clamp(56px, 9vh, 110px);
 }
 
-/* ---------- Section rail — vertical Bangla word + rule + arrow ---------- */
+/* ---------- Home — page kicker + staggered work grid, after the reference ---- */
 
-.ed-section {
-  display: grid;
-  grid-template-columns: auto 1fr;
-  gap: clamp(32px, 6vw, 96px);
-  padding: var(--space-xl) var(--gutter) 0;
+.wk-section {
+  --wk-top: clamp(44px, 7vh, 84px);
+
   max-width: 1440px;
-  margin: 0 auto;
-}
-
-.ed-rail {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 18px;
-}
-
-.ed-rail-word {
-  writing-mode: vertical-rl;
-  font-family: var(--font-bengali), "Noto Serif Bengali", serif;
-  font-size: clamp(30px, 4vw, 48px);
-  font-weight: 500;
-  letter-spacing: 0.2em;
-  line-height: 1;
-  color: var(--ink);
   margin: 0;
+  padding: var(--wk-top) var(--gutter) 0;
 }
 
-.ed-rail-meta {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 10px;
+/* Every section after the first gets extra air. */
+.wk-section + .wk-section {
+  padding-top: calc(var(--wk-top) * 1.8);
 }
 
-.ed-rail-en {
+.wk-kicker {
+  margin: 0 0 clamp(22px, 4vh, 40px);
   font-family: var(--mono);
-  font-size: 10px;
-  letter-spacing: 0.24em;
+  font-size: 9.5px;
+  font-weight: 400;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: var(--ink-mid);
-  writing-mode: vertical-rl;
+  color: var(--ink-faint);
 }
 
-.ed-rail-line {
-  width: 1px;
-  height: 56px;
-  background: color-mix(in srgb, var(--blue) 65%, transparent);
-  transform-origin: top;
-  display: block;
-}
-
-.ed-rail-arrow {
-  font-size: 13px;
-  color: var(--ink-mid);
-  animation: ed-drift 2.6s var(--ease-out) infinite;
-}
-
-@keyframes ed-drift {
-  0%, 100% { transform: translateY(0); opacity: 0.6; }
-  50% { transform: translateY(6px); opacity: 1; }
-}
-
-.ed-section-body {
-  min-width: 0;
-  padding-bottom: var(--space-lg);
-}
-
-/* ---------- Hero — Japanese-editorial cover, cloud band ---------- */
-
-.ed-hero {
-  --hero-col: clamp(64px, 9vw, 132px);
-  --hero-line: var(--hair);
-
-  position: relative;
-  background: var(--paper);
-  color: var(--ink);
-  min-height: 100svh;
-  display: flex;
-  flex-direction: column;
-  border-bottom: 1px solid var(--line-strong);
-  overflow: clip;
-}
-
-/* Giant chapter glyph, top right */
-
-.ed-hero-glyph {
-  position: absolute;
-  top: clamp(-10px, 0.4vh, 12px);
-  right: var(--gutter);
-  font-family: var(--font-bengali), "Noto Serif Bengali", serif;
-  font-size: clamp(118px, 19vw, 276px);
-  font-weight: 500;
-  line-height: 0.78;
-  color: var(--ink);
-  pointer-events: none;
-  user-select: none;
-  z-index: 0;
-}
-
-/* Vertical rail — hairline rules over and under a column of Bangla */
-
-.ed-hero-rail {
-  position: absolute;
-  right: var(--gutter);
-  top: clamp(200px, 40vh, 380px);
-  bottom: clamp(78px, 11vh, 132px);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 20px;
-  z-index: 2;
-}
-
-.ed-hero-rail-line {
-  width: 1px;
-  flex: 1;
-  min-height: 30px;
-  background: color-mix(in srgb, var(--blue) 55%, transparent);
-}
-
-.ed-hero-rail-text {
-  writing-mode: vertical-rl;
-  font-family: var(--font-bengali), "Noto Serif Bengali", serif;
-  font-size: clamp(16px, 1.4vw, 22px);
-  font-weight: 500;
-  letter-spacing: 0.3em;
-  line-height: 1;
-  color: var(--ink);
-  white-space: nowrap;
-}
-
-/* Top block — labels, name, role, facts */
-
-.ed-hero-top {
-  position: relative;
-  z-index: 1;
-  flex: 1;
-  width: 100%;
-  max-width: 1440px;
-  margin: 0 auto;
-  padding: clamp(32px, 6vh, 72px) var(--gutter) clamp(28px, 5vh, 56px);
-  display: flex;
-  flex-direction: column;
-  gap: clamp(24px, 5vh, 56px);
-}
-
-.ed-hero-rule {
-  height: 1px;
-  background: var(--hero-line);
-  transform-origin: left;
-
-  /* Anchored to the bottom of the cover, closing it just above the band. */
-  margin: auto 0 clamp(18px, 3vh, 32px);
-  max-width: 640px;
-}
-
-/* Cloud band — bleeds from the left, rail sits in the right gutter */
-
-.ed-hero-band {
-  position: relative;
-  margin-right: var(--hero-col);
-  height: clamp(150px, 26vh, 340px);
-  overflow: hidden;
-  background: var(--paper-warm);
-}
-
-.ed-hero-band-img {
-  object-fit: cover;
-  object-position: center 62%;
-}
-
-/* Still plate first; the loop fades in over it once it can play. */
-
-.ed-hero-band-poster { z-index: 0; }
-
-.ed-hero-band-video {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 1;
-  opacity: 0;
-  transition: opacity 0.9s var(--ease-out);
-}
-
-.ed-hero-band[data-ready] .ed-hero-band-video { opacity: 1; }
-
-/* Mono micro-label */
-
-.z-micro {
-  font-family: var(--mono);
-  font-size: 10px;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-}
-
-/* ---------- Work — alternating plates ---------- */
-
-.ed-work-list {
-  display: flex;
-  flex-direction: column;
-  gap: clamp(48px, 9vh, 96px);
-}
-
-.ed-work-card {
+/* Two columns, the right one dropping in late: the reference's stagger. */
+.wk-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: clamp(24px, 4vw, 64px);
-  align-items: center;
+  gap: clamp(24px, 3vw, 48px);
+  align-items: start;
+}
+
+.wk-col {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(44px, 8vh, 88px);
+  min-width: 0;
+}
+
+.wk-col--stagger {
+  margin-top: clamp(56px, 9vh, 120px);
+}
+
+/* Media full column width, title under it, small grey note under that. */
+.wk-card {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(14px, 1.6vw, 20px);
   text-decoration: none;
   color: inherit;
 }
 
-.ed-work-card:nth-child(even) { direction: rtl; }
-.ed-work-card:nth-child(even) > * { direction: ltr; }
-
-.ed-work-media {
+.wk-media {
+  position: relative;
   aspect-ratio: 16 / 10;
   overflow: hidden;
   background: var(--paper-warm);
-  position: relative;
 }
 
-.ed-work-media::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border: 1px solid color-mix(in srgb, var(--ink) 10%, transparent);
-  pointer-events: none;
-}
-
-.ed-work-media img,
-.ed-work-media video {
+.wk-media img,
+.wk-media video {
+  display: block;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  display: block;
-  filter: grayscale(1) contrast(1.04);
-  transition: filter 0.5s var(--ease-out), transform 0.8s var(--ease-out);
+  transition: transform 0.8s var(--ease-out);
 }
 
-.ed-work-card:hover .ed-work-media img,
-.ed-work-card:hover .ed-work-media video {
-  filter: grayscale(0);
-  transform: scale(1.025);
+.wk-card:hover .wk-media img,
+.wk-card:hover .wk-media video {
+  transform: scale(1.03);
 }
 
-.ed-work-body { display: flex; flex-direction: column; gap: 14px; }
-
-.ed-work-meta {
+.wk-caption {
   display: flex;
-  align-items: baseline;
-  gap: 12px;
+  flex-direction: column;
+  gap: 7px;
 }
 
-.ed-work-idx {
+.wk-title {
+  margin: 0;
+  font-family: var(--font-display), "Spectral", serif;
+  font-size: clamp(17px, 1.5vw, 21px);
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  line-height: 1.25;
+  color: var(--ink);
+}
+
+.wk-desc {
+  margin: 0;
+  font-size: 13.5px;
+  line-height: 1.6;
+  color: var(--ink-soft);
+  max-width: 48ch;
+}
+
+.wk-desc--bn {
+  font-size: 13px;
+  color: var(--ink-mid);
+}
+
+/* Mono source line under a caption-only card: journal, award year. */
+.wk-meta {
+  margin: 0;
   font-family: var(--mono);
-  font-size: 10.5px;
-  letter-spacing: 0.2em;
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
   color: var(--ink-faint);
 }
 
-.ed-work-tags {
-  font-family: var(--mono);
-  font-size: 10px;
-  letter-spacing: 0.24em;
-  text-transform: uppercase;
-  color: var(--ink-soft);
-  margin: 0;
-}
-
-.ed-work-title {
-  font-family: var(--font-display), "Spectral", serif;
-  font-size: clamp(21px, 2.2vw, 30px);
-  font-weight: 500;
-  letter-spacing: -0.015em;
-  line-height: 1.15;
-  color: var(--ink);
-  margin: 0;
-}
-
-.ed-work-desc {
-  font-size: 14.5px;
-  line-height: 1.65;
-  color: var(--ink-soft);
-  max-width: 42ch;
-  margin: 0;
-}
-
-.ed-work-desc.bn {
-  font-size: 13.5px;
-  color: var(--ink-mid);
+/* Caption-only cards (recognition) still want
+   a hover affordance without any media to zoom. */
+.wk-card--note:hover .wk-title {
+  text-decoration: underline;
+  text-decoration-color: var(--blue);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 4px;
 }
 
 /* No-screenshot card — a dashed plate carrying the demo and source links */
 
-.ed-work-links {
+.wk-links {
   position: absolute;
   inset: 0;
   display: flex;
@@ -524,7 +362,7 @@ html[data-side-open] { overflow: hidden; }
   background: color-mix(in srgb, var(--paper-warm) 60%, transparent);
 }
 
-.ed-work-link {
+.wk-link {
   font-family: var(--mono);
   font-size: 11px;
   letter-spacing: 0.18em;
@@ -536,112 +374,15 @@ html[data-side-open] { overflow: hidden; }
   transition: color 0.2s var(--ease-out);
 }
 
-.ed-work-link:hover { color: var(--blue); }
+.wk-link:hover { color: var(--blue); }
 
-/* ---------- Research — ledger rows with dot leaders ---------- */
+/* Mono micro-label */
 
-.ed-research-list {
-  display: flex;
-  flex-direction: column;
-}
-
-.ed-research-item {
-  display: block;
-  padding: clamp(22px, 3vh, 32px) 0;
-  border-bottom: 1px solid var(--hair);
-  text-decoration: none;
-  color: inherit;
-  transition: padding-left 0.35s var(--ease-out), background 0.25s;
-}
-
-.ed-research-item:first-child { border-top: 1px solid var(--hair); }
-
-.ed-research-item:hover {
-  padding-left: 18px;
-  background: color-mix(in srgb, var(--paper-warm) 55%, transparent);
-}
-
-.ed-research-top {
-  display: flex;
-  align-items: baseline;
-  gap: 18px;
-}
-
-.ed-research-idx {
+.z-micro {
   font-family: var(--mono);
-  font-size: 10.5px;
-  letter-spacing: 0.16em;
-  color: var(--ink-faint);
-}
-
-.ed-research-title {
-  font-family: var(--font-display), "Spectral", serif;
-  font-size: 16.5px;
-  font-weight: 500;
-  letter-spacing: -0.01em;
-  line-height: 1.4;
-  color: var(--ink);
-  margin: 0;
-  transition: color 0.2s;
-}
-
-.ed-research-item:hover .ed-research-title {
-  text-decoration: underline;
-  text-decoration-color: var(--blue);
-  text-decoration-thickness: 1px;
-  text-underline-offset: 4px;
-}
-
-.ed-research-dots {
-  flex: 1;
-  border-bottom: 1px dotted var(--ink-faint);
-  transform: translateY(-4px);
-  min-width: 24px;
-}
-
-.ed-research-meta {
-  font-family: var(--mono);
-  font-size: 10.5px;
-  letter-spacing: 0.16em;
+  font-size: 10px;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: var(--ink-mid);
-  white-space: nowrap;
-}
-
-.ed-research-authors {
-  font-family: var(--mono);
-  font-size: 11px;
-  letter-spacing: 0.05em;
-  line-height: 1.7;
-  color: var(--ink-mid);
-  margin: 10px 0 0;
-}
-
-.ed-research-authors::before {
-  content: "WITH · ";
-  color: var(--ink-mid);
-  font-size: 9.5px;
-  letter-spacing: 0.14em;
-}
-
-.ed-research-me {
-  color: var(--ink);
-  font-weight: 700;
-}
-
-.ed-research-desc::before,
-.ed-work-desc:not(.bn)::before {
-  content: "+ ";
-  color: var(--ink-mid);
-  font-family: var(--mono);
-  font-weight: 700;
-}
-
-.ed-research-desc {
-  font-size: 13.5px;
-  line-height: 1.65;
-  color: var(--ink-mid);
-  margin: 5px 0 0;
 }
 
 /* ---------- About page ---------- */
@@ -653,9 +394,15 @@ html[data-side-open] { overflow: hidden; }
 
 .ab-page {
   max-width: 1560px;
-  margin: 0 auto;
-  padding: clamp(26px, 5vh, 60px) clamp(22px, 8vw, 118px) clamp(40px, 7vh, 84px)
-    clamp(34px, 11vw, 160px);
+  margin: 0;
+  padding: clamp(26px, 5vh, 60px) var(--gutter) clamp(16px, 2.5vh, 28px) var(--gutter);
+}
+
+/* The page closes on the credit + clock row, so those pages drop the
+   usual bottom padding — almost nothing sits under the footer. */
+.site-main:has(.ab-page),
+.site-main:has(.site-foot) {
+  padding-bottom: clamp(10px, 1.5vh, 16px);
 }
 
 .ab-main {
@@ -688,6 +435,15 @@ html[data-side-open] { overflow: hidden; }
   align-items: center;
   justify-content: center;
 }
+
+/* The cluster lifts and tilts under the cursor; the hovered tile (or
+   photograph) also rises above its neighbours so its bubble stays clear. */
+
+.ab-tile--img { cursor: zoom-in; }
+
+.ab-tile--img:hover,
+.ab-tile--ph:hover,
+.ab-photo:hover { z-index: 5; }
 
 .ab-tile--img img {
   width: 100%;
@@ -767,7 +523,6 @@ html[data-side-open] { overflow: hidden; }
   border: 1px dashed var(--line-strong);
   padding: clamp(32px, 6vh, 62px) clamp(24px, 4vw, 60px);
   text-align: center;
-  margin-bottom: clamp(44px, 8vh, 96px);
 }
 
 .ab-cta-title {
@@ -787,93 +542,19 @@ html[data-side-open] { overflow: hidden; }
   margin: 0;
 }
 
-/* ---------- Row groups — the credits / exhibitions pattern ---------- */
-
-.ab-block {
-  display: grid;
-  grid-template-columns: var(--ab-gutter) minmax(0, 1fr);
-  gap: clamp(14px, 2.2vw, 34px);
-  margin-bottom: clamp(30px, 5.4vh, 62px);
-}
-
-.ab-block-label {
-  font-family: var(--mono);
-  font-size: 9.5px;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--w-mute);
-  margin: 0;
-}
-
-.ab-rows {
-  display: flex;
-  flex-direction: column;
-}
-
-.ab-row {
-  display: grid;
-  grid-template-columns: clamp(84px, 13%, 148px) minmax(0, 1fr) 20px;
-  gap: 4px 20px;
-  align-items: start;
-  padding: 15px 0;
-  border-top: 1px solid var(--line);
-  color: inherit;
-  text-decoration: none;
-}
-
-.ab-row-key {
-  font-family: var(--mono);
-  font-size: 10px;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--ink-faint);
-  padding-top: 3px;
-}
-
-.ab-row-body {
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
-}
-
-.ab-row-lead {
-  font-size: 13.5px;
-  color: var(--ink);
-}
-
-.ab-row-note {
-  font-size: 12.5px;
-  line-height: 1.6;
-  color: var(--ink-soft);
-}
-
-.ab-row-arrow {
-  font-family: var(--mono);
-  font-size: 13px;
-  color: var(--blue);
-  text-align: right;
-  transition: transform 0.2s var(--ease-out);
-}
-
-a.ab-row:hover .ab-row-lead,
-a.ab-row:hover .ab-row-note {
-  text-decoration: underline;
-  text-decoration-color: var(--blue);
-  text-underline-offset: 3px;
-}
-
-a.ab-row:hover .ab-row-arrow { transform: translateX(3px); }
-
 /* ---------- Photograph strip + local time ---------- */
 
 .ab-photos {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: clamp(8px, 1vw, 14px);
+
+  /* Same air above the strip as .ab-foot leaves below it. */
+  margin-top: clamp(112px, 16vh, 192px);
 }
 
 .ab-photo {
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 1 / 1;
   border: 1px dashed var(--line-strong);
   background: color-mix(in srgb, var(--paper-warm) 60%, transparent);
   display: flex;
@@ -885,8 +566,42 @@ a.ab-row:hover .ab-row-arrow { transform: translateX(3px); }
   color: var(--ink-faint);
 }
 
+/* Portrait shots crop down into the landscape plate instead of
+   overflowing it. */
+.ab-photo--img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* The closing row: the credit on the left, the local clock pinned right. */
+
+.ab-foot {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 18px;
+  margin: clamp(112px, 16vh, 192px) 0 0;
+}
+
+/* The same closing row on the home page, hung off the section rhythm. */
+.site-foot {
+  max-width: 1440px;
+  padding: 0 var(--gutter) clamp(10px, 1.5vh, 16px);
+}
+
+.ab-credit {
+  margin: 0;
+  font-family: var(--mono);
+  font-size: 9.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+
 .ab-clock {
-  margin: clamp(26px, 4.5vh, 48px) 0 0;
+  margin: 0;
   text-align: right;
   font-family: var(--mono);
   font-size: 9.5px;
@@ -895,23 +610,11 @@ a.ab-row:hover .ab-row-arrow { transform: translateX(3px); }
 }
 
 @media (max-width: 760px) {
-  .ab-page {
-    padding-right: 22px;
-    padding-left: 22px;
-  }
-
   .ab-tile--ph { font-size: 0; }
   .ab-collage { aspect-ratio: 825 / 660; }
 
-  .ab-block {
-    grid-template-columns: 1fr;
-    gap: 10px;
-  }
-
-  .ab-row { grid-template-columns: minmax(0, 1fr) 18px; }
-  .ab-row-key { grid-column: 1 / -1; }
-
   .ab-photos { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .ab-foot { flex-direction: column; gap: 6px; }
   .ab-clock { text-align: left; }
 }
 
@@ -974,15 +677,31 @@ a.ab-row:hover .ab-row-arrow { transform: translateX(3px); }
   transform-origin: left;
 }
 
+/* ---------- Scroll tint — paper wash under the top edge ---------- */
+
+.scroll-tint {
+  position: fixed;
+  inset: 0 0 auto 0;
+  height: 44px;
+  z-index: calc(var(--z-nav) - 1);
+  pointer-events: none;
+  opacity: 0;
+  background: linear-gradient(
+    to bottom,
+    var(--paper) 0%,
+    color-mix(in srgb, var(--paper) 72%, transparent) 52%,
+    transparent 100%
+  );
+  transition: opacity 0.4s var(--ease-out);
+}
+
+.scroll-tint[data-on] { opacity: 1; }
+
 /* ---------- Reduced motion ---------- */
 
 @media (prefers-reduced-motion: reduce) {
-  .ed-rail-arrow {
-    animation: none !important;
-  }
-  .ed-work-media img,
-  .ed-work-media video,
-  .ed-research-item {
+  .wk-media img,
+  .wk-media video {
     transition: none !important;
   }
 }
@@ -1046,7 +765,7 @@ span[role="button"]:focus-visible {
   .side-intro { display: none; }
   .side-nav { margin-top: 0; }
   .side-nav--out { margin-top: 0; }
-  .side-foot { padding-top: 44px; }
+  .side-foot { padding-top: 32px; }
 
   .ob-progress { left: 0; }
 }
@@ -1061,37 +780,29 @@ span[role="button"]:focus-visible {
 /* ---------- Tablet ---------- */
 
 @media (max-width: 1024px) {
-  .ed-hero-rail { display: none; }
-  .ed-hero-band { margin-right: 0; }
-  .ed-hero-glyph { top: 0; font-size: clamp(96px, 22vw, 180px); }
-  .ed-work-card { grid-template-columns: 1fr; gap: 18px; }
-  .ed-section { grid-template-columns: 1fr; gap: 28px; padding-top: var(--space-lg); }
-  .ed-rail { flex-direction: row; align-items: center; gap: 14px; }
-  .ed-rail-word { writing-mode: horizontal-tb; letter-spacing: 0.08em; font-size: clamp(24px, 3.6vw, 30px); }
-  .ed-rail-meta { flex-direction: row; }
-  .ed-rail-line { width: 40px; height: 1px; transform-origin: left; }
-  .ed-rail-arrow { transform: rotate(-90deg); }
+  /* One column: the stagger collapses with it. */
+  .wk-grid { grid-template-columns: 1fr; }
+  .wk-col { gap: clamp(44px, 7vh, 76px); }
+  .wk-col--stagger { margin-top: 0; }
 }
 
 /* ---------- Mobile ---------- */
 
 @media (max-width: 640px) {
   body { font-size: 14px; }
-  .ed-hero-glyph { display: none; }
-  .ed-hero-top { padding-top: clamp(32px, 8vh, 64px); }
-  .ed-section { padding-top: var(--space-lg); }
-  .ed-section-body { padding-bottom: var(--space-md); }
-  .ed-research-top { flex-wrap: wrap; gap: 8px; }
-  .ed-research-title { font-size: 15.5px; }
-  .ed-research-dots { display: none; }
+  .wk-section { --wk-top: clamp(34px, 5vh, 46px); }
+  .wk-kicker { font-size: 9px; margin-bottom: clamp(18px, 3vh, 28px); }
+  .wk-desc { font-size: 13px; }
 }
 
 /* ---------- Hover bubbles — dashed speech notes on images and links ----------
-   Any element with a data-tip attribute grows a paper bubble on hover
-   (or keyboard focus). data-tip-pos="over" drops the bubble onto the
-   image itself instead of floating it above. */
+   Pointer hover is handled by TipTracker: one .tip-live bubble rides the
+   cursor. These pseudo-elements stay for keyboard focus only, so tabbing
+   through the same images and links still gets a note. */
 
-[data-tip] { position: relative; }
+/* Zero-specificity so tipped tiles that position themselves (the collage)
+   keep their own placement. */
+:where([data-tip]) { position: relative; }
 
 [data-tip]::after {
   content: attr(data-tip);
@@ -1134,9 +845,7 @@ span[role="button"]:focus-visible {
   transition: opacity 0.25s var(--ease-out), transform 0.25s var(--ease-out);
 }
 
-[data-tip]:hover::after,
 [data-tip]:focus-visible::after,
-[data-tip]:hover::before,
 [data-tip]:focus-visible::before {
   opacity: 1;
   transform: translateX(-50%) translateY(0);
@@ -1146,11 +855,44 @@ span[role="button"]:focus-visible {
 [data-tip][data-tip-pos="over"]::after { top: 10px; bottom: auto; }
 [data-tip][data-tip-pos="over"]::before { display: none; }
 
+/* The live bubble TipTracker moves with the cursor. Fixed positioning so
+   it can leave the element it describes; the transform is set per frame
+   from the pointer's coordinates. */
+
+.tip-live {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: calc(var(--z-nav) + 10);
+  max-width: 210px;
+  padding: 9px 13px;
+  border: 1px dashed color-mix(in srgb, var(--ink) 35%, transparent);
+  border-radius: 12px;
+  background: var(--paper);
+  box-shadow: 0 8px 24px color-mix(in srgb, var(--ink) 10%, transparent);
+  color: var(--ink-soft);
+  font-family: var(--font-body), "Inter", sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.5;
+  text-align: center;
+  white-space: normal;
+  opacity: 0;
+  pointer-events: none;
+  will-change: transform;
+  transition: opacity 0.18s var(--ease-out);
+}
+
+.tip-live[data-show] { opacity: 1; }
+
 @media (max-width: 640px) {
   [data-tip]::after { max-width: 180px; font-size: 11.5px; }
+  .tip-live { max-width: 180px; font-size: 11.5px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
   [data-tip]::after,
-  [data-tip]::before { transition: none; }
+  [data-tip]::before,
+  .tip-live,
+  .scroll-tint { transition: none !important; }
 }

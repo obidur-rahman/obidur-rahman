@@ -45,7 +45,7 @@
   --mono: ui-monospace, "SF Mono", "Cascadia Mono", Menlo, monospace;
 
   /* Layout */
-  --gutter: clamp(20px, 4.5vw, 72px);
+  --gutter: clamp(18px, 1.6vw, 28px);
   --space-md: 32px;
   --space-lg: 64px;
   --space-xl: 96px;
