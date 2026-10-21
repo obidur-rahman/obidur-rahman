@@ -292,12 +292,49 @@ html[data-side-open] { overflow: hidden; }
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.8s var(--ease-out);
 }
 
-.wk-card:hover .wk-media img,
-.wk-card:hover .wk-media video {
-  transform: scale(1.03);
+/* Tag pills resting in the media's bottom-left corner. They stay out of
+   the way until the card is hovered (or focused, or touched). */
+.wk-badges {
+  position: absolute;
+  left: clamp(10px, 1.2vw, 16px);
+  right: clamp(10px, 1.2vw, 16px);
+  bottom: clamp(10px, 1.2vw, 16px);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 0.3s var(--ease-out), transform 0.3s var(--ease-out);
+  pointer-events: none;
+}
+
+.wk-card:hover .wk-badges,
+.wk-card:focus-visible .wk-badges {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.wk-badge {
+  padding: 7px 12px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.94);
+  box-shadow: 0 1px 3px color-mix(in srgb, var(--ink) 14%, transparent);
+  font-family: var(--font-body), "Inter", "Helvetica Neue", sans-serif;
+  font-size: 11.5px;
+  line-height: 1.3;
+  letter-spacing: -0.005em;
+  color: var(--ink);
+  white-space: nowrap;
+}
+
+/* Nothing hovers on touch: the pills simply sit on the media. */
+@media (hover: none) {
+  .wk-badges {
+    opacity: 1;
+    transform: none;
+  }
 }
 
 .wk-caption {
@@ -339,8 +376,8 @@ html[data-side-open] { overflow: hidden; }
   color: var(--ink-faint);
 }
 
-/* Caption-only cards (recognition) still want
-   a hover affordance without any media to zoom. */
+/* Caption-only cards (recognition) still want a hover affordance:
+   they carry neither media nor badges. */
 .wk-card--note:hover .wk-title {
   text-decoration: underline;
   text-decoration-color: var(--blue);
@@ -700,9 +737,8 @@ html[data-side-open] { overflow: hidden; }
 /* ---------- Reduced motion ---------- */
 
 @media (prefers-reduced-motion: reduce) {
-  .wk-media img,
-  .wk-media video {
-    transition: none !important;
+  .wk-badges {
+    transition: none;
   }
 }
 

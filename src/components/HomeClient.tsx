@@ -7,7 +7,7 @@ import { SiteFooter } from "@/components/SiteFooter";
 const work = [
   {
     title: "Axiom Learning",
-    tags: "AI Tutor",
+    tags: ["AI Tutor", "live project"],
     desc: "A study plan built around what you actually know, not what the syllabus guesses.",
     descBn: "পরীক্ষার আগে সবাই ভাবে কী পড়তে হবে। আসল প্রশ্নটা হওয়া উচিত, আমি আসলে কী জানি না।",
     href: "https://axiom-learning-psi.vercel.app/",
@@ -16,7 +16,7 @@ const work = [
   },
   {
     title: "Geometric Dilution of Smote",
-    tags: "Data Visualisation",
+    tags: ["Data Visualisation", "live demo"],
     desc: "SMOTE looks like it's solving your imbalance problem. Draw it out, and you can watch it quietly inventing a different one.",
     descBn: "",
     href: "https://smote-dashboard.vercel.app/",
@@ -25,7 +25,7 @@ const work = [
   },
   {
     title: "Order Khata",
-    tags: "Multilingual AI Message Triage",
+    tags: ["Multilingual AI", "message triage"],
     desc: "A triage inbox for Bangla, Banglish, and English shop messages: sorting Order, Price, Delivery, Complaint, Scam or Other, and routing uncertain cases to human review. FastAPI with a CPU-capable classifier, a TF-IDF fallback, and 107 passing backend tests.",
     descBn: "",
     href: "https://order-khata.onrender.com/",
@@ -41,17 +41,21 @@ const research = [
   {
     title: "Pathways from digital distractions and study habits to academic performance, exploring self-regulation as a mediator among Bangladeshi university students",
     meta: "SCRIS 2026",
+    tags: ["survey study", "SCRIS 2026"],
     authors: "Obidur Rahman, Md. Ali Arman Rafi",
     desc: "225 students surveyed: self-regulation predicts grades better than raw study hours.",
     href: "https://doi.org/10.13140/RG.2.2.24207.24483",
+    videoSrc: "/pathways-animation.mp4",
     tip: "survey study, full text on doi.org",
   },
   {
     title: "Quantifying the congestion premium: disentangling the determinants of non-metered fares in a developing port city",
     meta: "SCRIS 2026",
+    tags: ["fare study", "SCRIS 2026"],
     authors: "Obidur Rahman, Sifatul Islam",
     desc: "100 commuter trips modelled: traffic, time of day, and waterlogging drive fares more than distance.",
     href: "https://doi.org/10.13140/RG.2.2.16906.53448",
+    videoSrc: "/congestion-premium.mp4",
     tip: "fare study, full text on doi.org",
   },
 ];
@@ -88,6 +92,17 @@ export function HomeClient() {
     </div>
   );
 
+  /* The pills that fade up over a card's media on hover. */
+  const badges = (tags: string[]) => (
+    <div className="wk-badges">
+      {tags.map((t) => (
+        <span key={t} className="wk-badge">
+          {t}
+        </span>
+      ))}
+    </div>
+  );
+
   const workCard = (p: (typeof work)[number], i: number) => {
     /* Caption under the media: title, then the small grey note. */
     const caption = (
@@ -119,6 +134,7 @@ export function HomeClient() {
                 </a>
               ))}
             </div>
+            {badges(p.tags)}
           </div>
           {caption}
         </motion.div>
@@ -142,6 +158,7 @@ export function HomeClient() {
             /* eslint-disable-next-line @next/next/no-img-element -- static SVG, nothing to optimize */
             <img src={p.img} alt={`${p.title} preview`} loading="lazy" />
           )}
+          {badges(p.tags)}
         </div>
         {caption}
       </motion.a>
@@ -209,24 +226,24 @@ export function HomeClient() {
         </div>
       </section>
 
-      {/* ============ RESEARCH — the same cards, the plate carrying the link === */}
+      {/* ============ RESEARCH — the same cards, the whole card is the link === */}
       <section className="wk-section" id="research">
         <h2 className="wk-kicker">research</h2>
 
         {grid(
           research.map((r, i) => (
-            <motion.div key={i} className="wk-card" data-tip={r.tip} {...anim(i)}>
+            <motion.a
+              key={i}
+              href={r.href}
+              className="wk-card"
+              data-tip={r.tip}
+              target="_blank"
+              rel="noopener noreferrer"
+              {...anim(i)}
+            >
               <div className="wk-media">
-                <div className="wk-links">
-                  <a
-                    className="wk-link"
-                    href={r.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    full text ↗
-                  </a>
-                </div>
+                <video src={r.videoSrc} loop muted autoPlay playsInline preload="metadata" />
+                {badges(r.tags)}
               </div>
               <div className="wk-caption">
                 <h3 className="wk-title">{r.title}</h3>
@@ -235,7 +252,7 @@ export function HomeClient() {
                   {r.meta} · with {r.authors.replace("Obidur Rahman, ", "")}
                 </p>
               </div>
-            </motion.div>
+            </motion.a>
           ))
         )}
       </section>
