@@ -1,9 +1,8 @@
 import type { Metadata } from "next";
-import { Spectral, Inter, Noto_Serif_Bengali } from "next/font/google";
+import { Spectral, Geist, Noto_Serif_Bengali } from "next/font/google";
 import "./globals.css";
 import "./responsive.css";
 import { Sidebar } from "@/components/Sidebar";
-import { Intro } from "@/components/Intro";
 import { ScrollTint } from "@/components/ScrollTint";
 import { TipTracker } from "@/components/TipTracker";
 
@@ -15,7 +14,7 @@ const spectral = Spectral({
   display: "swap",
 });
 
-const inter = Inter({
+const geist = Geist({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
   variable: "--font-body",
@@ -48,11 +47,10 @@ export default function RootLayout({
     <html
       lang="en"
       data-scroll-behavior="smooth"
-      className={`${spectral.variable} ${inter.variable} ${notoBengali.variable}`}
+      className={`${spectral.variable} ${geist.variable} ${notoBengali.variable}`}
       suppressHydrationWarning
     >
       <body>
-        <Intro />
         <Sidebar />
         <ScrollTint />
         <TipTracker />

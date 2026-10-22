@@ -9,7 +9,7 @@ const work = [
     title: "Axiom Learning",
     tags: ["AI Tutor", "live project"],
     desc: "A study plan built around what you actually know, not what the syllabus guesses.",
-    descBn: "পরীক্ষার আগে সবাই ভাবে কী পড়তে হবে। আসল প্রশ্নটা হওয়া উচিত, আমি আসলে কী জানি না।",
+    descBn: "",
     href: "https://axiom-learning-psi.vercel.app/",
     videoSrc: "/axiom-learning.mp4",
     tip: "live project, go try a study plan",
@@ -17,7 +17,7 @@ const work = [
   {
     title: "Geometric Dilution of Smote",
     tags: ["Data Visualisation", "live demo"],
-    desc: "SMOTE looks like it's solving your imbalance problem. Draw it out, and you can watch it quietly inventing a different one.",
+    desc: "Draw SMOTE out and watch it quietly invent data to balance a problem you never had.",
     descBn: "",
     href: "https://smote-dashboard.vercel.app/",
     img: "/smote.svg",
@@ -26,7 +26,7 @@ const work = [
   {
     title: "Order Khata",
     tags: ["Multilingual AI", "message triage"],
-    desc: "A triage inbox for Bangla, Banglish, and English shop messages: sorting Order, Price, Delivery, Complaint, Scam or Other, and routing uncertain cases to human review. FastAPI with a CPU-capable classifier, a TF-IDF fallback, and 107 passing backend tests.",
+    desc: "A triage inbox for Bangla, Banglish, and English shop messages; anything uncertain goes to a human.",
     descBn: "",
     href: "https://order-khata.onrender.com/",
     links: [
